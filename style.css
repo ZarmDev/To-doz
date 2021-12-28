@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+body {
+  padding: 0;
+  margin: 0;
+}
+#popup {
+  position: absolute;
+  width: 75%;
+  height: 95%;
+  background-color: rgba(128, 128, 128, 0.534);
+  z-index: 1;
+  margin: 2% 0 0 10%;
+  display: grid;
+  visibility: hidden;
+  grid-template-areas: 'colors features fonts';
+}
+#popup > * {
+  margin-left: 20px;
+  font-family: 'Open Sans', sans-serif;
+}
+#popup button:nth-child(1) {
+  position: absolute;
+  left: 70vw;
+  background-color: red;
+  border: 2px 2px 2px 2px white;
+  box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
+  margin-top: 20px;
+}
+#popup div:nth-child(1) {
+  grid-area: colors;
+}
+#popup div:nth-child(2) {
+  grid-area: features;
+}
+#popup div:nth-child(3) {
+  grid-area: fonts;
+}
+#topbar {
+  background-color: rgb(12, 119, 12);
+  padding: 0.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+  gap: 2vw;
+}
+#topbar > button {
+  font-size: 2ch;
+}
+#streak {
+  margin-left: 40px;
+}
+#allpanes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 2vw;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.pane {
+  background-color: rgb(192, 192, 192);
+  padding: 2vw;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  border-radius: 2px;
+  width: 15ch;
+  height: 15ch;
+}
+.pane p {
+  font-size: 2ch;
+}
+.pane button {
+  position: relative;
+  left: 4vw;
+  background-color: red;
+  border: 2px 2px 2px 2px white;
+  box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
+}

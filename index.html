@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>replit</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div id="popup">
+		<button onclick="this.parentElement.style.visibility = 'hidden'">X</button>
+      <div>
+      <h1>Colors</h1>
+      <h2>Palette</h2>
+      <select class="buttonClass" onchange="paletteC(this.value)">
+        <option>Default</option>
+        <option>Light</option>
+        <option>Dark</option>
+        </select>
+      <p>OR choose your own colors</p>
+      <h2>Topbar</h2>
+      <input id="topcolor" onchange="changeTopbar(this)" type="color">
+      <h2>Panes</h2>
+      <input id="paneColor" onchange="changeAllColors(this)" type="color">
+      <h2>Background</h2>
+      <input id="backColor" onchange="changeBackColor(this)" type="color">
+      <p>OR choose a image</p>
+      <input type="file">
+      </div>
+      <div>
+      <h1>Features</h1>
+      <button class="buttonClass">Turn on blur</button>
+      <button class="buttonClass">Rounded Corners</button>
+      </div>
+      <div>
+      <h1>Fonts</h1>
+      <!-- Finish font family so JS works with localstorage corectly-->
+      <h2>Font family</h2>
+      <select class="buttonClass">
+        <option>Open Sans</option>
+        </select>
+        <h2>Text color</h2>
+        <input type="color">
+        </div>
+      </div>
+    <div id="topbar">
+      <h1>To-do</h1>
+      <button class="buttonClass" onclick="newItem()">+</button>
+      <!-- Make settings icon -->
+      <button class="buttonClass"onclick="popupAnim()">Settings</button>
+      <h1 id="streak">Your streak: 🔥</h1>
+      <h1 id="goal">Goal: </h1>
+      <button onclick="addStreak()" class="buttonClass" id="addtoStreak">Add to your streak🔥</button>
+      </div>
+    <div id="allpanes">
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
