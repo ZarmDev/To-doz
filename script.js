@@ -182,38 +182,81 @@ getData('toggleExtend', 'localExtendEnabled', 'Off')
 
 var textTag = 'pre';
 
+function addPane(choice, extraParam) {
+  var pane = document.createElement('div');
+  pane.setAttribute('class', 'pane quietDown')
+  var button = document.createElement('button');
+  button.setAttribute('onclick', 'removeT(this)')
+  button.innerHTML = 'X';
+  var title = document.createElement(textTag);
+  title.setAttribute('contenteditable', 'true')
+  title.setAttribute('class', 'new+')
+  title.innerHTML = 'Unnamed pane';
+  var description = document.createElement(textTag);
+  description.setAttribute('contenteditable', 'true')
+  description.setAttribute('oninput', 'longerPane(this)')
+  description.innerHTML = 'Description';
+  description.setAttribute('class', 'new+')
+
+  if (choice == 'default') {
+    allpanes.appendChild(pane)
+    pane.appendChild(button)
+    if (extraParam.includes('extend')) {
+      var button2 = document.createElement('button');
+      button2.setAttribute('onclick', 'extend(this)')
+      button2.setAttribute('class', 'button2')
+      button2.innerHTML = '^';
+      pane.appendChild(button2)
+    }
+    if (extraParam.includes('rounded')) {
+      pane.style.borderRadius = '10px';
+      button.style.borderRadius = '10px';
+    }
+    pane.appendChild(title)
+    pane.appendChild(description)
+  } else if (choice == 'load') {
+    console.log(localStorage);
+    for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
+      var lpane = document.createElement('div');
+      lpane.setAttribute('class', 'pane quietDown')
+      var lbutton = document.createElement('button');
+      lbutton.setAttribute('onclick', 'removeT(this)')
+      lbutton.innerHTML = 'X';
+      var ltitle = document.createElement(textTag);
+      ltitle.setAttribute('contenteditable', 'true')
+      ltitle.setAttribute('class', 'new+')
+      ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
+      var ldescription = document.createElement(textTag);
+      ldescription.setAttribute('contenteditable', 'true')
+      ldescription.setAttribute('oninput', 'longerPane(this)')
+      ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
+      ldescription.setAttribute('class', 'new+')
+      allpanes.appendChild(lpane)
+      lpane.appendChild(lbutton)
+      lpane.appendChild(ltitle)
+      lpane.appendChild(ldescription)
+    }
+  } else if (choice == 'defaultoption') {
+    title.innerHTML = 'Unnamed pane';
+    description.innerHTML = 'Do homework';
+    allpanes.appendChild(pane)
+    pane.appendChild(button)
+    pane.appendChild(title)
+    pane.appendChild(description)
+  }
+}
+
 if (localStorage.getItem('localItems') == undefined || localStorage.getItem('localItems').split('|')[1] == 'undefined' || localStorage.getItem('localItems') == '') {
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
-    allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" class="quietDown">
-  <button onclick="removeT(this)">X</button>
-        <${textTag} contenteditable="true">Ingredients</${textTag}>
-        <${textTag} oninput="longerPane(this)" contenteditable="true">Description: Pizza☑Cheese☑Other ingredients✅</${textTag}>
-      </div>`)
+    addPane('defaultoption', null)
   } else {
-    allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" class="quietDown">
-  <button onclick="removeT(this)">X</button>
-        <${textTag} contenteditable="true">Ingredients</${textTag}>
-        <${textTag} contenteditable="true">Description: Pizza☑Cheese☑Other ingredients✅</${textTag}>
-      </div>`)
+    addPane('defaultoption', 'extend')
   }
 } else {
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
-    console.log('lets see');
-    for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
-      allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" class="quietDown">
-  <button onclick="removeT(this)">X</button>
-        <${textTag} contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[0]}</${textTag}>
-        <${textTag} oninput="longerPane(this)" contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[1]}</${textTag}>
-      </div>`)
-    }
+    addPane('load', null)
   } else {
-    for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
-      allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" class="quietDown">
-  <button onclick="removeT(this)">X</button>
-        <${textTag} contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[0]}</${textTag}>
-        <${textTag} contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[1]}</${textTag}>
-      </div>`)
-    }
+    addPane('load', 'extend')
   }
 }
 
@@ -224,46 +267,26 @@ setInterval(function () {
   // checkConfig()
   // Push all pane text in one array with a format of Title|Description|config
   for (var i = 0; i < items.length; i++) {
-    allItems.push(`${items[i].getElementsByTagName(textTag)[0].textContent}|${items[i].getElementsByTagName(textTag)[1].innerText}`);
+    console.log(`${items[i].getElementsByClassName('new+')}|${items[i].getElementsByClassName('new+')[1].innerText}`);
+    allItems.push(`${items[i].getElementsByClassName('new+')[0].textContent}|${items[i].getElementsByClassName('new+')[1].innerText}`);
   }
   localStorage.setItem('localItems', allItems)
   allItems = []
 }, 1000)
 
 function newItem(t) {
-  // Make shorter, createElement with all attributes except border-radius and set it afterwards, should be helpful in the future
   if (t == '+') {
     if (document.getElementById('rounded').value == 'Off') {
       if (document.getElementById('toggleExtend').value == 'Off') {
-        allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};"
-    class="quietDown">
-  <button onclick="removeT(this)">X</button>
-        <${textTag} contenteditable="true">Unnamed pane</${textTag}>
-        <${textTag} contenteditable="true" oninput="longerPane(this)">Description</${textTag}>
-      </div>`)
+        addPane('default', null)
       } else {
-        allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};"
-    class="quietDown">
-  <button onclick="removeT(this)">X</button>
-  <button onclick="extend(this)" class="button2">^</button>
-        <${textTag} contenteditable="true">Unnamed pane</${textTag}>
-        <${textTag} contenteditable="true" oninput="test(this)">Description</${textTag}>
-      </div>`)
+        addPane('default', 'extend')
       }
     } else {
       if (document.getElementById('toggleExtend').value == 'Off') {
-        allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value}; border-radius: 10px;" class="quietDown">
-  <button onclick="removeT(this)" style="border-radius: 10px;">X</button>
-        <${textTag} contenteditable="true">Unnamed pane</${textTag}>
-        <${textTag} contenteditable="true" oninput="longerPane(this)">Description</${textTag}>
-      </div>`)
+        addPane('default', 'rounded')
       } else {
-        allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value}; border-radius: 10px;" class="quietDown">
-  <button onclick="removeT(this)" style="border-radius: 10px;">X</button>
-  <button onclick="extend(this)" class="button2" style="border-radius: 10px;">^</button>
-        <${textTag} contenteditable="true">Unnamed pane</${textTag}>
-        <${textTag} contenteditable="true" oninput="test(this)">Description</${textTag}>
-      </div>`)
+        addPane('default', 'rounded extend')
       }
     }
   }
