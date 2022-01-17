@@ -131,7 +131,7 @@ body {
   padding: 1vw;
   position: fixed;
   width: 100%;
-  top: 82.5%;
+  top: calc(82.5% - 3.8em);
   height: 15%;
 }
 #enable {
@@ -169,4 +169,7 @@ body {
   animation-name: change;
   animation-duration: 0.4s;
   display: block;
+}
+#data {
+  display: none;
 }

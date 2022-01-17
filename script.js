@@ -109,6 +109,10 @@ if (mql.matches && localStorage.getItem('localMobile') == undefined) {
   document.getElementById('title').style.marginLeft = '5%';
 }
 
+if (localStorage.getItem('enableData') == undefined) {
+  document.getElementById('data').style.display = 'inline-block';
+}
+
 if (mql.matches) {
   document.getElementById('allpanes').style.gridTemplateColumns = '1fr 1fr 1fr';
 }
@@ -546,9 +550,14 @@ function longerPane(t) {
 }
 
 function enableData() {
-  data.style.visibility = 'hidden';
+  data.style.display = 'none';
+  localStorage.setItem('enableData', 'done')
 }
 
 function disableData() {
-  data.style.visibility = 'hidden';
+  // Give popup to decide if user wants to remove localstorage
+  data.style.display = 'none';
+  document.getElementById('toggleStreak').value = 'Off';
+  streakEnable(document.getElementById('toggleStreak'))
+  localStorage.setItem('enableData', 'done')
 }
