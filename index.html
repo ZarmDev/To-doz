@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
@@ -9,8 +8,13 @@
 </head>
 
 <body>
+  <div id="mobile">
+    <button onclick="this.parentElement.style.visibility = 'hidden'">X</button>
+    <h1>You seem to be on a mobile device</h1>
+    <p>Please shake your phone so you have the best experience</p>
+    </div>
 	<div id="popup">
-		<button onclick="this.parentElement.style.visibility = 'hidden'">X</button>
+		<button onclick="popupClose()">X</button>
       <div>
       <h1>Colors</h1>
       <h2>Palette</h2>
@@ -24,38 +28,79 @@
       <input id="topcolor" onchange="changeTopbar(this)" type="color">
       <h2>Panes</h2>
       <input id="paneColor" onchange="changeAllColors(this)" type="color">
+      </div>
+        <div>
       <h2>Background</h2>
       <input id="backColor" onchange="changeBackColor(this)" type="color">
       <p>OR choose a image</p>
       <input type="file">
+      <h2>Buttons</h2>
+      <input type="color" id="buttonColor" onchange="changeButtonColor(this)">
       </div>
       <div>
       <h1>Features</h1>
-      <button class="buttonClass">Turn on blur</button>
-      <button class="buttonClass">Rounded Corners</button>
+      <p>Blur<select id="blurCheck" onchange="setBlurOn(this)">
+        <option>Off</option>
+        <option>On</option>
+        </select></p>
+        <p>Rounded Corners<select id="rounded" onchange="roundC(this)">
+        <option>Off</option>
+        <option>On</option>
+        </select></p>
+        <p>Extend<select id="toggleExtend" onchange="extendEnable(this)">
+        <option>Off</option>
+        <option>On</option>
+        </select></p>
+        <p>Streak<select id="toggleStreak" onchange="streakEnable(this)">
+        <option>Off</option>
+        <option>On</option>
+        </select></p>
+      <button onclick="resetStreak()" class="buttonClass">Reset streak</button>
+      <button onclick="clearData()" class="buttonClass">Clear all data</button>
       </div>
       <div>
       <h1>Fonts</h1>
       <!-- Finish font family so JS works with localstorage corectly-->
-      <h2>Font family</h2>
-      <select class="buttonClass">
+      <p><select id="fonts" class="buttonClass" onchange="newFontFamily(this)">
         <option>Open Sans</option>
-        </select>
+        <option>Times New Roman</option>
+        </select></p>
         <h2>Text color</h2>
-        <input type="color">
+        <input id="textFontColor" type="color" onchange="changeFontColor(this)">
+        <h2>Font Size</h2>
+        <input id="textFontSize" type="number" onchange="changeFontSize(this)" min="1" max="100" placeholder="16 (in pixels)">
         </div>
       </div>
     <div id="topbar">
-      <h1>To-do</h1>
-      <button class="buttonClass" onclick="newItem()">+</button>
+      <h1 class="quietDown" id="title">To-do</h1>
+    <div id="dropdown">
+      <button class="buttonClass quietDown">+</button>
+      <div id="dropdown-content">
+        <p onclick="newItem('+')">+</p>
+        <p>List</p>
+        <p>Checklist</p>
+        <p>Temporary</p>
+        </div>
+    </div>
+      <!-- <select class="buttonClass quietDown" onchange="newItem(this)">
+        <option>+</option>
+        <option>List</option>
+        <option>Checklist</option>
+        <option>Temporary</option>
+      </select> -->
       <!-- Make settings icon -->
-      <button class="buttonClass"onclick="popupAnim()">Settings</button>
-      <h1 id="streak">Your streak: 🔥</h1>
-      <h1 id="goal">Goal: </h1>
-      <button onclick="addStreak()" class="buttonClass" id="addtoStreak">Add to your streak🔥</button>
+      <button class="buttonClass quietDown"onclick="popupAnim()">Settings</button>
+      <h1 class="quietDown" id="streak">Your streak: 🔥</h1>
+      <h1 class="quietDown" id="goal">Goal: </h1>
+      <button onclick="addStreak()" class="buttonClass quietDown" id="addtoStreak">Add to your streak🔥</button>
       </div>
     <div id="allpanes">
     </div>
+    <div id="data">
+      <p>Do you want this site to use cookies and localStorage? This enables streaks and customization features. This site takes NO personal data whatsoever.</p>
+      <button onclick="enableData()" id="enable">Enable</button>
+      <button onclick="disableData()" id="disable">Disable</button>
+      </div>
     <script src="script.js"></script>
   </body>
 </html>

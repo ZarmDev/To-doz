@@ -1,7 +1,15 @@
 /*
 Credits:
-https://stackoverflow.com/questions/2803880/is-there-a-way-to-get-a-textarea-to-stretch-to-fit-its-content-without-using-php
+https://stackoverflow.com/question/is-there-a-way-to-get-a-textarea-to-stretch-to-fit-its-content-without-using-php
 https://stackoverflow.com/questions/25305719/change-css-for-all-elements-from-js
+https://github.com/jsjoeio/use-streak/blob/main/src/lib.ts
+https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
+https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+https://stackoverflow.com/questions/17745292/how-to-retrieve-all-localstorage-items-without-knowing-the-keys-in-advance
+https://www.w3schools.com/js/js_cookies.asp
+https://stackoverflow.com/questions/10842471/how-to-remove-all-elements-of-a-certain-class-from-the-dom
+https://stackoverflow.com/questions/9330671/add-linebreak-to-textcontent-or-innertext-only-in-chrome
+https://www.w3schools.com/Css/css_dropdowns.asp
 */
 
 /*
@@ -12,95 +20,312 @@ Bugs/features:
 After testing the below doesn't work...
 - User can inject code because of use of innerHTML
 
-Responsive design
-*/
+Include selects when changing button background colors
 
+If the website can be restored with crtl+t the next day, would the website have the same date and data? (not be reloaded)
+
+Would that mean that in addStreak() the streak should be checked again?
+
+Consider making better animations. lol
+
+When too much text is in pane, add a width and background color to pane that mimics the pane and change it depending on scrollHeight
+
+A note:
+
+There also has to be a localstorage/cookie to check if streak was added to because then they can add as much times in one day
+
+When allItems is saved to localStorage, replace ',' with another letter and when it's loaded, split by that letter
+This lets users add commas in their panes
+
+Tested next month, doesn't work need to change system
+
+Add popup for Firefox users to disable protection settings for the streak
+
+When newItem is added, buttons aren't rounded
+
+Automatically extend when scrollHeight exceeds 300
+
+Widgets:
+
+Calender
+
+Reminder
+
+Time
+
+Add pane in specific positions
+
+Sometimes cookie expiration date is set two days after
+
+Extra text is made into divs and disapear because first time they are SAVED as divs second time they are ADDED as divs and third they are not added because they are seperate to p as div
+
+Add labels for importance/colors
+*/
+/*
+// Temporary way of asking user
+
+var check = prompt('Answer with y/n: Do you allow cookies and localstorage? (To save your streak and all the customizations)');
+
+if (check != 'y') {
+  close(window)
+}
+
+if (check == '' || check == null)  {
+  close(window)
+}
+
+When blue button is pressed twice, make size of pane back to original
+
+New way to store 'Unnamed pane|Description|labels: important*due|||'
+
+The ||| is just empty configs so when you refer to a config you can just use a specific index
+
+Reward system:
+
+Streak of 50 - Yay (button)
+
+When yay pressed give confetti and popup with a reward if the user adds rewards for example breaks
+
+Popup to show due today
+
+Filter panes
+
+On topbar have button that shows all your due stuff
+*/
 const allpanes = document.getElementById('allpanes');
 const popup = document.getElementById('popup');
+const data = document.getElementById('data');
+
 const item = document.createElement('div');
 
-var allItems = [];
-var items = document.getElementsByClassName('pane');
+const items = document.getElementsByClassName('pane');
 
-if (localStorage.getItem('localStreak') == undefined) {
-  localStorage.setItem('localStreak', '0')
+let mql = window.matchMedia('(max-width: 760px)');
+
+if (mql.matches && localStorage.getItem('localMobile') == undefined) {
+  //console.log(';test');
+  localStorage.setItem('localMobile', 'done')
+  document.getElementById('mobile').style.visibility = 'visible';
+  document.getElementById('title').style.marginLeft = '5%';
 }
-document.getElementById('streak').innerHTML = `Your streak: ${localStorage.getItem('localStreak')}🔥`;
+
+if (mql.matches) {
+  document.getElementById('allpanes').style.gridTemplateColumns = '1fr 1fr 1fr';
+}
+
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  console.log(d);
+  d.setDate(d.getDate() + exdays)
+  console.log(d);
+  d.setUTCHours(23, 59, 59, 999);
+  console.log(d);
+  // d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  let user = getCookie("streak");
+  if (user != "") {
+    document.getElementById('streak').innerHTML = `Your streak: ${user}🔥`;
+  } else {
+    setCookie('streak', '0', 1)
+    document.getElementById('streak').innerHTML = `Your streak: 0🔥`;
+  }
+}
+
+checkCookie('streak')
 
 if (localStorage.getItem('localGoal') == undefined) {
   localStorage.setItem('localGoal', '0')
 }
 document.getElementById('goal').innerHTML = `Goal: ${localStorage.getItem('localGoal')} days`;
 
+function getData(id, ls, color) {
+  if (localStorage.getItem(ls) == undefined) {
+    localStorage.setItem(ls, color)
+    document.getElementById(id).value = color;
+  } else {
+    console.log(localStorage.getItem(ls));
+    document.getElementById(id).value = localStorage.getItem(ls);
+  }
+}
 
-if (localStorage.getItem('localTop') == undefined) {
-  console.log('t1');
-  localStorage.setItem('localTop', '#0c770c')
-  document.getElementById('topcolor').value = '#0c770c';
-} else {
-  document.getElementById('topcolor').value = localStorage.getItem('localTop');
-}
-if (localStorage.getItem('localPan') == undefined) {
-  console.log('t2');
-  localStorage.setItem('localPan', '#c0c0c0')
-  document.getElementById('paneColor').value = '#c0c0c0';
-} else {
-  document.getElementById('paneColor').value = localStorage.getItem('localPan');
-}
-if (localStorage.getItem('localBackground') == undefined){
-  console.log('t3');
-  localStorage.setItem('localBackground', '#fcfcfc')
-  document.getElementById('backColor').value = '#fcfcfc';
-} else {
-  document.getElementById('backColor').value = localStorage.getItem('localBackground');
-}
+getData('topcolor', 'localTop', '#0c770c')
+getData('paneColor', 'localPan', '#c0c0c0')
+getData('backColor', 'localBackground', '#fcfcfc')
+getData('textFontColor', 'localFontColor', '#000000')
+getData('buttonColor', 'localButtonColor', '#d0d0d7')
+getData('blurCheck', 'localBlurCheck', 'Off')
+getData('rounded', 'localRoundedCheck', 'Off')
+getData('toggleStreak', 'localStreakEnabled', 'On')
+getData('fonts', 'localFontFamily', 'Open Sans')
+getData('textFontSize', 'localFontSize', '2ch')
+getData('toggleExtend', 'localExtendEnabled', 'Off')
+
+var textTag = 'pre';
 
 if (localStorage.getItem('localItems') == undefined || localStorage.getItem('localItems').split('|')[1] == 'undefined' || localStorage.getItem('localItems') == '') {
-  allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};">
+  if (localStorage.getItem('localExtendEnabled') == 'Off') {
+    allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" class="quietDown">
   <button onclick="removeT(this)">X</button>
-        <p contenteditable="true">Ingredients</p>
-        <p contenteditable="true">Description<br>Pizza☑Cheese☑Other ingredients✅</p>
+        <${textTag} contenteditable="true">Ingredients</${textTag}>
+        <${textTag} oninput="longerPane(this)" contenteditable="true">Description: Pizza☑Cheese☑Other ingredients✅</${textTag}>
       </div>`)
+  } else {
+    allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" class="quietDown">
+  <button onclick="removeT(this)">X</button>
+        <${textTag} contenteditable="true">Ingredients</${textTag}>
+        <${textTag} contenteditable="true">Description: Pizza☑Cheese☑Other ingredients✅</${textTag}>
+      </div>`)
+  }
 } else {
-  for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
-    //console.log(localStorage.getItem('localItems').split(','));
-    allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" oninput='this.style.marginBottom = this.scrollHeight - 200 + "px"'>
+  if (localStorage.getItem('localExtendEnabled') == 'Off') {
+    console.log('lets see');
+    for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
+      allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" class="quietDown">
   <button onclick="removeT(this)">X</button>
-        <p contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[0]}</p>
-        <p contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[1]}</p>
+        <${textTag} contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[0]}</${textTag}>
+        <${textTag} oninput="longerPane(this)" contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[1]}</${textTag}>
       </div>`)
+    }
+  } else {
+    for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
+      allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" class="quietDown">
+  <button onclick="removeT(this)">X</button>
+        <${textTag} contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[0]}</${textTag}>
+        <${textTag} contenteditable="true">${localStorage.getItem('localItems').split(',')[t].split('|')[1]}</${textTag}>
+      </div>`)
+    }
   }
 }
 
+var allItems = [];
+
 setInterval(function () {
+  // Update the panes with how they are configured
+  // checkConfig()
+  // Push all pane text in one array with a format of Title|Description|config
   for (var i = 0; i < items.length; i++) {
-    allItems.push(`${items[i].children[1].innerHTML}|${items[i].children[2].innerHTML}`)
+    allItems.push(`${items[i].getElementsByTagName(textTag)[0].textContent}|${items[i].getElementsByTagName(textTag)[1].innerText}`);
   }
   localStorage.setItem('localItems', allItems)
-  //console.log(allItems, localStorage.getItem('localItems'));
   allItems = []
 }, 1000)
 
-function newItem() {
-  allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};" oninput='this.style.marginBottom = this.scrollHeight - 200 + "px"'>
+function newItem(t) {
+  // Make shorter, createElement with all attributes except border-radius and set it afterwards, should be helpful in the future
+  if (t == '+') {
+    if (document.getElementById('rounded').value == 'Off') {
+      if (document.getElementById('toggleExtend').value == 'Off') {
+        allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};"
+    class="quietDown">
   <button onclick="removeT(this)">X</button>
-        <p contenteditable="true">Unnamed pane</p>
-        <p contenteditable="true">Description</p>
+        <${textTag} contenteditable="true">Unnamed pane</${textTag}>
+        <${textTag} contenteditable="true" oninput="longerPane(this)">Description</${textTag}>
       </div>`)
+      } else {
+        allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value};"
+    class="quietDown">
+  <button onclick="removeT(this)">X</button>
+  <button onclick="extend(this)" class="button2">^</button>
+        <${textTag} contenteditable="true">Unnamed pane</${textTag}>
+        <${textTag} contenteditable="true" oninput="test(this)">Description</${textTag}>
+      </div>`)
+      }
+    } else {
+      if (document.getElementById('toggleExtend').value == 'Off') {
+        allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value}; border-radius: 10px;" class="quietDown">
+  <button onclick="removeT(this)" style="border-radius: 10px;">X</button>
+        <${textTag} contenteditable="true">Unnamed pane</${textTag}>
+        <${textTag} contenteditable="true" oninput="longerPane(this)">Description</${textTag}>
+      </div>`)
+      } else {
+        allpanes.insertAdjacentHTML('beforeend', `<div class="pane" style="background-color: ${document.getElementById('paneColor').value}; border-radius: 10px;" class="quietDown">
+  <button onclick="removeT(this)" style="border-radius: 10px;">X</button>
+  <button onclick="extend(this)" class="button2" style="border-radius: 10px;">^</button>
+        <${textTag} contenteditable="true">Unnamed pane</${textTag}>
+        <${textTag} contenteditable="true" oninput="test(this)">Description</${textTag}>
+      </div>`)
+      }
+    }
+  }
 }
-
 
 function removeT(t) {
   t.parentElement.remove()
 }
 
 function popupAnim() {
-  popup.style.visibility = 'visible';
+  let t2 = document.getElementsByClassName('quietDown');
+  for (var i = 0; i < t2.length; i++) {
+    t2[i].style.color = 'rgba(128, 128, 128, 0.534)';
+  }
+  if (mql.matches) {
+    let t = 0;
+    var myInterval = setInterval(function () {
+      popup.style.bottom = `${10 - t}vw`;
+      popup.style.visibility = 'visible';
+      t += 0.8;
+      if (t > 45) {
+        clearInterval(myInterval)
+      }
+    }, 1)
+  } else {
+    let t = 0;
+    let a = 500;
+    var myInterval = setInterval(function () {
+      popup.style.bottom = `${500 - t}px`;
+      popup.style.visibility = 'visible';
+      a--
+      t += a * 0.05;
+      if (t > 500) {
+        clearInterval(myInterval)
+      }
+    }, 1)
+  }
+}
+
+function popupClose() {
+  let t2 = document.getElementsByClassName('quietDown');
+  for (var i = 0; i < t2.length; i++) {
+    t2[i].style.color = document.getElementById('textFontColor').value;
+  }
+  document.getElementById('popup').style.visibility = 'hidden';
 }
 
 function changeTopbar(t) {
   document.getElementById('topbar').style.backgroundColor = t.value;
   localStorage.setItem('localTop', t.value)
+}
+
+function changeFontColor(t) {
+  let t2 = document.querySelectorAll('div');
+  for (var i = 0; i < t2.length; i++) {
+    t2[i].style.color = t.value;
+  }
+  let t3 = document.getElementsByClassName('buttonClass');
+  for (var i = 0; i < t3.length; i++) {
+    t3[i].style.color = t.value;
+  }
+  localStorage.setItem('localFontColor', t.value)
 }
 
 function changeAllColors(t) {
@@ -115,39 +340,127 @@ function changeBackColor(t) {
   localStorage.setItem('localBackground', t.value)
 }
 
+function changeButtonColor(t) {
+  let buttons = document.getElementsByClassName('buttonClass');
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].style.backgroundColor = t.value;
+  }
+  localStorage.setItem('localButtonColor', t.value)
+}
+
+function setBlurOn(t) {
+  if (t.value == 'On') {
+    document.getElementById('popup').style.backdropFilter = 'blur(15px)';
+  } else {
+    document.getElementById('popup').style.backdropFilter = 'none';
+  }
+  localStorage.setItem('localBlurCheck', t.value)
+}
+
+function roundC(t) {
+  if (t.value == 'On') {
+    document.getElementById('topbar').style.borderRadius = '0 0 10px 10px';
+    for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
+      document.getElementsByClassName('pane')[i].style.borderRadius = '10px';
+    }
+    for (var i2 = 0; i2 < document.getElementsByTagName('button').length; i2++) {
+      document.getElementsByTagName('button')[i2].style.borderRadius = '10px';
+    }
+    for (var i3 = 0; i3 < document.getElementsByTagName('select').length; i3++) {
+      document.getElementsByTagName('select')[i3].style.borderRadius = '10px';
+    }
+  } else {
+    document.getElementById('topbar').style.borderRadius = '0';
+    for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
+      document.getElementsByClassName('pane')[i].style.borderRadius = '0';
+    }
+    for (var i2 = 0; i2 < document.getElementsByTagName('button').length; i2++) {
+      document.getElementsByTagName('button')[i2].style.borderRadius = '0';
+    }
+    for (var i3 = 0; i3 < document.getElementsByTagName('select').length; i3++) {
+      document.getElementsByTagName('select')[i3].style.borderRadius = '0';
+    }
+  }
+  localStorage.setItem('localRoundedCheck', t.value)
+}
+
+function streakEnable(t) {
+  if (t.value == 'Off') {
+    document.getElementsByClassName('quietDown')[3].style.display = 'none';
+    document.getElementsByClassName('quietDown')[4].style.display = 'none';
+    document.getElementsByClassName('quietDown')[5].style.display = 'none';
+  } else {
+    document.getElementsByClassName('quietDown')[3].style.display = 'inline-block';
+    document.getElementsByClassName('quietDown')[4].style.display = 'inline-block';
+    document.getElementsByClassName('quietDown')[5].style.display = 'inline-block';
+  }
+  localStorage.setItem('localStreakEnabled', t.value)
+}
+
+function newFontFamily(t) {
+  let t2 = document.querySelectorAll('div');
+  for (var i = 0; i < t2.length; i++) {
+    t2[i].style.fontFamily = t.value;
+  }
+  let t3 = document.getElementsByClassName('buttonClass');
+  for (var i = 0; i < t3.length; i++) {
+    t3[i].style.fontFamily = t.value;
+  }
+  localStorage.setItem('localFontFamily', t.value)
+}
+
+function extendEnable(t) {
+  console.log(t, t.value);
+  console.log(document.getElementsByClassName('button2'), document.getElementsByClassName('button2').length);
+  document.querySelectorAll('.button2').forEach(e => e.remove());
+  if (t.value == 'On') {
+    for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
+      document.getElementById('rounded').value == 'On' ? document.getElementsByClassName('pane')[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" style="border-radius: 10px;" onclick="extend(this)">^</button>`) : document.getElementsByClassName('pane')[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" onclick="extend(this)">^</button>`);
+    }
+  }
+  localStorage.setItem('localExtendEnabled', t.value)
+}
+
+// Consider making a function to automate
+
+function changeFontSize(t) {
+  document.getElementsByTagName('body')[0].style.fontSize = `${t.value}px`;
+  localStorage.setItem('localFontSize', t.value)
+}
+
+
 changeTopbar(document.getElementById('topcolor'))
 changeAllColors(document.getElementById('paneColor'))
 changeBackColor(document.getElementById('backColor'))
-
-console.log(document.getElementById('topcolor').value, document.getElementById('paneColor').value, document.getElementById('backColor').value);
+changeFontColor(document.getElementById('textFontColor'))
+changeButtonColor(document.getElementById('buttonColor'))
+setBlurOn(document.getElementById('blurCheck'))
+roundC(document.getElementById('rounded'))
+streakEnable(document.getElementById('toggleStreak'))
+newFontFamily(document.getElementById('fonts'))
+changeFontSize(document.getElementById('textFontSize'))
+extendEnable(document.getElementById('toggleExtend'))
 
 // Doesn't take rgb for some reason
 function setPalette(top, panes, background, fontColor, buttons) {
-  localStorage.setItem('localTop', top)
   document.getElementById('topcolor').value = top;
-  localStorage.setItem('localPan', panes)
   document.getElementById('paneColor').value = panes;
-  localStorage.setItem('localBackground', background)
   document.getElementById('backColor').value = background;
+  document.getElementById('textFontColor').value = fontColor;
+  document.getElementById('buttonColor').value = buttons;
   changeTopbar(document.getElementById('topcolor'))
   changeAllColors(document.getElementById('paneColor'))
   changeBackColor(document.getElementById('backColor'))
-  let t = document.querySelectorAll('*');
-  for (var i = 0; i < t.length; i++) {
-    t[i].style.color = fontColor;
-  }
-  let t2 = document.getElementsByClassName('buttonClass');
-  for (var i2 = 0; i2 < t2.length; i2++) {
-    t2[i2].style.backgroundColor = buttons;
-  }
+  changeFontColor(document.getElementById('textFontColor'))
+  changeButtonColor(document.getElementById('buttonColor'))
 }
 
 function paletteC(t) {
   if (t == "Default") {
-    setPalette('#0c770c', '#c0c0c0', '#fcfcfc', 'black', 'white')
+    setPalette('#0c770c', '#c0c0c0', '#fcfcfc', 'black', '#d0d0d7')
   }
   if (t == "Light") {
-    setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', 'black', 'white')
+    setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', 'black', '#d0d0d7')
   }
   if (t == "Dark") {
     setPalette('#040303', '#333333', '#171717', '#cea4a4', '#515151')
@@ -155,6 +468,64 @@ function paletteC(t) {
 }
 
 function addStreak() {
-  localStorage.setItem('localStreak', parseInt(localStorage.getItem('localStreak')) + 1)
-  document.getElementById('streak').innerHTML = `Your streak: ${localStorage.getItem('localStreak')}🔥`;
+  setCookie('streak', parseInt(getCookie('streak')) + 1, 1)
+  document.getElementById('streak').innerHTML = `Your streak: ${getCookie('streak')}🔥`;
+}
+
+function resetStreak() {
+  setCookie('streak', '0', 1)
+}
+
+function extend(t) {
+  var scrollHeight = t.parentElement.getElementsByTagName(textTag)[1].scrollHeight;
+  var height = t.parentElement.clientHeight;
+  var m = height;
+  if (height < 120 + scrollHeight) {
+    let newInterval = setInterval(function () {
+      m += height / 10;
+      t.parentElement.style.height = `${m}px`;
+      if (260 + scrollHeight < height + m) {
+        clearInterval(newInterval)
+      }
+    }, 1)
+  } else {
+    let newInterval = setInterval(function () {
+      m -= 8;
+      t.parentElement.style.height = `${m}px`;
+      console.log(`height: ${height}, 260, scrollHeight: ${scrollHeight}, add ${260 + scrollHeight}`);
+      if (m < 230 - scrollHeight) {
+        clearInterval(newInterval)
+      }
+    }, 1)
+  }
+  // This means that 25 * 1 and 25 *2 matches scrollHeight
+}
+
+function clearData() {
+  localStorage.clear()
+  document.cookie = ''
+}
+
+function test(t) {
+  console.log('t', t.scrollHeight, t.parentElement.clientHeight);
+  if (t.scrollHeight >= t.parentElement.clientHeight) {
+    t.parentElement.style.overflowY = 'auto'
+  } else {
+    t.parentElement.style.overflowY = 'visible'
+  }
+}
+
+function longerPane(t) {
+  console.log(t);
+  if (document.getElementById('toggleExtend').value != 'On') {
+    t.parentElement.style.height = 80 + t.scrollHeight + "px";
+  }
+}
+
+function enableData() {
+  data.style.visibility = 'hidden';
+}
+
+function disableData() {
+  data.style.visibility = 'hidden';
 }

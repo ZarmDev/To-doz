@@ -3,16 +3,38 @@ body {
   padding: 0;
   margin: 0;
 }
+#mobile {
+  position: absolute;
+  width: 80%;
+  height: 95%;
+  background-color: rgba(128, 128, 128, 0.534);
+  z-index: 1;
+  margin: 2% 0 0 10%;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  visibility: hidden;
+}
+#mobile h1 {
+  margin-top: 10%;
+}
+#mobile button:nth-child(1) {
+  position: absolute;
+  left: 70vw;
+  background-color: red;
+  border: 2px 2px 2px 2px white;
+  box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
+  margin-top: 20px;
+}
 #popup {
   position: absolute;
-  width: 75%;
+  width: 80%;
   height: 95%;
   background-color: rgba(128, 128, 128, 0.534);
   z-index: 1;
   margin: 2% 0 0 10%;
   display: grid;
   visibility: hidden;
-  grid-template-areas: 'colors features fonts';
+  grid-template-areas: 'colors colorstwo features fonts';
 }
 #popup > * {
   margin-left: 20px;
@@ -30,13 +52,29 @@ body {
   grid-area: colors;
 }
 #popup div:nth-child(2) {
-  grid-area: features;
+  grid-area: colorstwo;
 }
 #popup div:nth-child(3) {
+  grid-area: features;
+}
+#popup div:nth-child(4) {
   grid-area: fonts;
 }
+@media only screen and (max-width: 760px) {
+  #popup {
+    margin: 2% 0 0 1%;
+    width: 100%;
+    height: 150%;
+  }
+  #popup div:nth-child(3) > * {
+    width: 12vw;
+  }
+  #popup div:nth-child(4) {
+    margin-left: 60px;
+  }
+}
 #topbar {
-  background-color: rgb(12, 119, 12);
+  /* background-color: rgb(12, 119, 12); */
   padding: 0.5vw;
   display: flex;
   justify-content: center;
@@ -51,11 +89,13 @@ body {
   margin-left: 40px;
 }
 #allpanes {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  /* display: grid; */
+  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
   gap: 2vw;
   margin-top: 10px;
   margin-left: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 .pane {
   background-color: rgb(192, 192, 192);
@@ -63,16 +103,70 @@ body {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
   border-radius: 2px;
-  width: 15ch;
+  width: 14ch;
   height: 15ch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(211, 211, 211, 0.404) rgba(255, 255, 255, 0), 0);
 }
-.pane p {
+.pane > pre {
   font-size: 2ch;
+  font-family: 'Open Sans', sans-serif;
 }
-.pane button {
+.pane button:nth-child(1) {
   position: relative;
   left: 4vw;
   background-color: red;
   border: 2px 2px 2px 2px white;
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
+}
+.button2 {
+  position: relative;
+  left: 4vw;
+  background-color: rgb(28, 49, 119);
+  border: 2px 2px 2px 2px white;
+  box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
+}
+#data {
+  background-color: rgba(128, 128, 128, 0.534);
+  padding: 1vw;
+  position: fixed;
+  width: 100%;
+  top: 82.5%;
+  height: 15%;
+}
+#enable {
+  background-color: green;
+}
+#disable {
+  background-color: red;
+}
+#dropdown {
+  position: relative;
+  display: inline-block;
+}
+#dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgba(128, 128, 128, 0.534);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 8px 12px;
+  z-index: 1;
+}
+#dropdown-content > * {
+  padding: 1vw;
+  background-color: rgb(192 192 192);
+}
+#dropdown-content > *:hover {
+  background-color: green;
+  cursor: pointer;
+}
+@keyframes change {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+#dropdown:hover #dropdown-content {
+  animation-name: change;
+  animation-duration: 0.4s;
+  display: block;
 }
