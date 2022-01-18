@@ -29,7 +29,8 @@ body {
   position: absolute;
   width: 80%;
   height: 95%;
-  background-color: rgba(128, 128, 128, 0.534);
+  /* background-color: rgba(128, 128, 128, 0.534); */
+  background-color: rgb(153 153 153 / 70%);
   z-index: 1;
   margin: 2% 0 0 10%;
   display: grid;
@@ -172,4 +173,7 @@ body {
 }
 #data {
   display: none;
+}
+.popupChange {
+  mix-blend-mode: ;
 }

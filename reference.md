@@ -1,0 +1,10 @@
+https://stackoverflow.com/question/is-there-a-way-to-get-a-textarea-to-stretch-to-fit-its-content-without-using-php
+https://stackoverflow.com/questions/25305719/change-css-for-all-elements-from-js
+https://github.com/jsjoeio/use-streak/blob/main/src/lib.ts
+https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
+https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+https://stackoverflow.com/questions/17745292/how-to-retrieve-all-localstorage-items-without-knowing-the-keys-in-advance
+https://www.w3schools.com/js/js_cookies.asp
+https://stackoverflow.com/questions/10842471/how-to-remove-all-elements-of-a-certain-class-from-the-dom
+https://stackoverflow.com/questions/9330671/add-linebreak-to-textcontent-or-innertext-only-in-chrome
+https://www.w3schools.com/Css/css_dropdowns.asp
