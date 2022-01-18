@@ -74,3 +74,19 @@ Popup to show due today
 Filter panes
 
 On topbar have button that shows all your due stuff
+
+Sections
+
+Have different sections either it goes like this:
+
+Game devlog
+
+Pane Pane2
+
+Section2
+
+Pane AnotherPane
+
+Or at the topbar there is a bunch of buttons that contain the sections
+
+Floating title and description (seperate)

@@ -107,32 +107,37 @@ function addPane(choice, extraParam) {
   description.setAttribute('oninput', 'longerPane(this)')
   description.innerHTML = 'Description';
   description.setAttribute('class', 'new+')
+  var button2 = document.createElement('button');
+  button2.setAttribute('onclick', 'extend(this)')
+  button2.setAttribute('class', 'button2')
+  button2.innerHTML = '^';
 
   if (choice == 'default') {
     allpanes.appendChild(pane)
     pane.appendChild(button)
-    if (extraParam.includes('extend')) {
-      var button2 = document.createElement('button');
-      button2.setAttribute('onclick', 'extend(this)')
-      button2.setAttribute('class', 'button2')
-      button2.innerHTML = '^';
-      pane.appendChild(button2)
-    }
     if (extraParam.includes('rounded')) {
       pane.style.borderRadius = '10px';
       button.style.borderRadius = '10px';
+      button2.style.borderRadius = '10px';
+    }
+    if (extraParam.includes('extend')) {
+      pane.appendChild(button2)
     }
     pane.appendChild(title)
     pane.appendChild(description)
   } else if (choice == 'load') {
     console.log(localStorage);
     for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
+      // Unnamed pane|Description|important^
       var lpane = document.createElement('div');
       lpane.setAttribute('class', 'pane quietDown')
       var lbutton = document.createElement('button');
       lbutton.setAttribute('onclick', 'removeT(this)')
       lbutton.innerHTML = 'X';
       lbutton.setAttribute('class', 'popupChange')
+      // if (localStorage.getItem('localItems').split(',')[t].split('|')[2].split('^')[0]) {
+      // add label
+      // }
       var ltitle = document.createElement(textTag);
       ltitle.setAttribute('contenteditable', 'true')
       ltitle.setAttribute('class', 'new+ popupChange')
@@ -189,14 +194,18 @@ function newItem(t) {
   if (t == '+') {
     if (document.getElementById('rounded').value == 'Off') {
       if (document.getElementById('toggleExtend').value == 'Off') {
+        console.log('z');
         addPane('default', null)
       } else {
+        console.log('zuck');
         addPane('default', 'extend')
       }
     } else {
       if (document.getElementById('toggleExtend').value == 'Off') {
+        console.log('pw');
         addPane('default', 'rounded')
       } else {
+        console.log('ES');
         addPane('default', 'rounded extend')
       }
     }
@@ -366,7 +375,7 @@ function extendEnable(t) {
       document.getElementById('rounded').value == 'On' ? document.getElementsByClassName('pane')[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" style="border-radius: 10px;" onclick="extend(this)">^</button>`) : document.getElementsByClassName('pane')[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" onclick="extend(this)">^</button>`);
     }
   }
-  localStorage.setItem('localExtendEnabled', t.value)
+localStorage.setItem('localExtendEnabled', t.value)
 }
 
 // Consider making a function to automate
@@ -430,7 +439,7 @@ function extend(t) {
   var m = height;
   if (height < 120 + scrollHeight) {
     let newInterval = setInterval(function () {
-      m += height / 10;
+      m += height / 50;
       t.parentElement.style.height = `${m}px`;
       if (260 + scrollHeight < height + m) {
         clearInterval(newInterval)
@@ -438,10 +447,11 @@ function extend(t) {
     }, 1)
   } else {
     let newInterval = setInterval(function () {
-      m -= 8;
+      console.log('test');
+      m -= height / 10;
       t.parentElement.style.height = `${m}px`;
       console.log(`height: ${height}, 260, scrollHeight: ${scrollHeight}, add ${260 + scrollHeight}`);
-      if (m < 230 - scrollHeight) {
+      if (m < 50 - scrollHeight) {
         clearInterval(newInterval)
       }
     }, 1)
