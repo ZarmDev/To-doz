@@ -90,3 +90,19 @@ Pane AnotherPane
 Or at the topbar there is a bunch of buttons that contain the sections
 
 Floating title and description (seperate)
+
+Due by label
+
+Span one pane to fit the entire screen
+
+When cookies are set, new Date() gives the date in two days accourding to console.log()????
+
+Pallette doesn't change the content dropdown
+
+New Items don't follow colors and other styles from the inputs
+
+Restore original inputs to default value
+
+When you enter a new line and paste, font size is changed
+(Div is created)
+https://stackoverflow.com/questions/2176861/javascript-get-clipboard-data-on-paste-event-cross-browser/2177059#2177059

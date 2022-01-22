@@ -23,13 +23,10 @@ if (mql.matches) {
   document.getElementById('allpanes').style.gridTemplateColumns = '1fr 1fr 1fr';
 }
 
-function setCookie(cname, cvalue, exdays) {
+function setCookie(cname, cvalue) {
   var d = new Date();
-  console.log(d);
-  d.setDate(d.getDate() + exdays)
-  console.log(d);
+  d.setDate(d.getDate())
   d.setUTCHours(23, 59, 59, 999);
-  console.log(d);
   // d.setTime(d.getTime() + (exdays*24*60*60*1000));
   let expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
@@ -92,29 +89,41 @@ getData('toggleExtend', 'localExtendEnabled', 'Off')
 
 var textTag = 'pre';
 
+function clickPane(t) {
+  let tc = t.children;
+  for (var i = 0; i < tc.length; i++) {
+    tc[i].style.opacity = '0.2';
+  }
+  t.style.backgroundImage = 'url("assets/drawing-11.svg")';
+}
+
 function addPane(choice, extraParam) {
   var pane = document.createElement('div');
   pane.setAttribute('class', 'pane quietDown')
+  var backgroundDiv = document.createElement('div');
+  backgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
+  backgroundDiv.setAttribute('onclick', 'clickPane(this)')
+  // pane.style.backgroundColor = document.getElementById('paneColor');
   var button = document.createElement('button');
   button.setAttribute('onclick', 'removeT(this)')
   button.innerHTML = 'X';
+  button.setAttribute('class', 'x')
   var title = document.createElement(textTag);
   title.setAttribute('contenteditable', 'true')
-  title.setAttribute('class', 'new+')
+  title.setAttribute('class', 'newp')
   title.innerHTML = 'Unnamed pane';
   var description = document.createElement(textTag);
   description.setAttribute('contenteditable', 'true')
   description.setAttribute('oninput', 'longerPane(this)')
   description.innerHTML = 'Description';
-  description.setAttribute('class', 'new+')
+  description.setAttribute('class', 'newp')
   var button2 = document.createElement('button');
   button2.setAttribute('onclick', 'extend(this)')
   button2.setAttribute('class', 'button2')
   button2.innerHTML = '^';
+  button2.setAttribute('class', 'extend')
 
   if (choice == 'default') {
-    allpanes.appendChild(pane)
-    pane.appendChild(button)
     if (extraParam.includes('rounded')) {
       pane.style.borderRadius = '10px';
       button.style.borderRadius = '10px';
@@ -123,14 +132,19 @@ function addPane(choice, extraParam) {
     if (extraParam.includes('extend')) {
       pane.appendChild(button2)
     }
+    allpanes.appendChild(pane)
+    pane.appendChild(backgroundDiv)
+    pane.appendChild(button)
     pane.appendChild(title)
     pane.appendChild(description)
   } else if (choice == 'load') {
+    // It's not nessarcy to create new elements every loop as only some elements need to be recreated (the pre tags)
     console.log(localStorage);
     for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
       // Unnamed pane|Description|important^
       var lpane = document.createElement('div');
       lpane.setAttribute('class', 'pane quietDown')
+      lpane.setAttribute('onclick', 'clickPane(this)')
       var lbutton = document.createElement('button');
       lbutton.setAttribute('onclick', 'removeT(this)')
       lbutton.innerHTML = 'X';
@@ -140,14 +154,17 @@ function addPane(choice, extraParam) {
       // }
       var ltitle = document.createElement(textTag);
       ltitle.setAttribute('contenteditable', 'true')
-      ltitle.setAttribute('class', 'new+ popupChange')
+      ltitle.setAttribute('class', 'newp popupChange')
       ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
       var ldescription = document.createElement(textTag);
       ldescription.setAttribute('contenteditable', 'true')
       ldescription.setAttribute('oninput', 'longerPane(this)')
       ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
-      ldescription.setAttribute('class', 'new+ popupChange')
+      ldescription.setAttribute('class', 'newp popupChange')
+      var lbackgroundDiv = document.createElement('div');
+      lbackgroundDiv.setAttribute('onclick', 'clickPane(this)')
       allpanes.appendChild(lpane)
+      pane.appendChild(lbackgroundDiv)
       lpane.appendChild(lbutton)
       lpane.appendChild(ltitle)
       lpane.appendChild(ldescription)
@@ -156,10 +173,22 @@ function addPane(choice, extraParam) {
     title.innerHTML = 'Unnamed pane';
     description.innerHTML = 'Do homework';
     allpanes.appendChild(pane)
+    pane.appendChild(backgroundDiv)
     pane.appendChild(button)
     pane.appendChild(title)
     pane.appendChild(description)
   }
+  changeTopbar(document.getElementById('topcolor'))
+changeAllColors(document.getElementById('paneColor'))
+changeBackColor(document.getElementById('backColor'))
+changeFontColor(document.getElementById('textFontColor'))
+changeButtonColor(document.getElementById('buttonColor'))
+setBlurOn(document.getElementById('blurCheck'))
+roundC(document.getElementById('rounded'))
+streakEnable(document.getElementById('toggleStreak'))
+newFontFamily(document.getElementById('fonts'))
+changeFontSize(document.getElementById('textFontSize'))
+extendEnable(document.getElementById('toggleExtend'))
 }
 
 if (localStorage.getItem('localItems') == undefined || localStorage.getItem('localItems').split('|')[1] == 'undefined' || localStorage.getItem('localItems') == '') {
@@ -182,9 +211,11 @@ setInterval(function () {
   // Update the panes with how they are configured
   // checkConfig()
   // Push all pane text in one array with a format of Title|Description|config
+  // Add oninput to all pane divs to trgiger a oninput
   for (var i = 0; i < items.length; i++) {
-    console.log(`${items[i].getElementsByClassName('new+')}|${items[i].getElementsByClassName('new+')[1].innerText}`);
-    allItems.push(`${items[i].getElementsByClassName('new+')[0].textContent}|${items[i].getElementsByClassName('new+')[1].innerText}`);
+    allItems.push(`${items[i].getElementsByClassName('newp')[0].textContent}|${items[i].getElementsByClassName('newp')[1].innerText}`);
+    // Push code before and `${items[i].getElementsByClassName('label')[0].textContent}`) so the format:
+    // Unnamed pane|Description|important
   }
   localStorage.setItem('localItems', allItems)
   allItems = []
@@ -491,4 +522,10 @@ function disableData() {
   document.getElementById('toggleStreak').value = 'Off';
   streakEnable(document.getElementById('toggleStreak'))
   localStorage.setItem('enableData', 'done')
+}
+
+// Either this or take this for loop out so there is one main size that changes if you input
+
+for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
+  document.getElementsByClassName('pane')[i].style.height = 80 + document.getElementsByClassName('pane')[i].getElementsByClassName('newp')[1].scrollHeight + "px";
 }

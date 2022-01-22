@@ -100,7 +100,12 @@ body {
 }
 .pane {
   background-color: rgb(192, 192, 192);
-  padding: 2vw;
+  /* padding: 2vw;
+  padding-left: 1vw; */
+  padding-left: 0px;
+  padding-top: 0px;
+  padding-right: 2vw;
+  padding-bottom: 2vw;
   font-family: 'Open Sans', sans-serif;
   text-align: center;
   border-radius: 2px;
@@ -108,19 +113,38 @@ body {
   height: 15ch;
   scrollbar-width: thin;
   scrollbar-color: rgba(211, 211, 211, 0.404) rgba(255, 255, 255, 0), 0);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
-.pane > pre {
+.pane pre {
+  margin: 0;
+  margin-left: 1.2vw;
+}
+.pane pre:nth-child(2) {
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+}
+/* .pane pre:nth-child(2) {
+  margin: 1vw;
+}
+.pane pre:nth-child(3) {
+  margin: 1vw;
+} */
+.pane button {
+  margin-top: 2vw;
+}
+.newp {
   font-size: 2ch;
   font-family: 'Open Sans', sans-serif;
 }
-.pane button:nth-child(1) {
+.x {
   position: relative;
   left: 4vw;
   background-color: red;
   border: 2px 2px 2px 2px white;
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
 }
-.button2 {
+.e {
   position: relative;
   left: 4vw;
   background-color: rgb(28, 49, 119);
