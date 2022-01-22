@@ -106,3 +106,5 @@ Restore original inputs to default value
 When you enter a new line and paste, font size is changed
 (Div is created)
 https://stackoverflow.com/questions/2176861/javascript-get-clipboard-data-on-paste-event-cross-browser/2177059#2177059
+
+Restore old pane feature (save to oldPane storage and access when needed)

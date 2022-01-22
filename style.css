@@ -116,11 +116,20 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 }
+.pane > * {
+  position: relative;
+  z-index: 1;
+}
+.pane > div {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .pane pre {
   margin: 0;
   margin-left: 1.2vw;
 }
-.pane pre:nth-child(2) {
+/* Not sure why this is needed to be 3 */
+.pane pre:nth-child(3) {
   margin-top: 1vw;
   margin-bottom: 1vw;
 }
@@ -137,14 +146,14 @@ body {
   font-size: 2ch;
   font-family: 'Open Sans', sans-serif;
 }
-.x {
+.button {
   position: relative;
   left: 4vw;
   background-color: red;
   border: 2px 2px 2px 2px white;
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
 }
-.e {
+.button2 {
   position: relative;
   left: 4vw;
   background-color: rgb(28, 49, 119);

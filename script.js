@@ -97,98 +97,184 @@ function clickPane(t) {
   t.style.backgroundImage = 'url("assets/drawing-11.svg")';
 }
 
-function addPane(choice, extraParam) {
-  var pane = document.createElement('div');
-  pane.setAttribute('class', 'pane quietDown')
-  var backgroundDiv = document.createElement('div');
-  backgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
-  backgroundDiv.setAttribute('onclick', 'clickPane(this)')
-  // pane.style.backgroundColor = document.getElementById('paneColor');
-  var button = document.createElement('button');
-  button.setAttribute('onclick', 'removeT(this)')
-  button.innerHTML = 'X';
-  button.setAttribute('class', 'x')
-  var title = document.createElement(textTag);
-  title.setAttribute('contenteditable', 'true')
-  title.setAttribute('class', 'newp')
-  title.innerHTML = 'Unnamed pane';
-  var description = document.createElement(textTag);
-  description.setAttribute('contenteditable', 'true')
-  description.setAttribute('oninput', 'longerPane(this)')
-  description.innerHTML = 'Description';
-  description.setAttribute('class', 'newp')
-  var button2 = document.createElement('button');
-  button2.setAttribute('onclick', 'extend(this)')
-  button2.setAttribute('class', 'button2')
-  button2.innerHTML = '^';
-  button2.setAttribute('class', 'extend')
+class Pane {
+  constructor(pane, paneClass, extraElements, attributes, avalue) {
+    this.pane = document.createElement('div');
+    this.pane.className = paneClass;
+    this.extraElements = extraElements;
+    this.attributes = attributes;
+  }
+  appendTo() {
+    allpanes.appendChild(this.pane)
+    for (var i = 0; i < extraElements.length; i++) {
+      let ltest = document.createElement(extraElements[i]);
+      ltest.setAttribute(attributes[i], avalue)
+      pane.appendChild()
+    }
+    pane.appendChild(this.backgroundDiv)
+    pane.appendChild(this.title)
+    pane.appendChild(this.description)
+    pane.appendChild(this.button)
+    pane.appendChild(this.button2)
+  }
+}
 
-  if (choice == 'default') {
-    if (extraParam.includes('rounded')) {
-      pane.style.borderRadius = '10px';
-      button.style.borderRadius = '10px';
-      button2.style.borderRadius = '10px';
-    }
-    if (extraParam.includes('extend')) {
-      pane.appendChild(button2)
-    }
-    allpanes.appendChild(pane)
-    pane.appendChild(backgroundDiv)
-    pane.appendChild(button)
-    pane.appendChild(title)
-    pane.appendChild(description)
-  } else if (choice == 'load') {
-    // It's not nessarcy to create new elements every loop as only some elements need to be recreated (the pre tags)
-    console.log(localStorage);
-    for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
-      // Unnamed pane|Description|important^
-      var lpane = document.createElement('div');
-      lpane.setAttribute('class', 'pane quietDown')
-      lpane.setAttribute('onclick', 'clickPane(this)')
-      var lbutton = document.createElement('button');
-      lbutton.setAttribute('onclick', 'removeT(this)')
-      lbutton.innerHTML = 'X';
-      lbutton.setAttribute('class', 'popupChange')
-      // if (localStorage.getItem('localItems').split(',')[t].split('|')[2].split('^')[0]) {
-      // add label
-      // }
-      var ltitle = document.createElement(textTag);
-      ltitle.setAttribute('contenteditable', 'true')
-      ltitle.setAttribute('class', 'newp popupChange')
-      ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
-      var ldescription = document.createElement(textTag);
-      ldescription.setAttribute('contenteditable', 'true')
-      ldescription.setAttribute('oninput', 'longerPane(this)')
-      ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
-      ldescription.setAttribute('class', 'newp popupChange')
-      var lbackgroundDiv = document.createElement('div');
-      lbackgroundDiv.setAttribute('onclick', 'clickPane(this)')
-      allpanes.appendChild(lpane)
-      pane.appendChild(lbackgroundDiv)
-      lpane.appendChild(lbutton)
-      lpane.appendChild(ltitle)
-      lpane.appendChild(ldescription)
-    }
-  } else if (choice == 'defaultoption') {
+function addPane(choice, extraParam) {
+  // create function with all of this accept you can change the attributes
+  if (choice.includes('temp')) {
+    var pane = document.createElement('div');
+    pane.setAttribute('class', 'pane quietDown')
+    var backgroundDiv = document.createElement('div');
+    backgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
+    backgroundDiv.setAttribute('onclick', 'clickPane(this)')
+    // pane.style.backgroundColor = document.getElementById('paneColor');
+    var button = document.createElement('button');
+    button.setAttribute('onclick', 'removeT(this)')
+    button.innerHTML = 'X';
+    button.setAttribute('class', 'button')
+    var title = document.createElement(textTag);
+    title.setAttribute('contenteditable', 'true')
+    title.setAttribute('class', 'newp')
     title.innerHTML = 'Unnamed pane';
-    description.innerHTML = 'Do homework';
-    allpanes.appendChild(pane)
-    pane.appendChild(backgroundDiv)
-    pane.appendChild(button)
-    pane.appendChild(title)
-    pane.appendChild(description)
+    var description = document.createElement(textTag);
+    description.setAttribute('contenteditable', 'true')
+    description.setAttribute('oninput', 'longerPane(this)')
+    description.innerHTML = 'Description';
+    description.setAttribute('class', 'newp')
+    var button2 = document.createElement('button');
+    button2.setAttribute('onclick', 'extend(this)')
+    button2.setAttribute('class', 'button2 extend')
+    button2.innerHTML = '^';
+  }
+  let newPane = new Pane();
+  newPane.appendTo()
+  switch (choice) {
+    case 'default':
+      if (extraParam.includes('rounded')) {
+        pane.style.borderRadius = '10px';
+        button.style.borderRadius = '10px';
+        button2.style.borderRadius = '10px';
+      }
+      if (extraParam.includes('extend')) {
+        pane.appendChild(button2)
+      }
+      allpanes.appendChild(pane)
+      pane.appendChild(backgroundDiv)
+      pane.appendChild(button)
+      pane.appendChild(title)
+      pane.appendChild(description)
+      break;
+    case 'load':
+      // It's not nessarcy to create new elements every loop as only some elements need to be recreated (the pre tags)
+      console.log(localStorage);
+      for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
+        // Unnamed pane|Description|important^
+        var lpane = document.createElement('div');
+        lpane.setAttribute('class', 'pane quietDown')
+        var lbutton = document.createElement('button');
+        lbutton.setAttribute('onclick', 'removeT(this)')
+        lbutton.innerHTML = 'X';
+        lbutton.setAttribute('class', 'popupChange button')
+        // if (localStorage.getItem('localItems').split(',')[t].split('|')[2].split('^')[0]) {
+        // add label
+        // }
+        var ltitle = document.createElement(textTag);
+        ltitle.setAttribute('contenteditable', 'true')
+        ltitle.setAttribute('class', 'newp popupChange')
+        ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
+        var ldescription = document.createElement(textTag);
+        ldescription.setAttribute('contenteditable', 'true')
+        ldescription.setAttribute('oninput', 'longerPane(this)')
+        ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
+        ldescription.setAttribute('class', 'newp popupChange')
+        var lbackgroundDiv = document.createElement('div');
+        lbackgroundDiv.setAttribute('onclick', 'clickPane(this)')
+        lbackgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
+        allpanes.appendChild(lpane)
+        lpane.appendChild(lbackgroundDiv)
+        lpane.appendChild(lbutton)
+        lpane.appendChild(ltitle)
+        lpane.appendChild(ldescription)
+      }
+      break;
+    case 'defaultoption':
+      title.innerHTML = 'Unnamed pane';
+      description.innerHTML = 'Do homework';
+      allpanes.appendChild(pane)
+      pane.appendChild(backgroundDiv)
+      pane.appendChild(button)
+      pane.appendChild(title)
+      pane.appendChild(description)
+      break;
+    case 'defaulttemp':
+      if (extraParam.includes('rounded')) {
+        pane.style.borderRadius = '10px';
+        button.style.borderRadius = '10px';
+        button2.style.borderRadius = '10px';
+      }
+      if (extraParam.includes('extend')) {
+        pane.appendChild(button2)
+      }
+      allpanes.appendChild(pane)
+      pane.appendChild(backgroundDiv)
+      pane.appendChild(button)
+      pane.appendChild(title)
+      pane.appendChild(description)
+      break;
+    case 'loadtemp':
+      // It's not nessarcy to create new elements every loop as only some elements need to be recreated (the pre tags)
+      console.log(localStorage);
+      for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
+        // Unnamed pane|Description|important^
+        var lpane = document.createElement('div');
+        lpane.setAttribute('class', 'pane quietDown')
+        var lbutton = document.createElement('button');
+        lbutton.setAttribute('onclick', 'removeT(this)')
+        lbutton.innerHTML = 'X';
+        lbutton.setAttribute('class', 'popupChange button')
+        // if (localStorage.getItem('localItems').split(',')[t].split('|')[2].split('^')[0]) {
+        // add label
+        // }
+        var ltitle = document.createElement(textTag);
+        ltitle.setAttribute('contenteditable', 'true')
+        ltitle.setAttribute('class', 'newp popupChange')
+        ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
+        var ldescription = document.createElement(textTag);
+        ldescription.setAttribute('contenteditable', 'true')
+        ldescription.setAttribute('oninput', 'longerPane(this)')
+        ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
+        ldescription.setAttribute('class', 'newp popupChange')
+        var lbackgroundDiv = document.createElement('div');
+        lbackgroundDiv.setAttribute('onclick', 'clickPane(this)')
+        lbackgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
+        allpanes.appendChild(lpane)
+        lpane.appendChild(lbackgroundDiv)
+        lpane.appendChild(lbutton)
+        lpane.appendChild(ltitle)
+        lpane.appendChild(ldescription)
+      }
+      break;
+    case 'defaultoptiontemp':
+      title.innerHTML = 'Unnamed pane';
+      description.innerHTML = 'Do homework';
+      allpanes.appendChild(pane)
+      pane.appendChild(backgroundDiv)
+      pane.appendChild(button)
+      pane.appendChild(title)
+      pane.appendChild(description)
+      break;
   }
   changeTopbar(document.getElementById('topcolor'))
-changeAllColors(document.getElementById('paneColor'))
-changeBackColor(document.getElementById('backColor'))
-changeFontColor(document.getElementById('textFontColor'))
-changeButtonColor(document.getElementById('buttonColor'))
-setBlurOn(document.getElementById('blurCheck'))
-roundC(document.getElementById('rounded'))
-streakEnable(document.getElementById('toggleStreak'))
-newFontFamily(document.getElementById('fonts'))
-changeFontSize(document.getElementById('textFontSize'))
-extendEnable(document.getElementById('toggleExtend'))
+  changeAllColors(document.getElementById('paneColor'))
+  changeBackColor(document.getElementById('backColor'))
+  changeFontColor(document.getElementById('textFontColor'))
+  changeButtonColor(document.getElementById('buttonColor'))
+  setBlurOn(document.getElementById('blurCheck'))
+  roundC(document.getElementById('rounded'))
+  streakEnable(document.getElementById('toggleStreak'))
+  newFontFamily(document.getElementById('fonts'))
+  changeFontSize(document.getElementById('textFontSize'))
+  extendEnable(document.getElementById('toggleExtend'))
 }
 
 if (localStorage.getItem('localItems') == undefined || localStorage.getItem('localItems').split('|')[1] == 'undefined' || localStorage.getItem('localItems') == '') {
@@ -406,7 +492,7 @@ function extendEnable(t) {
       document.getElementById('rounded').value == 'On' ? document.getElementsByClassName('pane')[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" style="border-radius: 10px;" onclick="extend(this)">^</button>`) : document.getElementsByClassName('pane')[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" onclick="extend(this)">^</button>`);
     }
   }
-localStorage.setItem('localExtendEnabled', t.value)
+  localStorage.setItem('localExtendEnabled', t.value)
 }
 
 // Consider making a function to automate
