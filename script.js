@@ -97,28 +97,6 @@ function clickPane(t) {
   t.style.backgroundImage = 'url("assets/drawing-11.svg")';
 }
 
-class Pane {
-  constructor(pane, paneClass, extraElements, attributes, avalue) {
-    this.pane = document.createElement('div');
-    this.pane.className = paneClass;
-    this.extraElements = extraElements;
-    this.attributes = attributes;
-  }
-  appendTo() {
-    allpanes.appendChild(this.pane)
-    for (var i = 0; i < extraElements.length; i++) {
-      let ltest = document.createElement(extraElements[i]);
-      ltest.setAttribute(attributes[i], avalue)
-      pane.appendChild()
-    }
-    pane.appendChild(this.backgroundDiv)
-    pane.appendChild(this.title)
-    pane.appendChild(this.description)
-    pane.appendChild(this.button)
-    pane.appendChild(this.button2)
-  }
-}
-
 function addPane(choice, extraParam) {
   // create function with all of this accept you can change the attributes
   if (choice.includes('temp')) {
@@ -145,9 +123,28 @@ function addPane(choice, extraParam) {
     button2.setAttribute('onclick', 'extend(this)')
     button2.setAttribute('class', 'button2 extend')
     button2.innerHTML = '^';
+  } else {
+    var pane = document.createElement('div');
+    pane.setAttribute('class', 'pane quietDown')
+    // pane.style.backgroundColor = document.getElementById('paneColor');
+    var button = document.createElement('button');
+    button.setAttribute('onclick', 'removeT(this)')
+    button.innerHTML = 'X';
+    button.setAttribute('class', 'button')
+    var title = document.createElement(textTag);
+    title.setAttribute('contenteditable', 'true')
+    title.setAttribute('class', 'newp')
+    title.innerHTML = 'Unnamed pane';
+    var description = document.createElement(textTag);
+    description.setAttribute('contenteditable', 'true')
+    description.setAttribute('oninput', 'longerPane(this)')
+    description.innerHTML = 'Description';
+    description.setAttribute('class', 'newp')
+    var button2 = document.createElement('button');
+    button2.setAttribute('onclick', 'extend(this)')
+    button2.setAttribute('class', 'button2 extend')
+    button2.innerHTML = '^';
   }
-  let newPane = new Pane();
-  newPane.appendTo()
   switch (choice) {
     case 'default':
       if (extraParam.includes('rounded')) {
@@ -159,7 +156,6 @@ function addPane(choice, extraParam) {
         pane.appendChild(button2)
       }
       allpanes.appendChild(pane)
-      pane.appendChild(backgroundDiv)
       pane.appendChild(button)
       pane.appendChild(title)
       pane.appendChild(description)
@@ -170,7 +166,7 @@ function addPane(choice, extraParam) {
       for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
         // Unnamed pane|Description|important^
         var lpane = document.createElement('div');
-        lpane.setAttribute('class', 'pane quietDown')
+        lpane.setAttribute('class', `${localStorage.getItem('localItems').split(',')[t].split('|')[2]} quietDown`)
         var lbutton = document.createElement('button');
         lbutton.setAttribute('onclick', 'removeT(this)')
         lbutton.innerHTML = 'X';
@@ -187,11 +183,7 @@ function addPane(choice, extraParam) {
         ldescription.setAttribute('oninput', 'longerPane(this)')
         ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
         ldescription.setAttribute('class', 'newp popupChange')
-        var lbackgroundDiv = document.createElement('div');
-        lbackgroundDiv.setAttribute('onclick', 'clickPane(this)')
-        lbackgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
         allpanes.appendChild(lpane)
-        lpane.appendChild(lbackgroundDiv)
         lpane.appendChild(lbutton)
         lpane.appendChild(ltitle)
         lpane.appendChild(ldescription)
@@ -201,12 +193,12 @@ function addPane(choice, extraParam) {
       title.innerHTML = 'Unnamed pane';
       description.innerHTML = 'Do homework';
       allpanes.appendChild(pane)
-      pane.appendChild(backgroundDiv)
       pane.appendChild(button)
       pane.appendChild(title)
       pane.appendChild(description)
       break;
     case 'defaulttemp':
+      pane.setAttribute('class', 'newptemp popupChange')
       if (extraParam.includes('rounded')) {
         pane.style.borderRadius = '10px';
         button.style.borderRadius = '10px';
@@ -254,15 +246,6 @@ function addPane(choice, extraParam) {
         lpane.appendChild(ldescription)
       }
       break;
-    case 'defaultoptiontemp':
-      title.innerHTML = 'Unnamed pane';
-      description.innerHTML = 'Do homework';
-      allpanes.appendChild(pane)
-      pane.appendChild(backgroundDiv)
-      pane.appendChild(button)
-      pane.appendChild(title)
-      pane.appendChild(description)
-      break;
   }
   changeTopbar(document.getElementById('topcolor'))
   changeAllColors(document.getElementById('paneColor'))
@@ -299,7 +282,7 @@ setInterval(function () {
   // Push all pane text in one array with a format of Title|Description|config
   // Add oninput to all pane divs to trgiger a oninput
   for (var i = 0; i < items.length; i++) {
-    allItems.push(`${items[i].getElementsByClassName('newp')[0].textContent}|${items[i].getElementsByClassName('newp')[1].innerText}`);
+    allItems.push(`${items[i].getElementsByClassName('newp')[0].textContent}|${items[i].getElementsByClassName('newp')[1].innerText}|${items[i].className}`);
     // Push code before and `${items[i].getElementsByClassName('label')[0].textContent}`) so the format:
     // Unnamed pane|Description|important
   }
@@ -324,6 +307,20 @@ function newItem(t) {
       } else {
         console.log('ES');
         addPane('default', 'rounded extend')
+      }
+    }
+  } else if (t == 'temp') {
+    if (document.getElementById('rounded').value == 'Off') {
+      if (document.getElementById('toggleExtend').value == 'Off') {
+        addPane('defaulttemp', null)
+      } else {
+        addPane('defaulttemp', 'extend')
+      }
+    } else {
+      if (document.getElementById('toggleExtend').value == 'Off') {
+        addPane('defaulttemp', 'rounded')
+      } else {
+        addPane('defaulttemp', 'rounded extend')
       }
     }
   }
