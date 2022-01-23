@@ -7,7 +7,7 @@ const item = document.createElement('div');
 const items = document.getElementsByClassName('pane');
 
 let mql = window.matchMedia('(max-width: 760px)');
-
+//rgb(153 153 153 / 70%)
 if (mql.matches && localStorage.getItem('localMobile') == undefined) {
   //console.log(';test');
   localStorage.setItem('localMobile', 'done')
@@ -86,15 +86,28 @@ getData('toggleStreak', 'localStreakEnabled', 'On')
 getData('fonts', 'localFontFamily', 'Open Sans')
 getData('textFontSize', 'localFontSize', '2ch')
 getData('toggleExtend', 'localExtendEnabled', 'Off')
+getData('popupColor', 'localPopupColor', '#808080')
 
 var textTag = 'pre';
 
+var toggle = false;
+
 function clickPane(t) {
-  let tc = t.children;
-  for (var i = 0; i < tc.length; i++) {
-    tc[i].style.opacity = '0.2';
+  let tc = t.parentElement.children;
+  if (toggle == false) {
+    for (var i = 0; i < tc.length; i++) {
+      tc[i].style.opacity = '0.2';
+    }
+    t.style.backgroundImage = 'url("assets/drawing-11.svg")';
+  } else {
+    let tc = t.parentElement.children;
+    if (toggle == false) {
+      for (var i = 0; i < tc.length; i++) {
+        tc[i].style.opacity = '1';
+      }
+      t.style.backgroundImage = 'none';
+    }
   }
-  t.style.backgroundImage = 'url("assets/drawing-11.svg")';
 }
 
 function addPane(choice, extraParam) {
@@ -116,6 +129,7 @@ function addPane(choice, extraParam) {
     title.setAttribute('contenteditable', 'true')
     title.setAttribute('class', 'newp')
     title.innerHTML = 'Unnamed pane';
+    title.style = `margin-top: 0.5vw; margin-bottom: 1vw;`;
     var description = document.createElement(textTag);
     description.setAttribute('contenteditable', 'true')
     description.setAttribute('oninput', 'longerPane(this)')
@@ -138,6 +152,7 @@ function addPane(choice, extraParam) {
     title.setAttribute('contenteditable', 'true')
     title.setAttribute('class', 'newp')
     title.innerHTML = 'Unnamed pane';
+    title.style = 'margin-top: 0.5vw; margin-bottom: 1vw;';
     var description = document.createElement(textTag);
     description.setAttribute('contenteditable', 'true')
     description.setAttribute('oninput', 'longerPane(this)')
@@ -177,6 +192,7 @@ function addPane(choice, extraParam) {
         ltitle.setAttribute('contenteditable', 'true')
         ltitle.setAttribute('class', 'newp popupChange')
         ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
+        ltitle.style = 'margin-top: 0.5vw; margin-bottom: 1vw;';
         var ldescription = document.createElement(textTag);
         ldescription.setAttribute('contenteditable', 'true')
         ldescription.setAttribute('oninput', 'longerPane(this)')
@@ -476,6 +492,12 @@ function changeFontSize(t) {
   localStorage.setItem('localFontSize', t.value)
 }
 
+function changePopupColor(t) {
+  document.getElementById('popup').style.backgroundColor = `${t.value}`;
+  document.getElementById('popup').style.opacity = '0.85';
+  localStorage.setItem('localPopupColor', t.value)
+}
+
 
 changeTopbar(document.getElementById('topcolor'))
 changeAllColors(document.getElementById('paneColor'))
@@ -488,30 +510,33 @@ streakEnable(document.getElementById('toggleStreak'))
 newFontFamily(document.getElementById('fonts'))
 changeFontSize(document.getElementById('textFontSize'))
 extendEnable(document.getElementById('toggleExtend'))
+changePopupColor(document.getElementById('popupColor'))
 
 // Doesn't take rgb for some reason
-function setPalette(top, panes, background, fontColor, buttons) {
+function setPalette(top, panes, background, fontColor, buttons, popup) {
   document.getElementById('topcolor').value = top;
   document.getElementById('paneColor').value = panes;
   document.getElementById('backColor').value = background;
   document.getElementById('textFontColor').value = fontColor;
   document.getElementById('buttonColor').value = buttons;
+  document.getElementById('popupColor').value = popup;
   changeTopbar(document.getElementById('topcolor'))
   changeAllColors(document.getElementById('paneColor'))
   changeBackColor(document.getElementById('backColor'))
   changeFontColor(document.getElementById('textFontColor'))
   changeButtonColor(document.getElementById('buttonColor'))
+  changePopupColor(document.getElementById('popupColor'))
 }
 
 function paletteC(t) {
   if (t == "Default") {
-    setPalette('#0c770c', '#c0c0c0', '#fcfcfc', 'black', '#d0d0d7')
+    setPalette('#0c770c', '#c0c0c0', '#fcfcfc', 'black', '#d0d0d7', '#808080')
   }
   if (t == "Light") {
-    setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', 'black', '#d0d0d7')
+    setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', 'black', '#d0d0d7', '#808080')
   }
   if (t == "Dark") {
-    setPalette('#040303', '#333333', '#171717', '#cea4a4', '#515151')
+    setPalette('#040303', '#333333', '#171717', '#cea4a4', '#515151', '#484848')
   }
 }
 

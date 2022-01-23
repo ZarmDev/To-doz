@@ -128,16 +128,10 @@ body {
   margin: 0;
   margin-left: 1.2vw;
 }
-/* Not sure why this is needed to be 3 */
-.pane pre:nth-child(3) {
+/* Not working */
+/* .pane pre:nth-child(3) {
   margin-top: 1vw;
   margin-bottom: 1vw;
-}
-/* .pane pre:nth-child(2) {
-  margin: 1vw;
-}
-.pane pre:nth-child(3) {
-  margin: 1vw;
 } */
 .pane button {
   margin-top: 2vw;

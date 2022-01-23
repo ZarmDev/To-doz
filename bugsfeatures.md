@@ -11,8 +11,6 @@ Would that mean that in addStreak() the streak should be checked again?
 
 Consider making better animations. lol
 
-When too much text is in pane, add a width and background color to pane that mimics the pane and change it depending on scrollHeight
-
 A note:
 
 There also has to be a localstorage/cookie to check if streak was added to because then they can add as much times in one day
@@ -108,3 +106,9 @@ When you enter a new line and paste, font size is changed
 https://stackoverflow.com/questions/2176861/javascript-get-clipboard-data-on-paste-event-cross-browser/2177059#2177059
 
 Restore old pane feature (save to oldPane storage and access when needed)
+
+Heights are inconsistent
+
+Color pickers don't support rgba or transparent hexs, workaround used is opacity
+
+Blur doesn't work, maybe because it doesn't work on opacque elements
