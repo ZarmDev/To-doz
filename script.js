@@ -99,9 +99,11 @@ function clickPane(t) {
 
 function addPane(choice, extraParam) {
   // create function with all of this accept you can change the attributes
+  console.log(localStorage, 'Oh...');
   if (choice.includes('temp')) {
     var pane = document.createElement('div');
-    pane.setAttribute('class', 'pane quietDown')
+    pane.setAttribute('class', 'pane quietDown panenew')
+    console.log(pane.className)
     var backgroundDiv = document.createElement('div');
     backgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
     backgroundDiv.setAttribute('onclick', 'clickPane(this)')
@@ -125,7 +127,8 @@ function addPane(choice, extraParam) {
     button2.innerHTML = '^';
   } else {
     var pane = document.createElement('div');
-    pane.setAttribute('class', 'pane quietDown')
+    pane.setAttribute('class', 'pane quietDown panenew')
+    console.log(pane.className);
     // pane.style.backgroundColor = document.getElementById('paneColor');
     var button = document.createElement('button');
     button.setAttribute('onclick', 'removeT(this)')
@@ -152,25 +155,21 @@ function addPane(choice, extraParam) {
         button.style.borderRadius = '10px';
         button2.style.borderRadius = '10px';
       }
+      allpanes.appendChild(pane)
+      pane.appendChild(button)
       if (extraParam.includes('extend')) {
         pane.appendChild(button2)
       }
-      allpanes.appendChild(pane)
-      pane.appendChild(button)
       pane.appendChild(title)
       pane.appendChild(description)
       break;
     case 'load':
       // It's not nessarcy to create new elements every loop as only some elements need to be recreated (the pre tags)
-      console.log(localStorage);
       for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
         // Unnamed pane|Description|important^
         var lpane = document.createElement('div');
-        lpane.setAttribute('class', `${localStorage.getItem('localItems').split(',')[t].split('|')[2]} quietDown`)
-        var lbutton = document.createElement('button');
-        lbutton.setAttribute('onclick', 'removeT(this)')
-        lbutton.innerHTML = 'X';
-        lbutton.setAttribute('class', 'popupChange button')
+        console.log(`${localStorage.getItem('localItems').split(',')[t].split('|')[2]}`);
+        lpane.setAttribute('class', `${localStorage.getItem('localItems').split(',')[t].split('|')[2]}`)
         // if (localStorage.getItem('localItems').split(',')[t].split('|')[2].split('^')[0]) {
         // add label
         // }
@@ -183,10 +182,27 @@ function addPane(choice, extraParam) {
         ldescription.setAttribute('oninput', 'longerPane(this)')
         ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
         ldescription.setAttribute('class', 'newp popupChange')
-        allpanes.appendChild(lpane)
-        lpane.appendChild(lbutton)
-        lpane.appendChild(ltitle)
-        lpane.appendChild(ldescription)
+        // for some reason when moving button out of scope, it doesn't work
+        var lbutton = document.createElement('button');
+        lbutton.setAttribute('onclick', 'removeT(this)')
+        lbutton.innerHTML = 'X';
+        lbutton.setAttribute('class', 'popupChange button')
+        var lbackgroundDiv = document.createElement('div');
+        lbackgroundDiv.setAttribute('onclick', 'clickPane(this)')
+        lbackgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
+        if (localStorage.getItem('localItems').split(',')[t].split('|')[2].includes('panetemp')) {
+          allpanes.appendChild(lpane)
+          lpane.appendChild(lbackgroundDiv)
+          lpane.appendChild(lbutton)
+          lpane.appendChild(ltitle)
+          lpane.appendChild(ldescription)
+        } else if (localStorage.getItem('localItems').split(',')[t].split('|')[2].includes('panenew')) {
+          allpanes.appendChild(lpane)
+          console.log(lbutton, lpane);
+          lpane.appendChild(lbutton)
+          lpane.appendChild(ltitle)
+          lpane.appendChild(ldescription)
+        }
       }
       break;
     case 'defaultoption':
@@ -198,53 +214,20 @@ function addPane(choice, extraParam) {
       pane.appendChild(description)
       break;
     case 'defaulttemp':
-      pane.setAttribute('class', 'newptemp popupChange')
+      pane.setAttribute('class', 'panetemp popupChange pane')
       if (extraParam.includes('rounded')) {
         pane.style.borderRadius = '10px';
         button.style.borderRadius = '10px';
         button2.style.borderRadius = '10px';
       }
-      if (extraParam.includes('extend')) {
-        pane.appendChild(button2)
-      }
       allpanes.appendChild(pane)
       pane.appendChild(backgroundDiv)
       pane.appendChild(button)
+      if (extraParam.includes('extend')) {
+        pane.appendChild(button2)
+      }
       pane.appendChild(title)
       pane.appendChild(description)
-      break;
-    case 'loadtemp':
-      // It's not nessarcy to create new elements every loop as only some elements need to be recreated (the pre tags)
-      console.log(localStorage);
-      for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
-        // Unnamed pane|Description|important^
-        var lpane = document.createElement('div');
-        lpane.setAttribute('class', 'pane quietDown')
-        var lbutton = document.createElement('button');
-        lbutton.setAttribute('onclick', 'removeT(this)')
-        lbutton.innerHTML = 'X';
-        lbutton.setAttribute('class', 'popupChange button')
-        // if (localStorage.getItem('localItems').split(',')[t].split('|')[2].split('^')[0]) {
-        // add label
-        // }
-        var ltitle = document.createElement(textTag);
-        ltitle.setAttribute('contenteditable', 'true')
-        ltitle.setAttribute('class', 'newp popupChange')
-        ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
-        var ldescription = document.createElement(textTag);
-        ldescription.setAttribute('contenteditable', 'true')
-        ldescription.setAttribute('oninput', 'longerPane(this)')
-        ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
-        ldescription.setAttribute('class', 'newp popupChange')
-        var lbackgroundDiv = document.createElement('div');
-        lbackgroundDiv.setAttribute('onclick', 'clickPane(this)')
-        lbackgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
-        allpanes.appendChild(lpane)
-        lpane.appendChild(lbackgroundDiv)
-        lpane.appendChild(lbutton)
-        lpane.appendChild(ltitle)
-        lpane.appendChild(ldescription)
-      }
       break;
   }
   changeTopbar(document.getElementById('topcolor'))
@@ -262,13 +245,13 @@ function addPane(choice, extraParam) {
 
 if (localStorage.getItem('localItems') == undefined || localStorage.getItem('localItems').split('|')[1] == 'undefined' || localStorage.getItem('localItems') == '') {
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
-    addPane('defaultoption', null)
+    addPane('defaultoption', '')
   } else {
     addPane('defaultoption', 'extend')
   }
 } else {
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
-    addPane('load', null)
+    addPane('load', '')
   } else {
     addPane('load', 'extend')
   }
@@ -294,25 +277,21 @@ function newItem(t) {
   if (t == '+') {
     if (document.getElementById('rounded').value == 'Off') {
       if (document.getElementById('toggleExtend').value == 'Off') {
-        console.log('z');
-        addPane('default', null)
+        addPane('default', '')
       } else {
-        console.log('zuck');
         addPane('default', 'extend')
       }
     } else {
       if (document.getElementById('toggleExtend').value == 'Off') {
-        console.log('pw');
         addPane('default', 'rounded')
       } else {
-        console.log('ES');
         addPane('default', 'rounded extend')
       }
     }
   } else if (t == 'temp') {
     if (document.getElementById('rounded').value == 'Off') {
       if (document.getElementById('toggleExtend').value == 'Off') {
-        addPane('defaulttemp', null)
+        addPane('defaulttemp', '')
       } else {
         addPane('defaulttemp', 'extend')
       }
@@ -481,8 +460,6 @@ function newFontFamily(t) {
 }
 
 function extendEnable(t) {
-  console.log(t, t.value);
-  console.log(document.getElementsByClassName('button2'), document.getElementsByClassName('button2').length);
   document.querySelectorAll('.button2').forEach(e => e.remove());
   if (t.value == 'On') {
     for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
@@ -561,7 +538,6 @@ function extend(t) {
     }, 1)
   } else {
     let newInterval = setInterval(function () {
-      console.log('test');
       m -= height / 10;
       t.parentElement.style.height = `${m}px`;
       console.log(`height: ${height}, 260, scrollHeight: ${scrollHeight}, add ${260 + scrollHeight}`);
@@ -576,6 +552,7 @@ function extend(t) {
 function clearData() {
   localStorage.clear()
   document.cookie = ''
+  window.close()
 }
 
 function test(t) {
