@@ -112,3 +112,34 @@ Heights are inconsistent
 Color pickers don't support rgba or transparent hexs, workaround used is opacity
 
 Blur doesn't work, maybe because it doesn't work on opacque elements
+
+Add goal
+
+Consider using typescript and react
+
+Instead of addpane(), you can do:
+
+<div id="allpanes">
+<pane>
+</div>
+
+function Pane(props) {
+  return <div class="{props.class}">
+  <pre>{props.title}</pre>
+  <pre>{props.description}</pre>
+  </div>;
+}
+
+ReactDOM.render(<pane />, document.getElementsByTagName('body')[0])
+
+const streak = <h1>Streak: {getCookie('streak')}</h1>
+
+Work on new item select
+
+Use a phantom background instead of the pane background
+
+Ability to enter the localStorage to load the site
+
+Make date in setcookie also include minutes and seconds
+
+Constrict pane width if bigger than screensize

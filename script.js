@@ -23,12 +23,17 @@ if (mql.matches) {
   document.getElementById('allpanes').style.gridTemplateColumns = '1fr 1fr 1fr';
 }
 
-function setCookie(cname, cvalue) {
+function setCookie(cname, cvalue, days) {
+  document.cookie = ''
   var d = new Date();
-  d.setDate(d.getDate())
-  d.setUTCHours(23, 59, 59, 999);
+  console.log(d);
+  d.setDate(d.getDate() + days)
+  console.log(d);
+  d.setHours(23)
+  console.log(d);
   // d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  let expires = "expires=" + d.toUTCString();
+  let expires = "expires=" + d;
+  console.log(expires);
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
@@ -87,6 +92,7 @@ getData('fonts', 'localFontFamily', 'Open Sans')
 getData('textFontSize', 'localFontSize', '2ch')
 getData('toggleExtend', 'localExtendEnabled', 'Off')
 getData('popupColor', 'localPopupColor', '#808080')
+getData('theme', 'localThemeEnabled', 'Off')
 
 var textTag = 'pre';
 
@@ -94,6 +100,8 @@ var toggle = false;
 
 function clickPane(t) {
   let tc = t.parentElement.children;
+  t.style.width = t.parentElement.style.width;
+  t.style.height = t.parentElement.style.height;
   if (toggle == false) {
     for (var i = 0; i < tc.length; i++) {
       tc[i].style.opacity = '0.2';
@@ -127,14 +135,14 @@ function addPane(choice, extraParam) {
     button.setAttribute('class', 'button')
     var title = document.createElement(textTag);
     title.setAttribute('contenteditable', 'true')
-    title.setAttribute('class', 'newp')
+    title.setAttribute('class', 'newp title')
     title.innerHTML = 'Unnamed pane';
     title.style = `margin-top: 0.5vw; margin-bottom: 1vw;`;
     var description = document.createElement(textTag);
     description.setAttribute('contenteditable', 'true')
     description.setAttribute('oninput', 'longerPane(this)')
     description.innerHTML = 'Description';
-    description.setAttribute('class', 'newp')
+    description.setAttribute('class', 'newp description')
     var button2 = document.createElement('button');
     button2.setAttribute('onclick', 'extend(this)')
     button2.setAttribute('class', 'button2 extend')
@@ -152,7 +160,7 @@ function addPane(choice, extraParam) {
     title.setAttribute('contenteditable', 'true')
     title.setAttribute('class', 'newp')
     title.innerHTML = 'Unnamed pane';
-    title.style = 'margin-top: 0.5vw; margin-bottom: 1vw;';
+    title.style = 'margin-top: 0.5vw; margin-bottom: 1vw; text-align: center;';
     var description = document.createElement(textTag);
     description.setAttribute('contenteditable', 'true')
     description.setAttribute('oninput', 'longerPane(this)')
@@ -190,14 +198,14 @@ function addPane(choice, extraParam) {
         // }
         var ltitle = document.createElement(textTag);
         ltitle.setAttribute('contenteditable', 'true')
-        ltitle.setAttribute('class', 'newp popupChange')
+        ltitle.setAttribute('class', 'newp popupChange title')
         ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
         ltitle.style = 'margin-top: 0.5vw; margin-bottom: 1vw;';
         var ldescription = document.createElement(textTag);
         ldescription.setAttribute('contenteditable', 'true')
         ldescription.setAttribute('oninput', 'longerPane(this)')
         ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
-        ldescription.setAttribute('class', 'newp popupChange')
+        ldescription.setAttribute('class', 'newp popupChange description')
         // for some reason when moving button out of scope, it doesn't work
         var lbutton = document.createElement('button');
         lbutton.setAttribute('onclick', 'removeT(this)')
@@ -389,8 +397,8 @@ function changeFontColor(t) {
 }
 
 function changeAllColors(t) {
-  for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
-    document.getElementsByClassName('pane')[i].style.backgroundColor = t.value;
+  for (var i = 0; i < items.length; i++) {
+    items[i].style.backgroundColor = t.value;
   }
   localStorage.setItem('localPan', t.value)
 }
@@ -424,8 +432,8 @@ function roundC(t) {
     document.getElementById('topbar').style.borderRadius = '0 0 10px 10px';
     document.getElementById('popup').style.borderRadius = '5px';
     document.getElementById('dropdown-content').style.borderRadius = '5px';
-    for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
-      document.getElementsByClassName('pane')[i].style.borderRadius = '10px';
+    for (var i = 0; i < items.length; i++) {
+      items[i].style.borderRadius = '10px';
     }
     for (var i2 = 0; i2 < document.getElementsByTagName('button').length; i2++) {
       document.getElementsByTagName('button')[i2].style.borderRadius = '10px';
@@ -437,8 +445,8 @@ function roundC(t) {
     document.getElementById('topbar').style.borderRadius = '0';
     document.getElementById('popup').style.borderRadius = '0';
     document.getElementById('dropdown-content').style.borderRadius = '0';
-    for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
-      document.getElementsByClassName('pane')[i].style.borderRadius = '0';
+    for (var i = 0; i < items.length; i++) {
+      items[i].style.borderRadius = '0';
     }
     for (var i2 = 0; i2 < document.getElementsByTagName('button').length; i2++) {
       document.getElementsByTagName('button')[i2].style.borderRadius = '0';
@@ -478,8 +486,8 @@ function newFontFamily(t) {
 function extendEnable(t) {
   document.querySelectorAll('.button2').forEach(e => e.remove());
   if (t.value == 'On') {
-    for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
-      document.getElementById('rounded').value == 'On' ? document.getElementsByClassName('pane')[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" style="border-radius: 10px;" onclick="extend(this)">^</button>`) : document.getElementsByClassName('pane')[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" onclick="extend(this)">^</button>`);
+    for (var i = 0; i < items.length; i++) {
+      document.getElementById('rounded').value == 'On' ? items[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" style="border-radius: 10px;" onclick="extend(this)">^</button>`) : items[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" onclick="extend(this)">^</button>`);
     }
   }
   localStorage.setItem('localExtendEnabled', t.value)
@@ -498,6 +506,21 @@ function changePopupColor(t) {
   localStorage.setItem('localPopupColor', t.value)
 }
 
+function themeEnable(t) {
+  if (t.value == 'On') {
+    let d = new Date();
+    if (d.getHours() >= 20 || d.getHours() <= 6) {
+      console.log('Dark');
+      paletteC('Dark')
+      // Else if both have or equal to 20 but it should work as sexpected because then 7:00 PM would be dark mode as opposed to it just not working
+    } else if (d.getHours() > 6 && d.getHours() <= 20) {
+      console.log('Light');
+      paletteC('Light')
+    }
+  }
+  localStorage.setItem('localThemeEnabled', t.value)
+}
+
 
 changeTopbar(document.getElementById('topcolor'))
 changeAllColors(document.getElementById('paneColor'))
@@ -511,9 +534,11 @@ newFontFamily(document.getElementById('fonts'))
 changeFontSize(document.getElementById('textFontSize'))
 extendEnable(document.getElementById('toggleExtend'))
 changePopupColor(document.getElementById('popupColor'))
+themeEnable(document.getElementById('theme'))
 
 // Doesn't take rgb for some reason
 function setPalette(top, panes, background, fontColor, buttons, popup) {
+  console.log(arguments);
   document.getElementById('topcolor').value = top;
   document.getElementById('paneColor').value = panes;
   document.getElementById('backColor').value = background;
@@ -530,10 +555,10 @@ function setPalette(top, panes, background, fontColor, buttons, popup) {
 
 function paletteC(t) {
   if (t == "Default") {
-    setPalette('#0c770c', '#c0c0c0', '#fcfcfc', 'black', '#d0d0d7', '#808080')
+    setPalette('#0c770c', '#c0c0c0', '#fcfcfc', '#000000', '#d0d0d7', '#808080')
   }
   if (t == "Light") {
-    setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', 'black', '#d0d0d7', '#808080')
+    setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', '#000000', '#d0d0d7', '#808080')
   }
   if (t == "Dark") {
     setPalette('#040303', '#333333', '#171717', '#cea4a4', '#515151', '#484848')
@@ -590,9 +615,15 @@ function test(t) {
 }
 
 function longerPane(t) {
-  console.log(t);
   if (document.getElementById('toggleExtend').value != 'On') {
-    t.parentElement.style.height = 80 + t.scrollHeight + "px";
+    if (t.parentElement.getElementsByClassName('newp')[1].scrollHeight < window.innerHeight) {
+      console.log(t.parentElement.getElementsByClassName('newp')[1], 80+ t.parentElement.getElementsByClassName('newp')[1].scrollHeight);
+      t.parentElement.style.height = 80 + t.parentElement.getElementsByClassName('newp')[1].scrollHeight + "px";
+      console.log(t.parentElement);
+    }
+    if (t.parentElement.getElementsByClassName('newp')[1].scrollWidth < window.innerWidth) {
+      t.parentElement.style.width = t.parentElement.getElementsByClassName('newp')[1].scrollWidth + "px";
+    }
   }
 }
 
@@ -611,6 +642,10 @@ function disableData() {
 
 // Either this or take this for loop out so there is one main size that changes if you input
 
-for (var i = 0; i < document.getElementsByClassName('pane').length; i++) {
-  document.getElementsByClassName('pane')[i].style.height = 80 + document.getElementsByClassName('pane')[i].getElementsByClassName('newp')[1].scrollHeight + "px";
-}
+
+// Temp solution
+setTimeout(function () {
+  for (var t = 0; t < items.length; t++) {
+    longerPane(items[t].getElementsByClassName('newp')[1])
+  }
+}, 1000)

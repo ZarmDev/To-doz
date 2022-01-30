@@ -8,3 +8,4 @@ https://www.w3schools.com/js/js_cookies.asp
 https://stackoverflow.com/questions/10842471/how-to-remove-all-elements-of-a-certain-class-from-the-dom
 https://stackoverflow.com/questions/9330671/add-linebreak-to-textcontent-or-innertext-only-in-chrome
 https://www.w3schools.com/Css/css_dropdowns.asp
+https://www.w3.org/Style/Examples/007/center.en.html
