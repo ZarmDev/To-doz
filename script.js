@@ -566,8 +566,15 @@ function paletteC(t) {
 }
 
 function addStreak() {
-  setCookie('streak', parseInt(getCookie('streak')) + 1, 1)
-  document.getElementById('streak').innerHTML = `Your streak: ${getCookie('streak')}🔥`;
+  let date = new Date();
+  if (localStorage.getItem('oldDate') == undefined) {
+    localStorage.setItem('oldDate', date.toDateString())
+    setCookie('streak', parseInt(getCookie('streak')) + 1, 1)
+    document.getElementById('streak').innerHTML = `Your streak: ${getCookie('streak')}🔥`;
+  } else if (localStorage.getItem('oldDate') != date.toDateString()) {
+    setCookie('streak', parseInt(getCookie('streak')) + 1, 1)
+    document.getElementById('streak').innerHTML = `Your streak: ${getCookie('streak')}🔥`;
+  }
 }
 
 function resetStreak() {

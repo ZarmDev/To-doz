@@ -3,17 +3,11 @@
 After testing the below doesn't work...
 - User can inject code because of use of innerHTML
 
-Include selects when changing button background colors
-
 If the website can be restored with crtl+t the next day, would the website have the same date and data? (not be reloaded)
 
 Would that mean that in addStreak() the streak should be checked again?
 
 Consider making better animations. lol
-
-A note:
-
-There also has to be a localstorage/cookie to check if streak was added to because then they can add as much times in one day
 
 When allItems is saved to localStorage, replace ',' with another letter and when it's loaded, split by that letter
 This lets users add commas in their panes
@@ -141,5 +135,3 @@ Use a phantom background instead of the pane background
 Ability to enter the localStorage to load the site
 
 Make date in setcookie also include minutes and seconds
-
-Constrict pane width if bigger than screensize
