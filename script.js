@@ -1,3 +1,5 @@
+console.log(localStorage.getItem('localItems'));
+
 const allpanes = document.getElementById('allpanes');
 const popup = document.getElementById('popup');
 const data = document.getElementById('data');
@@ -283,7 +285,7 @@ if (localStorage.getItem('localItems') == undefined || localStorage.getItem('loc
 
 var allItems = [];
 
-setInterval(function () {
+var saveItems = setInterval(function () {
   // Update the panes with how they are configured
   // checkConfig()
   // Push all pane text in one array with a format of Title|Description|config
@@ -345,7 +347,7 @@ function popupAnim() {
   if (mql.matches) {
     let t = 0;
     var myInterval = setInterval(function () {
-      popup.style.bottom = `${10 - t}vw`;
+      popup.style.bottom = `${-15 - t}%`;
       popup.style.visibility = 'visible';
       t += 0.8;
       if (t > 45) {
@@ -521,6 +523,29 @@ function themeEnable(t) {
   localStorage.setItem('localThemeEnabled', t.value)
 }
 
+function submitLocalStorage() {
+  clearInterval(saveItems)
+  console.log(document.getElementById('enterlocal').value);
+  localStorage.setItem('localItems', document.getElementById('enterlocal').value)
+  alert(`Please open the page again to see results DEBUG: ${localStorage.getItem('localItems')}`)
+}
+
+let copy = document.getElementById('copy');
+
+function changeBack() {
+  copy.innerText = 'Copy'
+}
+
+function getLocalStorage() {
+  if (copy.innerText == 'Copy') {
+    copy.innerText = 'Copied'
+  }
+  document.getElementById('localItemsStorage').value = localStorage.getItem('localItems').replace(/\n/g, "<br>")
+  document.getElementById('localItemsStorage').select();
+  document.getElementById('localItemsStorage').setSelectionRange(0, 99999); /* For mobile devices */
+   /* Copy the text inside the text field */
+  navigator.clipboard.writeText(document.getElementById('localItemsStorage').value);
+}
 
 changeTopbar(document.getElementById('topcolor'))
 changeAllColors(document.getElementById('paneColor'))
@@ -607,9 +632,9 @@ function extend(t) {
 }
 
 function clearData() {
+  clearInterval(saveItems)
   localStorage.clear()
   document.cookie = ''
-  window.close()
 }
 
 function test(t) {

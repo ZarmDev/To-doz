@@ -135,3 +135,5 @@ Use a phantom background instead of the pane background
 Ability to enter the localStorage to load the site
 
 Make date in setcookie also include minutes and seconds
+
+You can't store innerText spaces in plaintext and therefore you can't enter the localItems because the spaces won't register

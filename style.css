@@ -205,3 +205,21 @@ body {
 #data {
   display: none;
 }
+#copy {
+  background-color: black;
+  padding: 0.5vw;
+  color: white;
+  position: absolute;
+  width: 8ch;
+  margin-top: -3.3ch;
+  margin-right: 8ch;
+  text-align: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+  right: -6.3ch;
+}
+p:hover #copy {
+  visibility: visible;
+  opacity: 1;
+}
