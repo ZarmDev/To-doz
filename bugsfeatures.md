@@ -16,8 +16,6 @@ Tested next month, doesn't work need to change system
 
 Add popup for Firefox users to disable protection settings for the streak
 
-When newItem is added, buttons aren't rounded
-
 Automatically extend when scrollHeight exceeds 300
 
 Widgets:

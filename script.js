@@ -674,10 +674,8 @@ function disableData() {
 
 // Either this or take this for loop out so there is one main size that changes if you input
 
-
-// Temp solution
-setTimeout(function () {
+window.onload = function () {
   for (var t = 0; t < items.length; t++) {
     longerPane(items[t].getElementsByClassName('newp')[1])
   }
-}, 1000)
+}

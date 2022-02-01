@@ -128,9 +128,12 @@ body {
 .title {
   margin-left: auto;
   margin-right: -20px;
+  font-size: 2.1ch;
+  font-weight: 500;
 }
 .description {
   margin-left: 1vw;
+  font-size: 2ch;
 }
 /* Not working */
 /* .pane pre:nth-child(3) {
@@ -141,7 +144,6 @@ body {
   margin-top: 2vw;
 }
 .newp {
-  font-size: 2ch;
   font-family: 'Open Sans', sans-serif;
 }
 .button {
