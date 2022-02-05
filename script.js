@@ -120,58 +120,45 @@ function clickPane(t) {
   }
 }
 
+function extra(t) {
+  //
+}
+
 function addPane(choice, extraParam) {
   // create function with all of this accept you can change the attributes
   console.log(localStorage, 'Oh...');
+  var pane = document.createElement('div');
+  pane.setAttribute('class', 'pane quietDown panenew')
+  console.log(pane.className);
+  // pane.style.backgroundColor = document.getElementById('paneColor');
+  // Consider changing button innerHTML to textContext
+  var button = document.createElement('button');
+  button.setAttribute('onclick', 'removeT(this)')
+  button.innerHTML = 'X';
+  button.setAttribute('class', 'button')
+  var title = document.createElement(textTag);
+  title.setAttribute('contenteditable', 'true')
+  title.setAttribute('class', 'newp')
+  title.setAttribute('oninput', 'longerPane(this)')
+  title.innerHTML = 'Unnamed pane';
+  title.style = 'margin-top: 0.5vw; margin-bottom: 1vw; text-align: center;';
+  var description = document.createElement(textTag);
+  description.setAttribute('contenteditable', 'true')
+  description.setAttribute('oninput', 'longerPane(this)')
+  description.innerHTML = 'Description';
+  description.setAttribute('class', 'newp')
+  var button2 = document.createElement('button');
+  button2.setAttribute('onclick', 'extend(this)')
+  button2.setAttribute('class', 'button2')
+  button2.innerHTML = '^';
+  var other = document.createElement('button');
+  other.setAttribute('onclick', 'extra(this)')
+  other.setAttribute('class', 'button3')
+  other.innerHTML = '...';
   if (choice.includes('temp')) {
-    var pane = document.createElement('div');
-    pane.setAttribute('class', 'pane quietDown panenew')
-    console.log(pane.className)
     var backgroundDiv = document.createElement('div');
     backgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
     backgroundDiv.setAttribute('onclick', 'clickPane(this)')
-    // pane.style.backgroundColor = document.getElementById('paneColor');
-    var button = document.createElement('button');
-    button.setAttribute('onclick', 'removeT(this)')
-    button.innerHTML = 'X';
-    button.setAttribute('class', 'button')
-    var title = document.createElement(textTag);
-    title.setAttribute('contenteditable', 'true')
-    title.setAttribute('class', 'newp title')
-    title.innerHTML = 'Unnamed pane';
-    title.style = `margin-top: 0.5vw; margin-bottom: 1vw;`;
-    var description = document.createElement(textTag);
-    description.setAttribute('contenteditable', 'true')
-    description.setAttribute('oninput', 'longerPane(this)')
-    description.innerHTML = 'Description';
-    description.setAttribute('class', 'newp description')
-    var button2 = document.createElement('button');
-    button2.setAttribute('onclick', 'extend(this)')
-    button2.setAttribute('class', 'button2 extend')
-    button2.innerHTML = '^';
-  } else {
-    var pane = document.createElement('div');
-    pane.setAttribute('class', 'pane quietDown panenew')
-    console.log(pane.className);
-    // pane.style.backgroundColor = document.getElementById('paneColor');
-    var button = document.createElement('button');
-    button.setAttribute('onclick', 'removeT(this)')
-    button.innerHTML = 'X';
-    button.setAttribute('class', 'button')
-    var title = document.createElement(textTag);
-    title.setAttribute('contenteditable', 'true')
-    title.setAttribute('class', 'newp')
-    title.innerHTML = 'Unnamed pane';
-    title.style = 'margin-top: 0.5vw; margin-bottom: 1vw; text-align: center;';
-    var description = document.createElement(textTag);
-    description.setAttribute('contenteditable', 'true')
-    description.setAttribute('oninput', 'longerPane(this)')
-    description.innerHTML = 'Description';
-    description.setAttribute('class', 'newp')
-    var button2 = document.createElement('button');
-    button2.setAttribute('onclick', 'extend(this)')
-    button2.setAttribute('class', 'button2 extend')
-    button2.innerHTML = '^';
   }
   switch (choice) {
     case 'default':
@@ -179,12 +166,14 @@ function addPane(choice, extraParam) {
         pane.style.borderRadius = '10px';
         button.style.borderRadius = '10px';
         button2.style.borderRadius = '10px';
+        button3.style.borderRadius
       }
       allpanes.appendChild(pane)
       pane.appendChild(button)
       if (extraParam.includes('extend')) {
         pane.appendChild(button2)
       }
+      pane.appendChild(other)
       pane.appendChild(title)
       pane.appendChild(description)
       break;
@@ -203,6 +192,7 @@ function addPane(choice, extraParam) {
         ltitle.setAttribute('class', 'newp popupChange title')
         ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
         ltitle.style = 'margin-top: 0.5vw; margin-bottom: 1vw;';
+        ltitle.setAttribute('oninput', 'longerPane(this)')
         var ldescription = document.createElement(textTag);
         ldescription.setAttribute('contenteditable', 'true')
         ldescription.setAttribute('oninput', 'longerPane(this)')
@@ -216,16 +206,22 @@ function addPane(choice, extraParam) {
         var lbackgroundDiv = document.createElement('div');
         lbackgroundDiv.setAttribute('onclick', 'clickPane(this)')
         lbackgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
+        var lother = document.createElement('button');
+        lother.setAttribute('onclick', 'extra(this)')
+        lother.setAttribute('class', 'button3')
+        lother.innerHTML = '...';
         if (localStorage.getItem('localItems').split(',')[t].split('|')[2].includes('panetemp')) {
           allpanes.appendChild(lpane)
           lpane.appendChild(lbackgroundDiv)
           lpane.appendChild(lbutton)
+          lpane.appendChild(lother)
           lpane.appendChild(ltitle)
           lpane.appendChild(ldescription)
         } else if (localStorage.getItem('localItems').split(',')[t].split('|')[2].includes('panenew')) {
           allpanes.appendChild(lpane)
           console.log(lbutton, lpane);
           lpane.appendChild(lbutton)
+          lpane.appendChild(lother)
           lpane.appendChild(ltitle)
           lpane.appendChild(ldescription)
         }
@@ -291,7 +287,7 @@ var saveItems = setInterval(function () {
   // Push all pane text in one array with a format of Title|Description|config
   // Add oninput to all pane divs to trgiger a oninput
   for (var i = 0; i < items.length; i++) {
-    allItems.push(`${items[i].getElementsByClassName('newp')[0].textContent}|${items[i].getElementsByClassName('newp')[1].innerText}|${items[i].className}`);
+    allItems.push(`${items[i].getElementsByClassName('newp')[0].innerText}|${items[i].getElementsByClassName('newp')[1].innerText}|${items[i].className}`);
     // Push code before and `${items[i].getElementsByClassName('label')[0].textContent}`) so the format:
     // Unnamed pane|Description|important
   }
@@ -543,7 +539,7 @@ function getLocalStorage() {
   document.getElementById('localItemsStorage').value = localStorage.getItem('localItems').replace(/\n/g, "<br>")
   document.getElementById('localItemsStorage').select();
   document.getElementById('localItemsStorage').setSelectionRange(0, 99999); /* For mobile devices */
-   /* Copy the text inside the text field */
+  /* Copy the text inside the text field */
   navigator.clipboard.writeText(document.getElementById('localItemsStorage').value);
 }
 
@@ -647,14 +643,24 @@ function test(t) {
 }
 
 function longerPane(t) {
+  var chose = null;
+  console.log('done');
+  if (t == t.parentElement.getElementsByClassName('newp')[1]) {
+    chose = t.parentElement.getElementsByClassName('newp')[1];
+  } else {
+    console.log('test');
+    chose = t.parentElement.getElementsByClassName('newp')[0];
+  }
   if (document.getElementById('toggleExtend').value != 'On') {
-    if (t.parentElement.getElementsByClassName('newp')[1].scrollHeight < window.innerHeight) {
-      console.log(t.parentElement.getElementsByClassName('newp')[1], 80+ t.parentElement.getElementsByClassName('newp')[1].scrollHeight);
-      t.parentElement.style.height = 80 + t.parentElement.getElementsByClassName('newp')[1].scrollHeight + "px";
+    if (chose.scrollHeight < window.innerHeight) {
+      console.log(t.parentElement.getElementsByClassName('newp')[1], 80 + chose.scrollHeight);
+      t.parentElement.style.height = 80 + chose.scrollHeight + "px";
       console.log(t.parentElement);
     }
-    if (t.parentElement.getElementsByClassName('newp')[1].scrollWidth < window.innerWidth) {
-      t.parentElement.style.width = t.parentElement.getElementsByClassName('newp')[1].scrollWidth + "px";
+    if (chose == t.parentElement.getElementsByClassName('newp')[1]) {
+      if (chose.scrollWidth < window.innerWidth) {
+        t.parentElement.style.width = chose.scrollWidth + "px";
+      }
     }
   }
 }
@@ -674,8 +680,18 @@ function disableData() {
 
 // Either this or take this for loop out so there is one main size that changes if you input
 
+function titleDescription(t) {
+  var calculate = t.parentElement.getElementsByClassName('newp')[0].scrollHeight + t.parentElement.getElementsByClassName('newp')[1].scrollHeight;
+  t.parentElement.style.width = t.scrollWidth + "px";
+  t.parentElement.style.height = 80 + calculate + "px";
+}
+
 window.onload = function () {
   for (var t = 0; t < items.length; t++) {
-    longerPane(items[t].getElementsByClassName('newp')[1])
+    titleDescription(items[t].getElementsByClassName('newp')[1])
   }
+}
+
+function extraPopupClose() {
+  document.getElementById('extraPopup').style.visibility = 'hidden';
 }

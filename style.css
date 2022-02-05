@@ -25,6 +25,63 @@ body {
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
   margin-top: 20px;
 }
+#extraPopup {
+  position: absolute;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  top: 35%;
+  left: 50%;
+  background-color: rgb(235, 235, 235);
+  z-index: 2;
+  margin-top: 10ch;
+  width: 75%;
+  height: 75%;
+  visibility: hidden;
+}
+#extraPopup button:nth-child(1) {
+  position: absolute;
+  left: 70vw;
+  background-color: red;
+  border: 2px 2px 2px 2px white;
+  box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
+  margin-top: 20px;
+}
+#extraPopup div span {
+  padding: 0.7vw;
+  width: 4vw;
+  height: 2vw;
+  border-radius: 5px;
+  font-weight: bold;
+  user-select: none;
+}
+/* background-color: red; */
+.critical {
+  background-color: rgb(204, 39, 39);
+}
+.critical:hover {
+  background-color: red;
+}
+/* background-color: rgb(136, 202, 204); */
+.important {
+  background-color: rgb(106, 155, 156);
+}
+.important:hover {
+  background-color: rgb(136, 202, 204);
+}
+/* background-color: rgb(231, 16, 16); */
+.due {
+  background-color: rgb(190, 39, 39);
+}
+.due:hover {
+  background-color: rgb(231, 16, 16);
+}
+/* background-color: rgb(120, 160, 41); */
+.due-soon {
+  background-color: rgb(90, 119, 31);
+}
+.due-soon:hover {
+  background-color: rgb(120, 160, 41);
+}
 #popup {
   position: absolute;
   width: 80%;
@@ -157,6 +214,13 @@ body {
   position: relative;
   left: 4vw;
   background-color: rgb(28, 49, 119);
+  border: 2px 2px 2px 2px white;
+  box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
+}
+.button3 {
+  position: relative;
+  left: 4vw;
+  background-color: rgb(197, 197, 197);
   border: 2px 2px 2px 2px white;
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
 }
