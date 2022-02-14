@@ -695,3 +695,38 @@ window.onload = function () {
 function extraPopupClose() {
   document.getElementById('extraPopup').style.visibility = 'hidden';
 }
+
+(async () => {
+  // create and show the notification
+  const showNotification = () => {
+    // create a new notification
+    const notification = new Notification('Remember to do your to-do list', {
+      body: 'Your important to-dos: none found',
+    });
+
+    // close the notification after 10 seconds
+    setTimeout(() => {
+      notification.close();
+    }, 10 * 1000);
+
+    // navigate to a URL when clicked
+    notification.addEventListener('click', () => {
+
+      alert(`Let's start practicing`)
+    });
+  }
+
+  // check notification permission
+  let granted = false;
+
+  if (Notification.permission === 'granted') {
+    granted = true;
+  } else if (Notification.permission !== 'denied') {
+    let permission = await Notification.requestPermission();
+    granted = permission === 'granted' ? true : false;
+  }
+
+  // show notification or error
+  granted ? showNotification() : showError();
+
+})();
