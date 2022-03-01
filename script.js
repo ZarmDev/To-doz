@@ -8,6 +8,9 @@ const item = document.createElement('div');
 
 const items = document.getElementsByClassName('pane');
 
+const sidebar = document.getElementById('sidebar');
+const sidebarlist = document.getElementById('sidebarlist');
+
 let mql = window.matchMedia('(max-width: 760px)');
 //rgb(153 153 153 / 70%)
 if (mql.matches && localStorage.getItem('localMobile') == undefined) {
@@ -100,6 +103,10 @@ var textTag = 'pre';
 
 var toggle = false;
 
+function findKey(key, object) {
+  return Object.keys(object).indexOf(key);
+}
+
 function clickPane(t) {
   let tc = t.parentElement.children;
   t.style.width = t.parentElement.style.width;
@@ -178,25 +185,54 @@ function addPane(choice, extraParam) {
       pane.appendChild(description)
       break;
     case 'load':
+      /*
+      'Section1': {
+    items: ['Unnamed pane|Do homework|pane quietDown newp', 'Unnamed pane|Do homework|pane quietDown newp'],
+    // backgroundColor: blue
+  },
+  'Section2': {
+    items: ['Pane|Do homework|pane quietDown newp', 'Pane|Do homework|pane quietDown newp'],
+    // backgroundColor: blue
+  }
+      var localItems = Object.values(localStorage.getItem('localItems'))[0].split(',');
+      for (var t = 0; t < localItems.length; t++) {
+        // all code
+      }
+      */
       // It's not nessarcy to create new elements every loop as only some elements need to be recreated (the pre tags)
-      for (var t = 0; t < localStorage.getItem('localItems').split(',').length; t++) {
+      /*
+      var localItems = undefined;
+      console.log(Object.values(JSON.parse(localStorage.getItem('localItems')))[0]);
+      if (Object.values(JSON.parse(localStorage.getItem('localItems')))[0].includes(',')) {
+        localItems = Object.values(JSON.parse(localStorage.getItem('localItems')))[0].split(',');
+      } else {
+        console.log(Object.values(JSON.parse(localStorage.getItem('localItems')))[0]);
+        localItems = `${Object.values(JSON.parse(localStorage.getItem('localItems')))[0]},`.split(',').splice(0, 1);
+      }
+      */
+      var localItems = JSON.parse(localStorage.getItem('localItems'));
+      console.log(JSON.parse(localStorage.getItem('localItems')), window.currentSection);
+      if (localItems[window.currentSection].includes(',')) {
+        localItems = localItems[window.currentSection].split(',');
+      } else {
+        localItems = `${localItems[window.currentSection]},`.split(',').splice(0, 1);
+      }
+      console.log('itemS', localItems);
+      for (var t = 0; t < localItems.length; t++) {
         // Unnamed pane|Description|important^
         var lpane = document.createElement('div');
-        console.log(`${localStorage.getItem('localItems').split(',')[t].split('|')[2]}`);
-        lpane.setAttribute('class', `${localStorage.getItem('localItems').split(',')[t].split('|')[2]}`)
-        // if (localStorage.getItem('localItems').split(',')[t].split('|')[2].split('^')[0]) {
-        // add label
-        // }
+        lpane.setAttribute('class', `${localItems[t].split('|')[2]}`)
+        console.log(`${localItems}`);
         var ltitle = document.createElement(textTag);
         ltitle.setAttribute('contenteditable', 'true')
         ltitle.setAttribute('class', 'newp popupChange title')
-        ltitle.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[0]}`;
+        ltitle.innerHTML = `${localItems[t].split('|')[0]}`;
         ltitle.style = 'margin-top: 0.5vw; margin-bottom: 1vw;';
         ltitle.setAttribute('oninput', 'longerPane(this)')
         var ldescription = document.createElement(textTag);
         ldescription.setAttribute('contenteditable', 'true')
         ldescription.setAttribute('oninput', 'longerPane(this)')
-        ldescription.innerHTML = `${localStorage.getItem('localItems').split(',')[t].split('|')[1]}`;
+        ldescription.innerHTML = `${localItems[t].split('|')[1]}`;
         ldescription.setAttribute('class', 'newp popupChange description')
         // for some reason when moving button out of scope, it doesn't work
         var lbutton = document.createElement('button');
@@ -210,14 +246,15 @@ function addPane(choice, extraParam) {
         lother.setAttribute('onclick', 'extra(this)')
         lother.setAttribute('class', 'button3')
         lother.innerHTML = '...';
-        if (localStorage.getItem('localItems').split(',')[t].split('|')[2].includes('panetemp')) {
+        console.log('local', localItems);
+        if (localItems[t].split('|')[2].includes('panetemp')) {
           allpanes.appendChild(lpane)
           lpane.appendChild(lbackgroundDiv)
           lpane.appendChild(lbutton)
           lpane.appendChild(lother)
           lpane.appendChild(ltitle)
           lpane.appendChild(ldescription)
-        } else if (localStorage.getItem('localItems').split(',')[t].split('|')[2].includes('panenew')) {
+        } else if (localItems[t].split('|')[2].includes('panenew')) {
           allpanes.appendChild(lpane)
           console.log(lbutton, lpane);
           lpane.appendChild(lbutton)
@@ -266,12 +303,18 @@ function addPane(choice, extraParam) {
 }
 
 if (localStorage.getItem('localItems') == undefined || localStorage.getItem('localItems').split('|')[1] == 'undefined' || localStorage.getItem('localItems') == '') {
+  var defaultObj = {
+    'Unnamed section': 'Unnamed pane|Do homework|pane quietDown panenew',
+  }
+  localStorage.setItem('localItems', JSON.stringify(defaultObj))
+  window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
     addPane('defaultoption', '')
   } else {
     addPane('defaultoption', 'extend')
   }
 } else {
+  window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
     addPane('load', '')
   } else {
@@ -279,9 +322,95 @@ if (localStorage.getItem('localItems') == undefined || localStorage.getItem('loc
   }
 }
 
+console.log(Object.keys(JSON.parse(localStorage.getItem('localItems'))));
+
+var parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
+
+function sectionItemRename(t, e) {
+  e.stopPropagation()
+  var renameSection = JSON.parse(localStorage.getItem('localItems'));
+  var newName = prompt('Section name:');
+  renameSection[newName] = renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)];
+  delete renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)];
+  window.currentSection = newName;
+  console.log(renameSection, t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3), JSON.parse(localStorage.getItem('localItems')), renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)]);
+  localStorage.setItem('localItems', JSON.stringify(renameSection))
+  while (document.getElementById('sidebarlist').lastChild) {
+    console.log(sidebarlist.lastChild);
+    sidebarlist.removeChild(sidebarlist.lastChild)
+  }
+  let parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
+  for (var i9 = 0; i9 < parsedJSON.length; i9++) {
+    var sectionItem = document.createElement('button');
+    sectionItem.innerHTML = parsedJSON[i9];
+    sectionItem.setAttribute('onclick', 'switchSection(this)')
+    var sectionItemDel = document.createElement('button');
+    sectionItemDel.innerHTML = 'X';
+    sectionItemDel.setAttribute('onclick', 'sectionItemDelete(this, event)')
+    var sectionItemRe = document.createElement('button');
+    sectionItemRe.innerHTML = '✏️';
+    sectionItemRe.setAttribute('onclick', 'sectionItemRename(this, event)')
+    sectionItem.appendChild(sectionItemRe)
+    sectionItem.appendChild(sectionItemDel)
+    sidebarlist.appendChild(sectionItem)
+    console.log('meow', Object.keys(JSON.parse(localStorage.getItem('localItems')))[i9]);
+  }
+}
+
+function sectionItemDelete(t, e) {
+  console.log(e);
+  e.stopPropagation()
+  var deleteSection = JSON.parse(localStorage.getItem('localItems'));
+  console.log(t.parentElement.innerText);
+  console.log(t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3));
+  delete deleteSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)]
+  console.log(deleteSection);
+  window.currentSection = Object.keys(deleteSection)[0];
+  localStorage.setItem('localItems', JSON.stringify(deleteSection))
+  while (document.getElementById('sidebarlist').lastChild) {
+    console.log(sidebarlist.lastChild);
+    sidebarlist.removeChild(sidebarlist.lastChild)
+  }
+  let parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
+  for (var i9 = 0; i9 < parsedJSON.length; i9++) {
+    var sectionItem = document.createElement('button');
+    sectionItem.innerHTML = parsedJSON[i9];
+    sectionItem.setAttribute('onclick', 'switchSection(this)')
+    var sectionItemDel = document.createElement('button');
+    sectionItemDel.innerHTML = 'X';
+    sectionItemDel.setAttribute('onclick', 'sectionItemDelete(this, event)')
+    var sectionItemRe = document.createElement('button');
+    sectionItemRe.innerHTML = '✏️';
+    sectionItemRe.setAttribute('onclick', 'sectionItemRename(this, event)')
+    sectionItem.appendChild(sectionItemRe)
+    sectionItem.appendChild(sectionItemDel)
+    sidebarlist.appendChild(sectionItem)
+    console.log('meow', Object.keys(JSON.parse(localStorage.getItem('localItems')))[i9]);
+  }
+}
+
+for (var i9 = 0; i9 < parsedJSON.length; i9++) {
+  var sectionItem = document.createElement('button');
+  sectionItem.innerHTML = parsedJSON[i9];
+  sectionItem.setAttribute('onclick', 'switchSection(this)')
+  var sectionItemDel = document.createElement('button');
+  sectionItemDel.innerHTML = 'X';
+  sectionItemDel.setAttribute('onclick', 'sectionItemDelete(this, event)')
+  var sectionItemRe = document.createElement('button');
+  sectionItemRe.innerHTML = '✏️';
+  sectionItemRe.setAttribute('onclick', 'sectionItemRename(this, event)')
+  sectionItem.appendChild(sectionItemRe)
+  sectionItem.appendChild(sectionItemDel)
+  sidebarlist.appendChild(sectionItem)
+  console.log('meow', Object.keys(JSON.parse(localStorage.getItem('localItems')))[i9]);
+}
+
 var allItems = [];
 
 var saveItems = setInterval(function () {
+  //var object = {
+    //Section1: ''
+  //}
   // Update the panes with how they are configured
   // checkConfig()
   // Push all pane text in one array with a format of Title|Description|config
@@ -291,7 +420,19 @@ var saveItems = setInterval(function () {
     // Push code before and `${items[i].getElementsByClassName('label')[0].textContent}`) so the format:
     // Unnamed pane|Description|important
   }
-  localStorage.setItem('localItems', allItems)
+  /*
+  Section1: {
+    Unnamed pane: 'Do homework|pane quietDown newp'
+    Unnamed pane: 'Do homework|pane quietDown newp'
+  }
+  Section2: {
+    Unnamed pane: 'Do homework|pane quietDown newp'
+    Unnamed pane: 'Do homework|pane quietDown newp'
+  }
+  */
+  var itemObj = JSON.parse(localStorage.getItem('localItems'));
+  itemObj[window.currentSection] = allItems;
+  localStorage.setItem('localItems', JSON.stringify(itemObj))
   allItems = []
 }, 1000)
 
@@ -375,6 +516,71 @@ function popupClose() {
     t3[i].style.mixBlendMode = 'normal';
   }
   document.getElementById('popup').style.visibility = 'hidden';
+}
+
+var toggle = false;
+
+function toggleSidebar() {
+  if (toggle == false) {
+    toggle = true;
+    var t = 0;
+    var animateSidebar = setInterval(function () {
+      t++
+      sidebar.style.left = `-${t}vw`;
+      console.log(t);
+      if (t > 35) {
+        clearInterval(animateSidebar)
+      }
+    }, 10)
+  } else {
+    toggle = false;
+    var t = 0;
+    sidebar.style.left = '-120vw';
+    var animateSidebar = setInterval(function () {
+      t++
+      sidebar.style.left = `${t}px`;
+      console.log(t);
+      if (t > 1) {
+        clearInterval(animateSidebar)
+      }
+    }, 10)
+  }
+}
+
+function addSection() {
+  let randNum = Math.floor(Math.random() * 20);
+  var sidebaritem = document.createElement('button');
+  sidebaritem.textContent = `Unnamed section${randNum}`;
+  sidebaritem.setAttribute('onclick', 'switchSection(this)')
+  var sidebardrop = document.createElement('button');
+  sidebardrop.innerText = 'X';
+  sidebardrop.setAttribute('onclick', 'sectionItemDelete(this, event)')
+  var sidebarre = document.createElement('button');
+  sidebarre.innerHTML = '✏️';
+  sidebarre.setAttribute('onclick', 'sectionItemRename(this, event)')
+  sidebaritem.appendChild(sidebarre)
+  sidebaritem.appendChild(sidebardrop)
+  sidebarlist.appendChild(sidebaritem)
+  sidebarlist.insertAdjacentHTML('beforeend', '<br>')
+  var localObj = JSON.parse(localStorage.getItem('localItems'));
+  localObj[`Unnamed section${randNum}`] = ['Unnamed pane|Do homework|pane quietDown panenew'];
+  console.log(localObj);
+  localStorage.setItem('localItems', JSON.stringify(localObj))
+  console.log('OBJECT', localStorage.getItem('localItems'));
+}
+
+function switchSection(t) {
+  for (var i10 = 0; i10 < document.getElementsByClassName('pane').length; i10++) {
+    document.getElementsByClassName('pane')[i10].remove()
+  }
+  window.currentSection = t.innerText.slice(0, t.innerText.length - 3);
+  if (JSON.parse(localStorage.getItem('localItems'))[window.currentSection] == '') {
+    var newLocal = JSON.parse(localStorage.getItem('localItems'));
+    newLocal[window.currentSection] = 'Unnamed pane|Do homework|pane quietDown panenew';
+    localStorage.setItem('localItems', JSON.stringify(newLocal))
+  }
+  console.log('switchSection called', window.currentSection, JSON.parse(localStorage.getItem('localItems')));
+  addPane('load', '')
 }
 
 function changeTopbar(t) {
