@@ -1,4 +1,5 @@
 console.log(localStorage.getItem('localItems'));
+console.log('test');
 
 const allpanes = document.getElementById('allpanes');
 const popup = document.getElementById('popup');
