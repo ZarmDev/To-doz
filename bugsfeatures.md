@@ -135,3 +135,7 @@ Ability to enter the localStorage to load the site
 Make date in setcookie also include minutes and seconds
 
 You can't store innerText spaces in plaintext and therefore you can't enter the localItems because the spaces won't register
+
+When working with sections, addpane doesn't account for rounded corners, etc
+
+Consider using a class to automate JSON packing and unpacking
