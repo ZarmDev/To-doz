@@ -212,11 +212,13 @@ function addPane(choice, extraParam) {
       }
       */
       var localItems = JSON.parse(localStorage.getItem('localItems'));
-      console.log(JSON.parse(localStorage.getItem('localItems')), window.currentSection);
+      console.log(JSON.parse(localStorage.getItem('localItems')), window.currentSection, 'FJWIJFQJFIJWFQQIJWFJLIWFILFKOQFWKO:FLP"QWFLP');
       if (localItems[window.currentSection].includes(',')) {
         localItems = localItems[window.currentSection].split(',');
+        console.log('first');
       } else {
         localItems = `${localItems[window.currentSection]},`.split(',').splice(0, 1);
+        console.log('oitem');
       }
       console.log('itemS', localItems);
       for (var t = 0; t < localItems.length; t++) {
@@ -432,7 +434,7 @@ var saveItems = setInterval(function () {
   }
   */
   var itemObj = JSON.parse(localStorage.getItem('localItems'));
-  itemObj[window.currentSection] = allItems;
+  itemObj[window.currentSection] = `${allItems}`;
   localStorage.setItem('localItems', JSON.stringify(itemObj))
   allItems = []
 }, 1000)
