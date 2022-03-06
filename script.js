@@ -212,7 +212,7 @@ function addPane(choice, extraParam) {
       }
       */
       var localItems = JSON.parse(localStorage.getItem('localItems'));
-      console.log(JSON.parse(localStorage.getItem('localItems')), window.currentSection, 'FJWIJFQJFIJWFQQIJWFJLIWFILFKOQFWKO:FLP"QWFLP');
+      console.log(JSON.parse(localStorage.getItem('localItems')), window.currentSection);
       if (localItems[window.currentSection].includes(',')) {
         localItems = localItems[window.currentSection].split(',');
         console.log('first');
