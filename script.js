@@ -213,6 +213,20 @@ function addPane(choice, extraParam) {
       */
       var localItems = JSON.parse(localStorage.getItem('localItems'));
       console.log(JSON.parse(localStorage.getItem('localItems')), window.currentSection);
+      console.log(Object.keys(localItems)[0], Object.keys(localItems).length == 0);
+      if (Object.keys(localItems)[0] == undefined || Object.keys(localItems)[0] == 'undefined') {
+        console.log('check');
+        delete localItems['undefined']
+      }
+      console.log(Object.keys(localItems).length);
+      if (Object.keys(localItems).length == 0) {
+        window.currentSection = 'Unnamed section';
+        localItems = {
+          'Unnamed section': 'Unnamed pane|Do homework|pane quietDown panenew',
+        };
+        localStorage.setItem('localItems', JSON.stringify(localItems))
+      }
+      console.log(localItems);
       if (localItems[window.currentSection].includes(',')) {
         localItems = localItems[window.currentSection].split(',');
         console.log('first');
@@ -221,11 +235,12 @@ function addPane(choice, extraParam) {
         console.log('oitem');
       }
       console.log('itemS', localItems);
+      console.log(Object.keys(JSON.parse(localStorage.getItem('localItems'))));
       for (var t = 0; t < localItems.length; t++) {
         // Unnamed pane|Description|important^
         var lpane = document.createElement('div');
         lpane.setAttribute('class', `${localItems[t].split('|')[2]}`)
-        console.log(`${localItems}`);
+        console.log(localItems[t].split('|')[2]);
         var ltitle = document.createElement(textTag);
         ltitle.setAttribute('contenteditable', 'true')
         ltitle.setAttribute('class', 'newp popupChange title')
@@ -393,6 +408,7 @@ function sectionItemDelete(t, e) {
 }
 
 for (var i9 = 0; i9 < parsedJSON.length; i9++) {
+  console.log(parsedJSON);
   var sectionItem = document.createElement('button');
   sectionItem.innerHTML = parsedJSON[i9];
   sectionItem.setAttribute('onclick', 'switchSection(this)')
