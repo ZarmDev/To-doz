@@ -8,21 +8,21 @@
 </head>
 
 <body>
-  <button id="sidebarToggle" onclick="toggleSidebar()">|||</button>
+  <button id="sidebarToggle">|||</button>
   <div id="sidebar">
-    <button onclick="addSection()">+</button>
+    <button id="addSection">+</button>
     <br>
     <div id="sidebarlist">
     </div>
     </div>
   </div>
   <div id="mobile">
-    <button onclick="this.parentElement.style.visibility = 'hidden'">X</button>
+    <button id="exitMobile">X</button>
     <h1>You seem to be on a mobile device</h1>
     <p>Please shake your phone so you have the best experience</p>
     </div>
   <div id="extraPopup">
-    <button onclick="extraPopupClose()">X</button>
+    <button id="exitExtraPopup">X</button>
     <div>
     <h2>Label: </h2>
     <span class="critical">Critical</span>
@@ -32,69 +32,69 @@
     </div>
     </div>
 	<div id="popup">
-		<button onclick="popupClose()">X</button>
+		<button id="exitPopup">X</button>
       <div>
       <h1>Colors</h1>
       <h2>Palette</h2>
-      <select class="buttonClass" onchange="paletteC(this.value)">
+      <select id="themeSelect" class="buttonClass">
         <option>Default</option>
         <option>Light</option>
         <option>Dark</option>
         </select>
       <p>OR choose your own colors</p>
       <h2>Topbar</h2>
-      <input id="topcolor" onchange="changeTopbar(this)" type="color">
+      <input id="topcolor" type="color">
       <h2>Panes</h2>
-      <input id="paneColor" onchange="changeAllColors(this)" type="color">
+      <input id="paneColor" type="color">
       </div>
         <div>
       <h2>Background</h2>
-      <input id="backColor" onchange="changeBackColor(this)" type="color">
+      <input id="backColor" type="color">
       <p>OR choose a image</p>
       <input type="file">
       <h2>Buttons</h2>
-      <input type="color" id="buttonColor" onchange="changeButtonColor(this)">
+      <input type="color" id="buttonColor">
       <h2>Settings</h2>
-      <input type="color" id="popupColor" onchange="changePopupColor(this)">
+      <input type="color" id="popupColor">
       </div>
       <div>
       <h1>Features</h1>
-      <p>Blur<select id="blurCheck" onchange="setBlurOn(this)">
+      <p>Blur<select id="blurCheck">
         <option>Off</option>
         <option>On</option>
         </select></p>
-        <p>Rounded Corners<select id="rounded" onchange="roundC(this)">
+        <p>Rounded Corners<select id="rounded">
         <option>Off</option>
         <option>On</option>
         </select></p>
-        <p>Extend<select id="toggleExtend" onchange="extendEnable(this)">
+        <p>Extend<select id="toggleExtend">
         <option>Off</option>
         <option>On</option>
         </select></p>
-        <p>Streak<select id="toggleStreak" onchange="streakEnable(this)">
+        <p>Streak<select id="toggleStreak">
         <option>Off</option>
         <option>On</option>
         </select></p>
-        <p>Dynamic Theme<select id="theme" onchange="themeEnable(this)">
+        <p>Dynamic Theme<select id="theme">
         <option>Off</option>
         <option>On</option>
         </select></p>
-        <p id="test">Enter localstorage<input id="enterlocal"><input id="submitLocal" type="submit" onclick="submitLocalStorage()"></p>
-        <p>Get localstorage<input disabled id="localItemsStorage"><button id="getLocal" value="Get localstorage" onclick="getLocalStorage()" onmouseout="changeBack()">Submit<span id="copy">Copy</span></button></p>
-      <button onclick="resetStreak()" class="buttonClass">Reset streak</button>
-      <button onclick="clearData()" class="buttonClass">Clear all data</button>
+        <p id="test">Enter localstorage<input id="enterlocal"><input id="submitLocal" type="submit"></p>
+        <p>Get localstorage<input disabled id="localItemsStorage"><button id="getLocal" value="Get localstorage">Submit<span id="copy">Copy</span></button></p>
+      <button id="resetStreak" class="buttonClass">Reset streak</button>
+      <button id="clearData" class="buttonClass">Clear all data</button>
       </div>
       <div>
       <h1>Fonts</h1>
       <!-- Finish font family so JS works with localstorage corectly-->
-      <p><select id="fonts" class="buttonClass" onchange="newFontFamily(this)">
+      <p><select id="fonts" class="buttonClass">
         <option>Open Sans</option>
         <option>Times New Roman</option>
         </select></p>
         <h2>Text color</h2>
-        <input id="textFontColor" type="color" onchange="changeFontColor(this)">
+        <input id="textFontColor" type="color">
         <h2>Font Size</h2>
-        <input id="textFontSize" type="number" onchange="changeFontSize(this)" min="1" max="100" placeholder="16 (in pixels)">
+        <input id="textFontSize" type="number" min="1" max="100" placeholder="16 (in pixels)">
         </div>
       </div>
     <div id="topbar">
@@ -102,10 +102,10 @@
     <div id="dropdown">
       <button class="buttonClass quietDown">+</button>
       <div id="dropdown-content">
-        <button onclick="newItem('+')">+</button>
+        <button id="newItem">+</button>
         <button>List</button>
         <button>Checklist</button>
-        <button onclick="newItem('temp')">Temporary</button>
+        <button id="newItemTemp">Temporary</button>
         </div>
     </div>
       <!-- <select class="buttonClass quietDown" onchange="newItem(this)">
@@ -115,18 +115,18 @@
         <option>Temporary</option>
       </select> -->
       <!-- Make settings icon -->
-      <button class="buttonClass quietDown"onclick="popupAnim()">Settings</button>
+      <button id="popupToggle" class="buttonClass quietDown">Settings</button>
       <h1 class="quietDown" id="streak">Your streak: 🔥</h1>
       <h1 class="quietDown" id="goal">Goal: </h1>
-      <button onclick="addStreak()" class="buttonClass quietDown" id="addtoStreak">Add to your streak🔥</button>
+      <button class="buttonClass quietDown" id="addToStreak">Add to your streak🔥</button>
       </div>
     <div id="allpanes">
     </div>
     <div id="data">
       <p>Do you want this site to use cookies and localStorage? This enables streaks and customization features. This site takes NO personal data whatsoever.</p>
-      <button onclick="enableData()" id="enable">Enable</button>
-      <button onclick="disableData()" id="disable">Disable</button>
+      <button id="enable">Enable</button>
+      <button id="disable">Disable</button>
       </div>
-    <script src="script.js"></script>
+    <script type="module" src="./script.js"></script>
   </body>
 </html>

@@ -139,3 +139,13 @@ You can't store innerText spaces in plaintext and therefore you can't enter the 
 When working with sections, addpane doesn't account for rounded corners, etc
 
 Consider using a class to automate JSON packing and unpacking
+
+Reward system
+
+Update popup
+
+Popup to motivate user
+
+Implement extra
+
+If width and height do not exceed constraints, put pane in original size (like reload)
