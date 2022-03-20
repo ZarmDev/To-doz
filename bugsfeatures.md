@@ -149,3 +149,9 @@ Popup to motivate user
 Implement extra
 
 If width and height do not exceed constraints, put pane in original size (like reload)
+
+Add comments and tips for contributers
+
+Put getData and e function in seperate files
+
+Create function to automate removing elements (notably for the section functions, etc)

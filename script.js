@@ -12,6 +12,8 @@ const item = document.createElement('div');
 const sidebar = document.getElementById('sidebar');
 const sidebarlist = document.getElementById('sidebarlist');
 
+// Mobile popup
+
 let mql = window.matchMedia('(max-width: 760px)');
 //rgb(153 153 153 / 70%)
 if (mql.matches && localStorage.getItem('localMobile') == undefined) {
@@ -21,13 +23,21 @@ if (mql.matches && localStorage.getItem('localMobile') == undefined) {
   document.getElementById('title').style.marginLeft = '5%';
 }
 
+// Show enable/disable localstorage popup
+
 if (localStorage.getItem('enableData') == undefined) {
   document.getElementById('data').style.display = 'inline-block';
 }
 
+
+// Optimize amount of panes on screen depending on screen
 if (mql.matches) {
   document.getElementById('allpanes').style.gridTemplateColumns = '1fr 1fr 1fr';
 }
+
+// Credit to w3schools for help with cookie code
+
+// setCookie
 
 function setCookie(cname, cvalue, days) {
   document.cookie = ''
@@ -42,6 +52,8 @@ function setCookie(cname, cvalue, days) {
   console.log(expires);
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
+
+// getCookie
 
 function getCookie(cname) {
   let name = cname + "=";
@@ -59,6 +71,8 @@ function getCookie(cname) {
   return "";
 }
 
+// Check if streak exists, if so, set the text on screen
+
 function checkCookie() {
   let user = getCookie("streak");
   if (user != "") {
@@ -69,12 +83,19 @@ function checkCookie() {
   }
 }
 
+// Check by default
+
 checkCookie('streak')
+
+// Check if goal exists
 
 if (localStorage.getItem('localGoal') == undefined) {
   localStorage.setItem('localGoal', '0')
 }
 document.getElementById('goal').innerHTML = `Goal: ${localStorage.getItem('localGoal')} days`;
+
+// This is to get all the settings options
+// getData(id, localStorageKey, default)
 
 function getData(id, ls, color) {
   if (localStorage.getItem(ls) == undefined) {
@@ -100,9 +121,13 @@ getData('toggleExtend', 'localExtendEnabled', 'Off')
 getData('popupColor', 'localPopupColor', '#808080')
 getData('theme', 'localThemeEnabled', 'Off')
 
+// Shorthand for eventlistener
+
 function e(id, event, func) {
   document.getElementById(id).addEventListener(event, func)
 }
+
+// Must be used as you can't use onclick="" in the HTML
 
 e('sidebarToggle', 'click', toggleSidebar)
 e('addSection', 'click', addSection)
@@ -164,16 +189,25 @@ e('newItemTemp', 'click', function () {
 e('addToStreak', 'click', addStreak)
 e('enable', 'click', enableData)
 e('disable', 'click', disableData)
+
+// Toggle used throughout code, if you happen to use toggle, please name it toggle# based
+// on amount of toggle variables
+
 var toggle = false;
 
+// Check if all your panes was ever created
+
 if (localStorage.getItem('localItems') == undefined || localStorage.getItem('localItems').split('|')[1] == 'undefined' || localStorage.getItem('localItems') == '') {
+  // Get the first section and set to the currentSection you are on
   window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
+  // Check if you enabled extend
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
     addPane('defaultoption', '')
   } else {
     addPane('defaultoption', 'extend')
   }
 } else {
+  // Set to first section
   window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
     addPane('load', '')
@@ -184,32 +218,66 @@ if (localStorage.getItem('localItems') == undefined || localStorage.getItem('loc
 
 console.log(Object.keys(JSON.parse(localStorage.getItem('localItems'))));
 
+// Using JSON because it's easy to read and happened to solve my problems
+
 var parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
 
-function sectionItemRename(t, e) {
+function switchSection(t, e) {
+  console.log('ch');
   e.stopPropagation()
+  for (var i10 = 0; i10 < document.getElementsByClassName('pane').length; i10++) {
+    document.getElementsByClassName('pane')[i10].remove()
+  }
+  window.currentSection = t.innerText.slice(0, t.innerText.length - 3);
+  if (JSON.parse(localStorage.getItem('localItems'))[window.currentSection] == '') {
+    var newLocal = JSON.parse(localStorage.getItem('localItems'));
+    newLocal[window.currentSection] = 'Unnamed pane|Do homework|pane quietDown panenew';
+    localStorage.setItem('localItems', JSON.stringify(newLocal))
+  }
+  console.log('switchSection called', window.currentSection, JSON.parse(localStorage.getItem('localItems')));
+  addPane('load', '')
+}
+
+// Rename section
+
+function sectionItemRename(t, e) {
+  // Causes only the button clicked to be fired, not buttons behind it
+  e.stopPropagation()
+  // Create seperate variable to edit all panes
   var renameSection = JSON.parse(localStorage.getItem('localItems'));
   var newName = prompt('Section name:');
+  // Create new key in localItems and set it to the data found in your currentSection
+  // Would it be better to use window.currentSection instead of t.parentElement.innerText?
   renameSection[newName] = renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)];
   delete renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)];
   window.currentSection = newName;
   console.log(renameSection, t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3), JSON.parse(localStorage.getItem('localItems')), renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)]);
+  // Set the localstorage
   localStorage.setItem('localItems', JSON.stringify(renameSection))
+  // Remove all children
   while (document.getElementById('sidebarlist').lastChild) {
     console.log(sidebarlist.lastChild);
     sidebarlist.removeChild(sidebarlist.lastChild)
   }
   let parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
+  // Add all children
   for (var i9 = 0; i9 < parsedJSON.length; i9++) {
     var sectionItem = document.createElement('button');
+    // Get section number by i9
     sectionItem.innerHTML = parsedJSON[i9];
-    sectionItem.setAttribute('onclick', 'switchSection(this)')
+    sectionItem.addEventListener('click', function (e) {
+      switchSection(this, e)
+    })
     var sectionItemDel = document.createElement('button');
     sectionItemDel.innerHTML = 'X';
-    sectionItemDel.setAttribute('onclick', 'sectionItemDelete(this, event)')
+    sectionItemDel.addEventListener('click', function (e) {
+      sectionItemDelete(this, e)
+    })
     var sectionItemRe = document.createElement('button');
     sectionItemRe.innerHTML = '✏️';
-    sectionItemRe.setAttribute('onclick', 'sectionItemRename(this, event)')
+    sectionItemRe.addEventListener('click', function (e) {
+      sectionItemRename(this, e)
+    })
     sectionItem.appendChild(sectionItemRe)
     sectionItem.appendChild(sectionItemDel)
     sidebarlist.appendChild(sectionItem)
@@ -219,29 +287,40 @@ function sectionItemRename(t, e) {
 
 function sectionItemDelete(t, e) {
   console.log(e);
+  // Don't trigger button behind button clicked
   e.stopPropagation()
   var deleteSection = JSON.parse(localStorage.getItem('localItems'));
   console.log(t.parentElement.innerText);
   console.log(t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3));
+  // Remove section
   delete deleteSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)]
   console.log(deleteSection);
+  // Set new section
   window.currentSection = Object.keys(deleteSection)[0];
   localStorage.setItem('localItems', JSON.stringify(deleteSection))
+  // Remove sections
   while (document.getElementById('sidebarlist').lastChild) {
     console.log(sidebarlist.lastChild);
     sidebarlist.removeChild(sidebarlist.lastChild)
   }
   let parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
+  // Put sections back
   for (var i9 = 0; i9 < parsedJSON.length; i9++) {
     var sectionItem = document.createElement('button');
     sectionItem.innerHTML = parsedJSON[i9];
-    sectionItem.setAttribute('onclick', 'switchSection(this)')
+    sectionItem.addEventListener('click', function (e) {
+      switchSection(this, e)
+    })
     var sectionItemDel = document.createElement('button');
     sectionItemDel.innerHTML = 'X';
-    sectionItemDel.setAttribute('onclick', 'sectionItemDelete(this, event)')
+    sectionItemDel.addEventListener('click', function (e) {
+      sectionItemDelete(this, e)
+    })
     var sectionItemRe = document.createElement('button');
     sectionItemRe.innerHTML = '✏️';
-    sectionItemRe.setAttribute('onclick', 'sectionItemRename(this, event)')
+    sectionItemRe.addEventListener('click', function (e) {
+      sectionItemRename(this, e)
+    })
     sectionItem.appendChild(sectionItemRe)
     sectionItem.appendChild(sectionItemDel)
     sidebarlist.appendChild(sectionItem)
@@ -254,7 +333,7 @@ function addSection() {
   var sidebaritem = document.createElement('button');
   sidebaritem.textContent = `Unnamed section${randNum}`;
   sidebaritem.addEventListener('click', function (e) {
-    switchSection(this)
+    switchSection(this, e)
   })
   var sidebardrop = document.createElement('button');
   sidebardrop.innerText = 'X';
@@ -277,25 +356,11 @@ function addSection() {
   console.log('OBJECT', localStorage.getItem('localItems'));
 }
 
-function switchSection(t) {
-  for (var i10 = 0; i10 < document.getElementsByClassName('pane').length; i10++) {
-    document.getElementsByClassName('pane')[i10].remove()
-  }
-  window.currentSection = t.innerText.slice(0, t.innerText.length - 3);
-  if (JSON.parse(localStorage.getItem('localItems'))[window.currentSection] == '') {
-    var newLocal = JSON.parse(localStorage.getItem('localItems'));
-    newLocal[window.currentSection] = 'Unnamed pane|Do homework|pane quietDown panenew';
-    localStorage.setItem('localItems', JSON.stringify(newLocal))
-  }
-  console.log('switchSection called', window.currentSection, JSON.parse(localStorage.getItem('localItems')));
-  addPane('load', '')
-}
-
 for (var i9 = 0; i9 < parsedJSON.length; i9++) {
   var sectionItem = document.createElement('button');
   sectionItem.innerHTML = parsedJSON[i9];
   sectionItem.addEventListener('click', function (e) {
-    switchSection(this)
+    switchSection(this, e)
   })
   var sectionItemDel = document.createElement('button');
   sectionItemDel.innerHTML = 'X';
