@@ -33,6 +33,8 @@ if (localStorage.getItem('enableData') == undefined) {
 // Optimize amount of panes on screen depending on screen
 if (mql.matches) {
   document.getElementById('allpanes').style.gridTemplateColumns = '1fr 1fr 1fr';
+  popup.style.width = '130%';
+  document.getElementById('topbar').style.width = '130%';
 }
 
 // Credit to w3schools for help with cookie code
@@ -600,6 +602,7 @@ function addStreak() {
   let date = new Date();
   if (localStorage.getItem('oldDate') == undefined) {
     localStorage.setItem('oldDate', date.toDateString())
+    console.log('streak', parseInt(getCookie('streak')) + 1, 1);
     setCookie('streak', parseInt(getCookie('streak')) + 1, 1)
     document.getElementById('streak').innerHTML = `Your streak: ${getCookie('streak')}🔥`;
   } else if (localStorage.getItem('oldDate') != date.toDateString()) {
