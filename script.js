@@ -255,9 +255,8 @@ function sectionItemRename(t, e) {
   // Create new key in localItems and set it to the data found in your currentSection
   // Would it be better to use window.currentSection instead of t.parentElement.innerText?
   renameSection[newName] = renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)];
-  delete renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)];
+  delete renameSection[window.currentSection]
   window.currentSection = newName;
-  console.log(renameSection, t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3), JSON.parse(localStorage.getItem('localItems')), renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)]);
   // Set the localstorage
   localStorage.setItem('localItems', JSON.stringify(renameSection))
   // Remove all children
@@ -266,6 +265,7 @@ function sectionItemRename(t, e) {
     sidebarlist.removeChild(sidebarlist.lastChild)
   }
   let parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
+  console.log('PARSED', parsedJSON)
   // Add all children
   for (var i9 = 0; i9 < parsedJSON.length; i9++) {
     var sectionItem = document.createElement('button');
@@ -383,7 +383,7 @@ for (var i9 = 0; i9 < parsedJSON.length; i9++) {
   })
   var sectionItemRe = document.createElement('button');
   sectionItemRe.innerHTML = '✏️';
-  sectionItem.addEventListener('click', function (e) {
+  sectionItemRe.addEventListener('click', function (e) {
     sectionItemRename(this, e)
   })
   sectionItem.appendChild(sectionItemRe)

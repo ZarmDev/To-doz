@@ -165,3 +165,5 @@ Fix streak oldDate (doesn't work to see if streak is added twice)
 If data is disabled, then either don't allow user to use site or don't use localstorage
 
 Using longerPane on all the panes at window onload doesn't work (doesn't mimick when pane is inputed)
+
+Null section made after editing section
