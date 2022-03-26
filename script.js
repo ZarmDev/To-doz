@@ -252,10 +252,12 @@ function sectionItemRename(t, e) {
   // Create seperate variable to edit all panes
   var renameSection = JSON.parse(localStorage.getItem('localItems'));
   var newName = prompt('Section name:');
+  var text = t.parentElement.innerText;
   // Create new key in localItems and set it to the data found in your currentSection
   // Would it be better to use window.currentSection instead of t.parentElement.innerText?
-  renameSection[newName] = renameSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)];
-  delete renameSection[window.currentSection]
+  console.log(text.slice(0, text.length - 3));
+  renameSection[newName] = renameSection[text.slice(0, text.length - 3)];
+  delete renameSection[text.slice(0, text.length - 3)]
   window.currentSection = newName;
   // Set the localstorage
   localStorage.setItem('localItems', JSON.stringify(renameSection))
