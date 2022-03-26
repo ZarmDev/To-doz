@@ -139,7 +139,9 @@ e('addSection', 'click', addSection)
 e('exitMobile', 'click', function () {this.parentElement.style.visibility = 'hidden'})
 e('exitExtraPopup', 'click', extraPopupClose)
 e('exitPopup', 'click', popupClose)
-e('themeSelect', 'change', paletteC)
+e('themeSelect', 'change', function () {
+  paletteC(this)
+})
 e('popupToggle', 'click', popupAnim)
 e('topcolor', 'change', function (e) {
   changeTopbar(this)
@@ -549,14 +551,22 @@ function setPalette(top, panes, background, fontColor, buttons, popup) {
   changePopupColor(document.getElementById('popupColor'))
 }
 
-function paletteC() {
-  if (this.value == "Default") {
+export function paletteC(t, e) {
+  var palette = null;
+  console.log(typeof t);
+  if (typeof t == 'string') {
+    palette = t;
+  } else {
+    console.log(t.value);
+    palette = t.value;
+  }
+  if (palette == "Default") {
     setPalette('#0c770c', '#c0c0c0', '#fcfcfc', '#000000', '#d0d0d7', '#808080')
   }
-  if (this.value == "Light") {
+  if (palette == "Light") {
     setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', '#000000', '#d0d0d7', '#808080')
   }
-  if (this.value == "Dark") {
+  if (palette == "Dark") {
     setPalette('#040303', '#333333', '#171717', '#cea4a4', '#515151', '#484848')
   }
 }

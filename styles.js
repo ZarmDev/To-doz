@@ -1,5 +1,5 @@
 import {items} from './storage.js'
-import {mql} from './script.js'
+import {mql, paletteC} from './script.js'
 
 export function changeTopbar(t) {
   console.log(t.value);
