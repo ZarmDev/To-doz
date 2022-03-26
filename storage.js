@@ -4,8 +4,6 @@ import { streakEnable } from './script.js';
 export var textTag = 'pre';
 export const items = document.getElementsByClassName('pane');
 
-var toggle = false;
-
 function removeT(t) {
     t.parentElement.remove()
 }

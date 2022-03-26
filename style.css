@@ -111,10 +111,10 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 #popup select {
-  width: calc(5ch + 0.2vw);
+  width: calc(5ch + 1vw);
 }
 #popup input {
-  width: calc(5ch + 0.2vw);
+  width: calc(5ch + 1.4vw);
 }
 .longerInput {
   width: calc(5ch + 4.1vw) !important;

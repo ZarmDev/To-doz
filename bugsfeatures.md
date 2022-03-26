@@ -155,3 +155,13 @@ Add comments and tips for contributers
 Put getData and e function in seperate files
 
 Create function to automate removing elements (notably for the section functions, etc)
+
+Addsection can replace a section if the randnum is the same
+
+Slow animation for mql.matches
+
+Fix streak oldDate (doesn't work to see if streak is added twice)
+
+If data is disabled, then either don't allow user to use site or don't use localstorage
+
+Using longerPane on all the panes at window onload doesn't work (doesn't mimick when pane is inputed)
