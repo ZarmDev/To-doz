@@ -229,17 +229,20 @@ console.log(Object.keys(JSON.parse(localStorage.getItem('localItems'))));
 var parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
 
 function switchSection(t, e) {
-  console.log('ch');
+  console.log('ch', document.getElementsByClassName('pane').lastChild);
   e.stopPropagation()
-  for (var i10 = 0; i10 < document.getElementsByClassName('pane').length; i10++) {
-    document.getElementsByClassName('pane')[i10].remove()
+  while (document.getElementsByClassName('pane')[0]) {
+    console.log(document.getElementsByClassName('pane'), document.getElementsByClassName('pane').lastChild);
+    document.getElementById('allpanes').removeChild(document.getElementsByClassName('pane')[0])
   }
   window.currentSection = t.innerText.slice(0, t.innerText.length - 3);
+  /*
   if (JSON.parse(localStorage.getItem('localItems'))[window.currentSection] == '') {
     var newLocal = JSON.parse(localStorage.getItem('localItems'));
     newLocal[window.currentSection] = 'Unnamed pane|Do homework|pane quietDown panenew';
     localStorage.setItem('localItems', JSON.stringify(newLocal))
   }
+  */
   console.log('switchSection called', window.currentSection, JSON.parse(localStorage.getItem('localItems')));
   addPane('load', '')
 }
