@@ -12,7 +12,7 @@ function extra(t) {
     //
 }
 
-function longerPane(t) {
+export function longerPane(t) {
   var chose = null;
   console.log('done');
   if (t == t.parentElement.getElementsByClassName('newp')[1]) {

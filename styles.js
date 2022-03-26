@@ -1,4 +1,5 @@
 import {items} from './storage.js'
+import {mql} from './script.js'
 
 export function changeTopbar(t) {
   console.log(t.value);
@@ -127,4 +128,87 @@ export function themeEnable(t) {
     }
   }
   localStorage.setItem('localThemeEnabled', t.value)
+}
+
+export function popupAnim() {
+  let t2 = document.getElementsByClassName('quietDown');
+  for (var i = 0; i < t2.length; i++) {
+    // Make some elements in background black/blended
+    t2[i].style.mixBlendMode = 'multiply';
+  }
+  let t3 = document.getElementsByClassName('popupChange');
+  for (var i = 0; i < t3.length; i++) {
+    // make border look cool
+    t3[i].style.mixBlendMode = 'luminosity';
+  }
+  // If screen is phone
+  if (mql.matches) {
+    // Slower animation
+    let t = 0;
+    var myInterval = setInterval(function () {
+      popup.style.bottom = `${-15 - t}%`;
+      popup.style.visibility = 'visible';
+      t += 0.8;
+      if (t > 45) {
+        clearInterval(myInterval)
+      }
+    }, 1)
+  } else {
+    // Faster animation
+    let t = 0;
+    let a = 500;
+    var myInterval = setInterval(function () {
+      popup.style.bottom = `${500 - t}px`;
+      popup.style.visibility = 'visible';
+      a--
+      t += a * 0.05;
+      if (t > 500) {
+        clearInterval(myInterval)
+      }
+    }, 1)
+  }
+}
+
+export function popupClose() {
+  let t2 = document.getElementsByClassName('quietDown');
+  // Set elements back to normal blend
+  for (var i = 0; i < t2.length; i++) {
+    t2[i].style.mixBlendMode = 'normal';
+  }
+  let t3 = document.getElementsByClassName('popupChange');
+  for (var i = 0; i < t3.length; i++) {
+    t3[i].style.mixBlendMode = 'normal';
+  }
+  document.getElementById('popup').style.visibility = 'hidden';
+}
+
+var toggle1 = false;
+
+// Animation for sidebar
+
+export function toggleSidebar() {
+  if (toggle1 == false) {
+    toggle1 = true;
+    var t = 0;
+    var animateSidebar = setInterval(function () {
+      t++
+      sidebar.style.left = `-${t}vw`;
+      console.log(t);
+      if (t > 35) {
+        clearInterval(animateSidebar)
+      }
+    }, 10)
+  } else {
+    toggle1 = false;
+    var t = 0;
+    sidebar.style.left = '-120vw';
+    var animateSidebar = setInterval(function () {
+      t++
+      sidebar.style.left = `${t}px`;
+      console.log(t);
+      if (t > 1) {
+        clearInterval(animateSidebar)
+      }
+    }, 10)
+  }
 }
