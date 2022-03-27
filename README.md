@@ -9,7 +9,18 @@ reference.md
 
 # Contribution
 
-Submit a pull request
+NOTE: This project uses PLAIN HTML, CSS and Javascript
+
+There is no need to use npm, but you do need liveserver
+as this project can't work without it (CORS will block it due to the
+import files)
+
+You need VSCode and you need to install liveserver in extensions, then
+you just right click index.html and press open liveserver
+
+It's a lot better to create a new branch and use it.
+
+Then submit a pull request.
 
 If you contribute, note to seperate functions in their category 
 

@@ -664,3 +664,28 @@ function extraPopupClose() {
   granted ? showNotification() : showError();
 
 })();
+
+function extend(t) {
+  var scrollHeight = t.parentElement.getElementsByTagName(textTag)[1].scrollHeight;
+  var height = t.parentElement.clientHeight;
+  var m = height;
+  if (height < 120 + scrollHeight) {
+    let newInterval = setInterval(function () {
+      m += height / 50;
+      t.parentElement.style.height = `${m}px`;
+      if (260 + scrollHeight < height + m) {
+        clearInterval(newInterval)
+      }
+    }, 1)
+  } else {
+    let newInterval = setInterval(function () {
+      m -= height / 10;
+      t.parentElement.style.height = `${m}px`;
+      console.log(`height: ${height}, 260, scrollHeight: ${scrollHeight}, add ${260 + scrollHeight}`);
+      if (m < 50 - scrollHeight) {
+        clearInterval(newInterval)
+      }
+    }, 1)
+  }
+  // This means that 25 * 1 and 25 *2 matches scrollHeight
+}
