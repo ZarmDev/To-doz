@@ -1,5 +1,5 @@
 import {changeTopbar, changeFontColor, changeAllColors, changeBackColor, changeButtonColor, setBlurOn, roundC, newFontFamily, extendEnable, changeFontSize, changePopupColor, themeEnable, popupAnim, popupClose, toggleSidebar} from './styles.js'
-import {addPane, textTag, items, longerPane} from './storage.js'
+import {addPane, textTag, items, longerPane, splitC} from './storage.js'
 
 console.log(localStorage.getItem('localItems'));
 
@@ -203,9 +203,13 @@ e('submitGoal', 'click', submitGoal)
 
 var toggle = false;
 
-// Check if all your panes was ever created
+// Check if all your panes was ever created or if the first section is empty
 
-if (localStorage.getItem('localItems') == undefined || localStorage.getItem('localItems').split('|')[1] == 'undefined' || localStorage.getItem('localItems') == '') {
+if (localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(localStorage.getItem('localItems')))[0] == '') {
+  var defaultObj = {
+    'Unnamed section': 'Unnamed pane|Do homework|pane quietDown panenew',
+  }
+  localStorage.setItem('localItems', JSON.stringify(defaultObj))
   // Get the first section and set to the currentSection you are on
   window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
   // Check if you enabled extend
@@ -399,7 +403,7 @@ for (var i9 = 0; i9 < parsedJSON.length; i9++) {
   console.log('meow', Object.keys(JSON.parse(localStorage.getItem('localItems')))[i9]);
 }
 
-var allItems = [];
+var allItems = '';
 
 var saveItems = setInterval(function () {
   // Update the panes with how they are configured
@@ -408,7 +412,8 @@ var saveItems = setInterval(function () {
   // Add oninput to all pane divs to trgiger a oninput
   for (var i = 0; i < items.length; i++) {
     // Get all newp in each pane, newp[0] is title, newp[1] is description
-    allItems.push(`${items[i].getElementsByClassName('newp')[0].innerText}|${items[i].getElementsByClassName('newp')[1].innerText}|${items[i].className}`);
+    allItems += `${items[i].getElementsByClassName('newp')[0].innerText}|${items[i].getElementsByClassName('newp')[1].innerText}|${items[i].className}${splitC}`;
+    console.log(items[i].className);
     // Push code so it's:
     // Unnamed pane|Description|important
   }
@@ -426,7 +431,7 @@ var saveItems = setInterval(function () {
   // set section in localstorage to the array of panes
   itemObj[window.currentSection] = allItems;
   localStorage.setItem('localItems', JSON.stringify(itemObj))
-  allItems = []
+  allItems = ''
 }, 1000)
 
 function newItem(t) {

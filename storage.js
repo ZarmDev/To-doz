@@ -81,17 +81,10 @@ function clickPane(t) {
   }
 }
 
-if (localStorage.getItem('localItems') == undefined || localStorage.getItem('localItems').split('|')[1] == 'undefined' || localStorage.getItem('localItems') == '') {
-    var defaultObj = {
-        'Unnamed section': 'Unnamed pane|Do homework|pane quietDown panenew',
-    }
-    localStorage.setItem('localItems', JSON.stringify(defaultObj))
-    window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
-} else {
-    window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
-}
-
+console.log(JSON.parse(localStorage.getItem('localItems')))
 console.log(window.currentSection);
+
+export var splitC = '·';
 
 export function addPane(choice, extraParam) {
   // create function with all of this accept you can change the attributes
@@ -186,12 +179,14 @@ export function addPane(choice, extraParam) {
       */
       var localItems = JSON.parse(localStorage.getItem('localItems'));
       console.log(localItems, localItems[window.currentSection], window.currentSection);
-      if (localItems[window.currentSection].includes(',')) {
+      if (localItems[window.currentSection].includes(splitC)) {
         console.log('checkI@ii1ieji12eij', localItems[window.currentSection]);
-        localItems = localItems[window.currentSection].split(',');
+        // .splice(0, localItems[window.currentSection].length - 1);
+        localItems = localItems[window.currentSection].split(splitC)
+        localItems.pop()
       } else {
-        console.log(`${localItems[window.currentSection]},`, `${localItems[window.currentSection]},`.split(','), `${localItems[window.currentSection]},`.split(',').length - 1);
-        localItems = `${localItems[window.currentSection]},`.split(',').splice(0, `${localItems[window.currentSection]},`.split(',').length - 1);
+        console.log(`${localItems[window.currentSection]},`, `${localItems[window.currentSection]},`.split(splitC), `${localItems[window.currentSection]},`.split(',').length - 1);
+        localItems = `${localItems[window.currentSection]}${splitC}`.split(splitC).splice(0, `${localItems[window.currentSection]}${splitC}`.split(splitC).length - 1);
       }
       console.log('itemS', localItems);
       for (var t = 0; t < localItems.length; t++) {

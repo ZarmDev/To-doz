@@ -1,5 +1,3 @@
-- User added comma could interfere with split
-
 After testing the below doesn't work...
 - User can inject code because of use of innerHTML
 
