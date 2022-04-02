@@ -1,6 +1,8 @@
 # To-doz
 A web-app that lets you make notes to do
 
+Note: IF you were recently contributing/using the project, you should clear your data (in the settings) because of the new commit. Sorry if any data was lost.
+
 # Credits:
 
 (Reference to keep note of)
