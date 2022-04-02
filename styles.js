@@ -165,7 +165,7 @@ export function popupAnim() {
       if (t > 500) {
         clearInterval(myInterval)
       }
-    }, 1)
+    }, 10)
   }
 }
 
@@ -197,18 +197,18 @@ export function toggleSidebar() {
       if (t > 35) {
         clearInterval(animateSidebar)
       }
-    }, 10)
+    }, 20) //increasing number makes it slower, controls the speed
   } else {
+    //sliding animation
     toggle1 = false;
     var t = 0;
-    sidebar.style.left = '-120vw';
     var animateSidebar = setInterval(function () {
       t++
       sidebar.style.left = `${t}px`;
       console.log(t);
-      if (t > 1) {
+      if (t > 1) {  //positions how far right the sidebar goes
         clearInterval(animateSidebar)
       }
-    }, 10)
+    }, 140)
   }
 }
