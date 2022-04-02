@@ -31,10 +31,11 @@ body {
 }
 #sidebar {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.164);
+  background-color: rgba(0, 80, 146, 0.164); /*changed color to make side bar more distinct*/
   width: 20%;
   height: 100%;
   text-align: center;
+  z-index: 2;
 }
 #extraPopup {
   position: absolute;
