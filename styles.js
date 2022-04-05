@@ -186,11 +186,16 @@ var toggle1 = false;
 
 // Animation for sidebar
 
+var animateSidebar = undefined
+var animateSidebar2 = undefined
+
 export function toggleSidebar() {
+  // Open
   if (toggle1 == false) {
+    clearInterval(animateSidebar2)
     toggle1 = true;
     var t = 0;
-    var animateSidebar = setInterval(function () {
+    animateSidebar = setInterval(function () {
       t++
       sidebar.style.left = `-${t}vw`;
       console.log(t);
@@ -199,16 +204,17 @@ export function toggleSidebar() {
       }
     }, 20) //increasing number makes it slower, controls the speed
   } else {
+    clearInterval(animateSidebar)
     //sliding animation
     toggle1 = false;
     var t = 0;
-    var animateSidebar = setInterval(function () {
+    animateSidebar2 = setInterval(function () {
       t++
-      sidebar.style.left = `${t}px`;
+      sidebar.style.left = `${t - 20}%`;
       console.log(t);
-      if (t > 1) {  //positions how far right the sidebar goes
-        clearInterval(animateSidebar)
+      if (t > 19) {  //positions how far right the sidebar goes
+        clearInterval(animateSidebar2)
       }
-    }, 140)
+    }, 10)
   }
 }
