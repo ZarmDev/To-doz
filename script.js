@@ -588,6 +588,8 @@ function addStreak() {
     document.getElementById('streak').innerHTML = `Your streak: ${getCookie('streak')}🔥`;
     // if last time streak added is not today (so you didn't add to the streak twice in a day)
   } else if (localStorage.getItem('oldDate') != date.toDateString()) {
+    localStorage.setItem('oldDate', date.toDateString())
+    console.log(localStorage.getItem('oldDate'), date.toDateString());
     // set streak to next day
     setCookie('streak', parseInt(getCookie('streak')) + 1, 1)
     // update streak on page
@@ -597,6 +599,7 @@ function addStreak() {
 
 function resetStreak() {
   setCookie('streak', '0', 1)
+  document.getElementById('streak').innerHTML = `Your streak: ${getCookie('streak')}🔥`;
 }
 
 // Clear localStorage and cookies
