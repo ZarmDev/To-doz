@@ -599,6 +599,7 @@ function addStreak() {
 
 function resetStreak() {
   setCookie('streak', '0', 1)
+  localStorage.setItem('oldDate', 'undefined')
   document.getElementById('streak').innerHTML = `Your streak: ${getCookie('streak')}🔥`;
 }
 
