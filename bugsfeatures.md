@@ -30,7 +30,6 @@ Sometimes cookie expiration date is set two days after
 
 Extra text is made into divs and disapear because first time they are SAVED as divs second time they are ADDED as divs and third they are not added because they are seperate to p as div
 
-Add labels for importance/colors
 */
 /*
 // Temporary way of asking user
@@ -46,8 +45,6 @@ if (check == '' || check == null)  {
 }
 
 When blue button is pressed twice, make size of pane back to original
-
-New way to store 'Unnamed pane|Description|labels: important*due|||'
 
 The ||| is just empty configs so when you refer to a config you can just use a specific index
 
@@ -66,8 +63,6 @@ On topbar have button that shows all your due stuff
 Or at the topbar there is a bunch of buttons that contain the sections
 
 Floating title and description (seperate)
-
-Due by label
 
 Span one pane to fit the entire screen
 
