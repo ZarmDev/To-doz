@@ -149,3 +149,5 @@ If data is disabled, then either don't allow user to use site or don't use local
 Using longerPane on all the panes at window onload doesn't work (doesn't mimick when pane is inputed)
 
 Add section if section is undefined (tryed to implement but doesn't work)
+
+Add a bar with all the labels to filter through panes

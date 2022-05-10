@@ -25,10 +25,22 @@
     <button id="exitExtraPopup">X</button>
     <div>
     <h2>Label: </h2>
-    <span class="critical">Critical</span>
+    <form id="labels">
+      <input type="radio" id="none" name="labels" checked>
+      <label class="noneC" for="none">None</label>
+      <input type="radio" id="critical" name="labels">
+      <label class="criticalC" for="critical">Critical</label>
+      <input type="radio" id="important" name="labels">
+      <label class="importantC" for="important">Important</label>
+      <input type="radio" id="due" name="labels">
+      <label class="dueC" for="due">Due</label>
+      <input type="radio" id="due-soon" name="labels">
+      <label class="due-soonC" for="due-soon">Due-soon</label>
+    </form>
+    <!-- <span class="critical">Critical</span>
     <span class="important">Important</span>
     <span class="due">Due</span>
-    <span class="due-soon">Due soon</span>
+    <span class="due-soon">Due soon</span> -->
     </div>
     </div>
 	<div id="popup">

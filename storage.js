@@ -1,15 +1,27 @@
-import {changeTopbar, changeAllColors, changeBackColor, changeFontColor, changeButtonColor, setBlurOn, roundC, newFontFamily, changeFontSize, extendEnable} from './styles.js'
+import { changeTopbar, changeAllColors, changeBackColor, changeFontColor, changeButtonColor, setBlurOn, roundC, newFontFamily, changeFontSize, extendEnable } from './styles.js'
 import { streakEnable } from './script.js';
 
 export var textTag = 'pre';
 export const items = document.getElementsByClassName('pane');
 
 function removeT(t) {
-    t.parentElement.remove()
+  t.parentElement.remove()
 }
 
 function extra(t) {
-    //
+  console.log(t.parentElement);
+  window.selectedPane = t.parentElement;
+  // stop user from clicking other buttons
+  document.getElementById('extraPopup').style.visibility = 'visible';
+  document.getElementById('extraPopup').style.backgroundColor = 'rgb(128, 128, 128)';
+  document.getElementById('extraPopup').style.opacity = '0.85';
+  console.log(window.selectedPane.className.split(' ')[3]);
+  for (var i = 0; i < document.getElementById('labels').children.length; i++) {
+    if (document.getElementById('labels').children[i].checked == true) {
+      document.getElementById('labels').children[i].checked = false
+    }
+  }
+  document.getElementById(window.selectedPane.className.split(' ')[3]).checked = true;
 }
 
 export function longerPane(t) {
@@ -132,7 +144,7 @@ export function addPane(choice, extraParam) {
     var backgroundDiv = document.createElement('div');
     backgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
     backgroundDiv.addEventListener('click', function (e) {
-        clickPane(this)
+      clickPane(this)
     })
   }
   switch (choice) {
@@ -201,43 +213,57 @@ export function addPane(choice, extraParam) {
         ltitle.innerHTML = `${localItems[t].split('|')[0]}`;
         ltitle.style = 'margin-top: 0.5vw; margin-bottom: 1vw;';
         ltitle.addEventListener('input', function (e) {
-            longerPane(this)
+          longerPane(this)
         })
         var ldescription = document.createElement(textTag);
         ldescription.setAttribute('contenteditable', 'true')
         ldescription.addEventListener('input', function (e) {
-            longerPane(this)
+          longerPane(this)
         })
         ldescription.innerHTML = `${localItems[t].split('|')[1]}`;
         ldescription.setAttribute('class', 'newp popupChange description')
         // for some reason when moving button out of scope, it doesn't work
         var lbutton = document.createElement('button');
         lbutton.addEventListener('click', function (e) {
-            removeT(this)
+          removeT(this)
         })
         lbutton.innerHTML = 'X';
         lbutton.setAttribute('class', 'popupChange button')
         var lbackgroundDiv = document.createElement('div');
         lbackgroundDiv.addEventListener('click', function (e) {
-            clickPane(this)
+          clickPane(this)
         })
         lbackgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
         var lother = document.createElement('button');
         lother.addEventListener('click', function (e) {
-            extra(this)
+          extra(this)
         })
         lother.setAttribute('class', 'button3')
         lother.innerHTML = '...';
+        var label = document.createElement('span');
+        label.style = `position: relative; background-color: rgb(0, 255, 251);
+        padding: 1ch;
+        border-radius: 10px; margin: 0; font-size: 1.2ch; user-select: none;`;
+        label.innerHTML = localItems[t].split('|')[2].split(' ')[3];
+        label.setAttribute('class', `${localItems[t].split('|')[2].split(' ')[3]}C`)
         console.log('local', localItems);
         if (localItems[t].split('|')[2].includes('panetemp')) {
           allpanes.appendChild(lpane)
           lpane.appendChild(lbackgroundDiv)
+          console.log(localItems[t].split('|')[2].split(' '));
+          if (localItems[t].split('|')[2].split(' ')[3] != undefined && localItems[t].split('|')[2].split(' ')[3] != 'none') {
+            lpane.appendChild(label)
+          }
           lpane.appendChild(lbutton)
           lpane.appendChild(lother)
           lpane.appendChild(ltitle)
           lpane.appendChild(ldescription)
         } else if (localItems[t].split('|')[2].includes('panenew')) {
           allpanes.appendChild(lpane)
+          console.log(localItems[t].split('|')[2].split(' '));
+          if (localItems[t].split('|')[2].split(' ')[3] != undefined && localItems[t].split('|')[2].split(' ')[3] != 'none') {
+            lpane.appendChild(label)
+          }
           console.log(lbutton, lpane);
           lpane.appendChild(lbutton)
           lpane.appendChild(lother)

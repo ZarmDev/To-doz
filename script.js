@@ -1,5 +1,5 @@
-import {changeTopbar, changeFontColor, changeAllColors, changeBackColor, changeButtonColor, setBlurOn, roundC, newFontFamily, extendEnable, changeFontSize, changePopupColor, themeEnable, popupAnim, popupClose, toggleSidebar} from './styles.js'
-import {addPane, textTag, items, longerPane, splitC} from './storage.js'
+import { changeTopbar, changeFontColor, changeAllColors, changeBackColor, changeButtonColor, setBlurOn, roundC, newFontFamily, extendEnable, changeFontSize, changePopupColor, themeEnable, popupAnim, popupClose, toggleSidebar } from './styles.js'
+import { addPane, textTag, items, longerPane, splitC } from './storage.js'
 
 console.log(localStorage.getItem('localItems'));
 
@@ -11,6 +11,8 @@ const item = document.createElement('div');
 
 const sidebar = document.getElementById('sidebar');
 const sidebarlist = document.getElementById('sidebarlist');
+
+window.selectedPane = undefined;
 
 // Mobile popup
 
@@ -136,7 +138,7 @@ function e(id, event, func) {
 
 e('sidebarToggle', 'click', toggleSidebar)
 e('addSection', 'click', addSection)
-e('exitMobile', 'click', function () {this.parentElement.style.visibility = 'hidden'})
+e('exitMobile', 'click', function () { this.parentElement.style.visibility = 'hidden' })
 e('exitExtraPopup', 'click', extraPopupClose)
 e('exitPopup', 'click', popupClose)
 e('themeSelect', 'change', function () {
@@ -698,3 +700,41 @@ function extend(t) {
   }
   // This means that 25 * 1 and 25 *2 matches scrollHeight
 }
+
+function getCheckedLabel() {
+  for (var i = 0; i < document.getElementById('labels').children.length; i++) {
+    if (document.getElementById('labels').children[i].checked == true) {
+      return document.getElementById('labels').children[i].id;
+    }
+  }
+}
+
+e('labels', 'change', function () {
+  // Set the pane's classname to it's label (ex: important)
+  console.log(getCheckedLabel());
+  window.selectedPane.setAttribute('class', `${window.selectedPane.className.split(' ').slice(0, 3).toString().replace(/,/g, ' ')}`)
+  window.selectedPane.setAttribute('class', `${window.selectedPane.className} ${getCheckedLabel()}`)
+  if (getCheckedLabel() == 'none') {
+    for (var i = 0; i < window.selectedPane.children.length; i++) {
+      // lazy
+      if (window.selectedPane.children[i].innerText == 'due' || window.selectedPane.children[i].innerText == 'important' || window.selectedPane.children[i].innerText == 'critical' || window.selectedPane.children[i].innerText == 'due-soon') {
+        window.selectedPane.children[i].remove()
+      }
+    }
+    return false;
+  }
+  var label = document.createElement('span');
+  label.style = `position: relative; background-color: rgb(0, 255, 251);
+  padding: 1ch;
+  border-radius: 10px; margin: 0; font-size: 1.2ch; user-select: none;`;
+  label.setAttribute('class', `${getCheckedLabel()}C`)
+  console.log(window.selectedPane.className.split(' ')[3]);
+  label.innerHTML = getCheckedLabel()
+  for (var i = 0; i < window.selectedPane.children.length; i++) {
+    // lazy
+    if (window.selectedPane.children[i].innerText == 'due' || window.selectedPane.children[i].innerText == 'important' || window.selectedPane.children[i].innerText == 'critical' || window.selectedPane.children[i].innerText == 'due-soon') {
+      window.selectedPane.children[i].remove()
+    }
+  }
+  window.selectedPane.insertBefore(label, window.selectedPane.getElementsByClassName('button')[0])
+})
