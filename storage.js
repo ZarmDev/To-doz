@@ -42,7 +42,7 @@ export function longerPane(t) {
     if (chose == t.parentElement.getElementsByClassName('newp')[1]) {
       // If text is not longer than screen and it's higher than the minimum
       if (chose.scrollWidth < window.innerWidth && chose.scrollWidth > 120) {
-        t.parentElement.style.width = chose.scrollWidth + "px";
+        t.parentElement.style.width = chose.scrollWidth + 20 + "px";
       }
     }
   }
