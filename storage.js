@@ -115,7 +115,7 @@ export function addPane(choice, extraParam) {
   button.setAttribute('class', 'button')
   var title = document.createElement(textTag);
   title.setAttribute('contenteditable', 'true')
-  title.setAttribute('class', 'newp')
+  title.setAttribute('class', 'newp title')
   title.addEventListener('input', function (e) {
     longerPane(this)
   })
@@ -127,7 +127,7 @@ export function addPane(choice, extraParam) {
     longerPane(this)
   })
   description.innerHTML = 'Description';
-  description.setAttribute('class', 'newp')
+  description.setAttribute('class', 'newp description')
   var button2 = document.createElement('button');
   button2.addEventListener('click', function (e) {
     extend(this)

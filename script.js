@@ -24,6 +24,11 @@ if (mql.matches && localStorage.getItem('localMobile') == undefined) {
   document.getElementById('title').style.marginLeft = '5%';
 }
 
+if (localStorage.getItem('localFirefox') == undefined) {
+  localStorage.setItem('localFirefox', 'done')
+  document.getElementById('firefox').style.visibility = 'visible';
+}
+
 // Show enable/disable localstorage popup
 
 if (localStorage.getItem('enableData') == undefined) {
@@ -139,6 +144,7 @@ function e(id, event, func) {
 e('sidebarToggle', 'click', toggleSidebar)
 e('addSection', 'click', addSection)
 e('exitMobile', 'click', function () { this.parentElement.style.visibility = 'hidden' })
+e('exitFirefox', 'click', function () { this.parentElement.style.visibility = 'hidden' })
 e('exitExtraPopup', 'click', extraPopupClose)
 e('exitPopup', 'click', popupClose)
 e('themeSelect', 'change', function () {

@@ -7,15 +7,6 @@ Would that mean that in addStreak() the streak should be checked again?
 
 Consider making better animations. lol
 
-When allItems is saved to localStorage, replace ',' with another letter and when it's loaded, split by that letter
-This lets users add commas in their panes
-
-Tested next month, doesn't work need to change system
-
-Add popup for Firefox users to disable protection settings for the streak
-
-Automatically extend when scrollHeight exceeds 300
-
 Widgets:
 
 Calender
@@ -26,23 +17,10 @@ Time
 
 Add pane in specific positions
 
-Sometimes cookie expiration date is set two days after
-
 Extra text is made into divs and disapear because first time they are SAVED as divs second time they are ADDED as divs and third they are not added because they are seperate to p as div
 
 */
 /*
-// Temporary way of asking user
-
-var check = prompt('Answer with y/n: Do you allow cookies and localstorage? (To save your streak and all the customizations)');
-
-if (check != 'y') {
-  close(window)
-}
-
-if (check == '' || check == null)  {
-  close(window)
-}
 
 When blue button is pressed twice, make size of pane back to original
 
