@@ -246,8 +246,8 @@ body {
 .description {
   margin-left: 1vw;
   font-size: 2ch;
-  text-align: left;
-  width: 10px;
+  text-align: center;
+  width: 100px;
 }
 /* Not working */
 /* .pane pre:nth-child(3) {

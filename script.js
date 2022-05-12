@@ -24,7 +24,7 @@ if (mql.matches && localStorage.getItem('localMobile') == undefined) {
   document.getElementById('title').style.marginLeft = '5%';
 }
 
-if (localStorage.getItem('localFirefox') == undefined) {
+if (localStorage.getItem('localFirefox') ==  undefined && navigator.userAgent.search('Firefox') > -1) {
   localStorage.setItem('localFirefox', 'done')
   document.getElementById('firefox').style.visibility = 'visible';
 }
