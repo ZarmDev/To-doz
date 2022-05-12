@@ -124,3 +124,5 @@ Using longerPane on all the panes at window onload doesn't work (doesn't mimick 
 Add section if section is undefined (tryed to implement but doesn't work)
 
 Add a bar with all the labels to filter through panes
+
+Add tutorial on site

@@ -277,6 +277,7 @@ export function addPane(choice, extraParam) {
       description.innerHTML = 'Do homework';
       allpanes.appendChild(pane)
       pane.appendChild(button)
+      pane.appendChild(other)
       pane.appendChild(title)
       pane.appendChild(description)
       break;
@@ -290,6 +291,7 @@ export function addPane(choice, extraParam) {
       allpanes.appendChild(pane)
       pane.appendChild(backgroundDiv)
       pane.appendChild(button)
+      pane.appendChild(other)
       if (extraParam.includes('extend')) {
         pane.appendChild(button2)
       }
