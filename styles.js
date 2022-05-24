@@ -64,6 +64,9 @@ export function roundC(t) {
     for (var i3 = 0; i3 < document.getElementsByTagName('select').length; i3++) {
       document.getElementsByTagName('select')[i3].style.borderRadius = '10px';
     }
+    for (var i3 = 0; i3 < document.getElementsByTagName('label').length; i3++) {
+      document.getElementsByTagName('label')[i3].style.borderRadius = '10px';
+    }
   } else {
     document.getElementById('topbar').style.borderRadius = '0';
     document.getElementById('popup').style.borderRadius = '0';
@@ -76,6 +79,9 @@ export function roundC(t) {
     }
     for (var i3 = 0; i3 < document.getElementsByTagName('select').length; i3++) {
       document.getElementsByTagName('select')[i3].style.borderRadius = '0';
+    }
+    for (var i3 = 0; i3 < document.getElementsByTagName('label').length; i3++) {
+      document.getElementsByTagName('label')[i3].style.borderRadius = '0';
     }
   }
   localStorage.setItem('localRoundedCheck', t.value)
