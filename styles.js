@@ -41,8 +41,8 @@ export function changeButtonColor(t) {
 
 export function setBlurOn(t) {
   if (t.value == 'On') {
-    document.getElementById('popup').style.backdropFilter = 'blur(15px)';
-    document.getElementById('dropdown-content').style.backdropFilter = 'blur(15px)';
+    document.getElementById('popup').style.backdropFilter = 'blur(2px)';
+    document.getElementById('dropdown-content').style.backdropFilter = 'blur(2px)';
   } else {
     document.getElementById('popup').style.backdropFilter = 'none';
     document.getElementById('dropdown-content').style.backdropFilter = 'none';
@@ -50,27 +50,40 @@ export function setBlurOn(t) {
   localStorage.setItem('localBlurCheck', t.value)
 }
 
+function roundCorners(elements, borderRadius) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].style.borderRadius = borderRadius;
+  }
+}
+
 export function roundC(t) {
   if (t.value == 'On') {
-    document.getElementById('topbar').style.borderRadius = '0 0 10px 10px';
-    document.getElementById('popup').style.borderRadius = '5px';
-    document.getElementById('dropdown-content').style.borderRadius = '5px';
+    document.getElementById('topbar').style.borderRadius = '0 0 6px 6px';
+    document.getElementById('popup').style.borderRadius = '6px';
+    document.getElementById('dropdown-content').style.borderRadius = '6px';
+    /*
     for (var i = 0; i < items.length; i++) {
       items[i].style.borderRadius = '10px';
     }
     for (var i2 = 0; i2 < document.getElementsByTagName('button').length; i2++) {
-      document.getElementsByTagName('button')[i2].style.borderRadius = '10px';
+      document.getElementsByTagName('button')[i2].style.borderRadius = '6px';
     }
     for (var i3 = 0; i3 < document.getElementsByTagName('select').length; i3++) {
-      document.getElementsByTagName('select')[i3].style.borderRadius = '10px';
+      document.getElementsByTagName('select')[i3].style.borderRadius = '6px';
     }
     for (var i3 = 0; i3 < document.getElementsByTagName('label').length; i3++) {
-      document.getElementsByTagName('label')[i3].style.borderRadius = '10px';
+      document.getElementsByTagName('label')[i3].style.borderRadius = '6px';
     }
+    */
+   roundCorners(items, '10px')
+   roundCorners(document.getElementsByTagName('button'), '6px')
+   roundCorners(document.getElementsByTagName('select'), '6px')
+   roundCorners(document.getElementsByTagName('label'), '6px')
   } else {
     document.getElementById('topbar').style.borderRadius = '0';
     document.getElementById('popup').style.borderRadius = '0';
     document.getElementById('dropdown-content').style.borderRadius = '0';
+    /*
     for (var i = 0; i < items.length; i++) {
       items[i].style.borderRadius = '0';
     }
@@ -83,6 +96,11 @@ export function roundC(t) {
     for (var i3 = 0; i3 < document.getElementsByTagName('label').length; i3++) {
       document.getElementsByTagName('label')[i3].style.borderRadius = '0';
     }
+    */
+    roundCorners(items, '0')
+    roundCorners(document.getElementsByTagName('button'), '0')
+    roundCorners(document.getElementsByTagName('select'), '0')
+    roundCorners(document.getElementsByTagName('label'), '0')
   }
   localStorage.setItem('localRoundedCheck', t.value)
 }
@@ -115,9 +133,17 @@ export function changeFontSize(t) {
   localStorage.setItem('localFontSize', t.value)
 }
 
+// Totally didn't find on stackoverflow
+
+function hexToRGB(hex) {
+  return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0];
+}
+
 export function changePopupColor(t) {
-  document.getElementById('popup').style.backgroundColor = `${t.value}`;
-  document.getElementById('popup').style.opacity = '0.85';
+  var getHValue = hexToRGB(t.value);
+  console.log('STUFF', getHValue[0], `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`);
+  document.getElementById('popup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
+  // document.getElementById('popup').style.opacity = '0.85';
   localStorage.setItem('localPopupColor', t.value)
 }
 
@@ -162,16 +188,16 @@ export function popupAnim() {
   } else {
     // Faster animation
     let t = 0;
-    let a = 500;
+    let a = 1000;
     var myInterval = setInterval(function () {
       popup.style.bottom = `${500 - t}px`;
       popup.style.visibility = 'visible';
       a--
-      t += a * 0.05;
-      if (t > 500) {
+      t += a * 0.01;
+      if (t > a/1.92) {
         clearInterval(myInterval)
       }
-    }, 10)
+    }, 1)
   }
 }
 
@@ -188,7 +214,7 @@ export function popupClose() {
   document.getElementById('popup').style.visibility = 'hidden';
 }
 
-var toggle1 = false;
+var toggle1 = true;
 
 // Animation for sidebar
 
@@ -202,25 +228,25 @@ export function toggleSidebar() {
     toggle1 = true;
     var t = 0;
     animateSidebar = setInterval(function () {
-      t++
+      t += 0.5;
       sidebar.style.left = `-${t}vw`;
       console.log(t);
       if (t > 35) {
         clearInterval(animateSidebar)
       }
-    }, 20) //increasing number makes it slower, controls the speed
+    }, 10) //increasing number makes it slower, controls the speed
   } else {
     clearInterval(animateSidebar)
     //sliding animation
     toggle1 = false;
     var t = 0;
     animateSidebar2 = setInterval(function () {
-      t++
+      t += 0.5;
       sidebar.style.left = `${t - 20}%`;
       console.log(t);
       if (t > 19) {  //positions how far right the sidebar goes
         clearInterval(animateSidebar2)
       }
-    }, 10)
+    }, 5)
   }
 }

@@ -153,7 +153,6 @@ export function addPane(choice, extraParam) {
         pane.style.borderRadius = '10px';
         button.style.borderRadius = '10px';
         button2.style.borderRadius = '10px';
-        button3.style.borderRadius
       }
       allpanes.appendChild(pane)
       pane.appendChild(button)
@@ -163,6 +162,8 @@ export function addPane(choice, extraParam) {
       pane.appendChild(other)
       pane.appendChild(title)
       pane.appendChild(description)
+      longerPane(title)
+      longerPane(description)
       break;
     case 'load':
       /*
@@ -240,19 +241,19 @@ export function addPane(choice, extraParam) {
         })
         lother.setAttribute('class', 'button3')
         lother.innerHTML = '...';
-        var label = document.createElement('span');
-        label.style = `position: relative; background-color: rgb(0, 255, 251);
+        var llabel = document.createElement('span');
+        llabel.style = `position: relative; background-color: rgb(0, 255, 251);
         padding: 1ch;
         border-radius: 10px; margin: 0; font-size: 1.2ch; user-select: none;`;
-        label.innerHTML = localItems[t].split('|')[2].split(' ')[3];
-        label.setAttribute('class', `${localItems[t].split('|')[2].split(' ')[3]}C`)
+        llabel.innerHTML = localItems[t].split('|')[2].split(' ')[3];
+        llabel.setAttribute('class', `${localItems[t].split('|')[2].split(' ')[3]}C`)
         console.log('local', localItems);
         if (localItems[t].split('|')[2].includes('panetemp')) {
           allpanes.appendChild(lpane)
           lpane.appendChild(lbackgroundDiv)
           console.log(localItems[t].split('|')[2].split(' '));
           if (localItems[t].split('|')[2].split(' ')[3] != undefined && localItems[t].split('|')[2].split(' ')[3] != 'none') {
-            lpane.appendChild(label)
+            lpane.appendChild(llabel)
           }
           lpane.appendChild(lbutton)
           lpane.appendChild(lother)
@@ -262,7 +263,7 @@ export function addPane(choice, extraParam) {
           allpanes.appendChild(lpane)
           console.log(localItems[t].split('|')[2].split(' '));
           if (localItems[t].split('|')[2].split(' ')[3] != undefined && localItems[t].split('|')[2].split(' ')[3] != 'none') {
-            lpane.appendChild(label)
+            lpane.appendChild(llabel)
           }
           console.log(lbutton, lpane);
           lpane.appendChild(lbutton)

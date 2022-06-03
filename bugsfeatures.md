@@ -126,3 +126,6 @@ Add section if section is undefined (tryed to implement but doesn't work)
 Add a bar with all the labels to filter through panes
 
 Add tutorial on site
+
+When clicking on inputs, the inputs does a animation that extends to the right
+and opposite when clicking out

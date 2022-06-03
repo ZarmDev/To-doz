@@ -1,12 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 body {
   padding: 0;
   margin: 0;
 }
+
 #sidebarToggle {
   position: absolute;
   z-index: 6;
 }
+
+button {
+  border: solid rgb(125, 125, 125) 2px !important;
+}
+
+button:hover {
+  border: solid rgb(114, 114, 114) 2px !important;
+}
+
+select {
+  border: solid rgb(114, 114, 114) 2px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+select > * {
+  background-color: rgba(141, 141, 141, 0.139);
+}
+
+input[type="color"] {
+  border: solid rgba(114, 114, 114, 0.2) 2px !important;
+  background-color: rgba(114, 114, 114, 0.509);
+}
+
+input[type="text"] {
+  border: solid rgba(114, 114, 114) 10px !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
+input[type="number"] {
+  border: solid rgba(114, 114, 114) 2px !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
+input[type="submit"] {
+  border: solid rgba(114, 114, 114) 2px !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
 #mobile {
   position: absolute;
   width: 80%;
@@ -18,9 +58,11 @@ body {
   text-align: center;
   visibility: hidden;
 }
+
 #mobile h1 {
   margin-top: 10%;
 }
+
 #mobile button:nth-child(1) {
   position: absolute;
   left: 70vw;
@@ -29,6 +71,7 @@ body {
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
   margin-top: 20px;
 }
+
 #firefox {
   position: absolute;
   width: 80%;
@@ -40,9 +83,11 @@ body {
   text-align: center;
   visibility: hidden;
 }
+
 #firefox h1 {
   margin-top: 10%;
 }
+
 #firefox button:nth-child(1) {
   position: absolute;
   left: 70vw;
@@ -51,14 +96,17 @@ body {
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
   margin-top: 20px;
 }
+
 #sidebar {
   position: absolute;
-  background-color: rgba(0, 80, 146, 0.164); /*changed color to make side bar more distinct*/
+  background-color: rgba(0, 80, 146, 0.059);
+  left: -35.5vw;
   width: 20%;
   height: 100%;
   text-align: center;
   z-index: 2;
 }
+
 #extraPopup {
   position: absolute;
   text-align: center;
@@ -72,6 +120,7 @@ body {
   height: 75%;
   visibility: hidden;
 }
+
 #extraPopup button:nth-child(1) {
   position: absolute;
   left: 70vw;
@@ -80,79 +129,98 @@ body {
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
   margin-top: 20px;
 }
+
 #extraPopup input {
   display: none;
 }
+
 #extraPopup input:checked+label {
   font-weight: 900;
 }
+
 #extraPopup label {
   font-size: 3ch;
   padding: 4px 11px;
   display: inline-block;
   cursor: pointer;
 }
+
 /* background-color: red; */
 .noneC {
   background-color: rgb(169, 175, 181) !important;
 }
+
 .noneC:hover {
   background-color: rgb(206, 214, 221) !important;
 }
+
 .criticalC {
   background-color: rgb(255, 0, 0) !important;
 }
+
 .criticalC:hover {
   background-color: rgb(199, 48, 48) !important;
 }
+
 /* background-color: rgb(136, 202, 204); */
 .importantC {
   background-color: rgb(0, 251, 255) !important;
 }
+
 .importantC:hover {
   background-color: rgb(136, 202, 204) !important;
 }
+
 /* background-color: rgb(231, 16, 16); */
 .dueC {
   background-color: rgb(135, 8, 8) !important;
 }
+
 .dueC:hover {
   background-color: rgb(107, 22, 22) !important;
 }
+
 /* background-color: rgb(120, 160, 41); */
 .due-soonC {
   background-color: rgb(119, 172, 12) !important;
 }
+
 .due-soonC:hover {
   background-color: rgb(81, 109, 25) !important;
 }
+
 /* In popup class to make smaller widths longer is longerInput */
 #popup {
   position: absolute;
   width: 80%;
   height: 95%;
   /* background-color: rgba(128, 128, 128, 0.534); */
-  background-color: rgb(153 153 153 / 70%);
+  background-color: rgba(153, 153, 153, 0.746);
   z-index: 1;
   margin: 2% 0 0 10%;
   display: grid;
   visibility: hidden;
   grid-template-areas: 'colors colorstwo features fonts';
 }
-#popup > * {
+
+#popup>* {
   margin-left: 20px;
   font-family: 'Open Sans', sans-serif;
 }
+
 #popup select {
   width: calc(5ch + 1vw);
 }
+
 #popup input {
   width: calc(5ch + 1.4vw);
 }
+
 .longerInput {
   width: calc(5ch + 4.1vw) !important;
   color: red;
 }
+
 #popup button:nth-child(1) {
   position: absolute;
   left: 70vw;
@@ -161,31 +229,39 @@ body {
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
   margin-top: 20px;
 }
+
 #popup div:nth-child(1) {
   grid-area: colors;
 }
+
 #popup div:nth-child(2) {
   grid-area: colorstwo;
 }
+
 #popup div:nth-child(3) {
   grid-area: features;
 }
+
 #popup div:nth-child(4) {
   grid-area: fonts;
 }
+
 @media only screen and (max-width: 760px) {
   #popup {
     margin: 2% 0 0 1%;
     width: 100%;
     height: 150%;
   }
-  #popup div:nth-child(3) > * {
+
+  #popup div:nth-child(3)>* {
     width: 12vw;
   }
+
   #popup div:nth-child(4) {
     margin-left: 60px;
   }
 }
+
 #topbar {
   /* background-color: rgb(12, 119, 12); */
   padding: 0.5vw;
@@ -195,12 +271,15 @@ body {
   font-family: 'Open Sans', sans-serif;
   gap: 2vw;
 }
-#topbar > button {
+
+#topbar>button {
   font-size: 2ch;
 }
+
 #streak {
   margin-left: 40px;
 }
+
 #allpanes {
   /* display: grid; */
   /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
@@ -210,6 +289,7 @@ body {
   display: flex;
   flex-wrap: wrap;
 }
+
 .pane {
   background-color: rgb(192, 192, 192);
   /* padding: 2vw;
@@ -228,14 +308,17 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 }
-.pane > * {
+
+.pane>* {
   position: relative;
   z-index: 1;
 }
-.pane > div {
+
+.pane>div {
   background-size: cover;
   background-repeat: no-repeat;
 }
+
 /* Margin is in addPane() */
 .title {
   margin-left: auto;
@@ -243,12 +326,14 @@ body {
   font-size: 2.ch;
   font-weight: 500;
 }
+
 .description {
   margin-left: 1vw;
   font-size: 2ch;
   text-align: center;
   width: 100px;
 }
+
 /* Not working */
 /* .pane pre:nth-child(3) {
   margin-top: 1vw;
@@ -257,9 +342,11 @@ body {
 .pane button {
   margin-top: 2vw;
 }
+
 .newp {
   font-family: 'Open Sans', sans-serif;
 }
+
 .button {
   position: relative;
   left: 1vw;
@@ -267,6 +354,7 @@ body {
   border: 2px 2px 2px 2px white;
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
 }
+
 .button2 {
   position: relative;
   left: 4vw;
@@ -274,6 +362,7 @@ body {
   border: 2px 2px 2px 2px white;
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
 }
+
 .button3 {
   position: relative;
   left: 1vw;
@@ -281,6 +370,7 @@ body {
   border: 2px 2px 2px 2px white;
   box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
 }
+
 #data {
   background-color: rgba(128, 128, 128, 0.534);
   padding: 1vw;
@@ -289,45 +379,60 @@ body {
   top: calc(82.5% - 3.8em);
   height: 15%;
 }
+
 #enable {
   background-color: green;
 }
+
 #disable {
   background-color: red;
 }
+
 #dropdown {
   position: relative;
   display: inline-block;
 }
+
 #dropdown-content {
   display: none;
   position: absolute;
   background-color: rgba(128, 128, 128, 0.534);
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 8px 12px;
   z-index: 2;
 }
-#dropdown-content > * {
+
+#dropdown-content>* {
   padding: 1vw;
   background-color: rgb(192 192 192);
 }
-#dropdown-content > *:hover {
+
+#dropdown-content>*:hover {
   background-color: green;
   cursor: pointer;
 }
+
 @keyframes change {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 #dropdown:hover #dropdown-content {
   animation-name: change;
   animation-duration: 0.4s;
   display: block;
 }
+
 #data {
   display: none;
 }
+
 #copy {
   background-color: black;
   padding: 0.5vw;
@@ -342,6 +447,7 @@ body {
   transition: opacity 0.3s;
   right: -6.3ch;
 }
+
 p:hover #copy {
   visibility: visible;
   opacity: 1;
