@@ -44,10 +44,12 @@ export function setBlurOn(t) {
     document.getElementById('popup').style.backdropFilter = 'blur(2px)';
     document.getElementById('dropdown-content').style.backdropFilter = 'blur(2px)';
     document.getElementById('extraPopup').style.backdropFilter = 'blur(2px)';
+    document.getElementById('sidebar').style.backdropFilter = 'blur(2px)';
   } else {
     document.getElementById('popup').style.backdropFilter = 'none';
     document.getElementById('dropdown-content').style.backdropFilter = 'none';
     document.getElementById('extraPopup').style.backdropFilter = 'none';
+    document.getElementById('sidebar').style.backdropFilter = 'none';
   }
   localStorage.setItem('localBlurCheck', t.value)
 }
@@ -146,6 +148,7 @@ export function changePopupColor(t) {
   console.log('STUFF', getHValue[0], `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`);
   document.getElementById('popup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   document.getElementById('extraPopup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
+  document.getElementById('sidebar').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   // document.getElementById('popup').style.opacity = '0.85';
   localStorage.setItem('localPopupColor', t.value)
 }
