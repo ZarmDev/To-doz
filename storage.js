@@ -13,8 +13,6 @@ function extra(t) {
   window.selectedPane = t.parentElement;
   // stop user from clicking other buttons
   document.getElementById('extraPopup').style.visibility = 'visible';
-  document.getElementById('extraPopup').style.backgroundColor = 'rgb(128, 128, 128)';
-  document.getElementById('extraPopup').style.opacity = '0.85';
   console.log(window.selectedPane.className.split(' ')[3]);
   for (var i = 0; i < document.getElementById('labels').children.length; i++) {
     if (document.getElementById('labels').children[i].checked == true) {
