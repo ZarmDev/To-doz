@@ -145,7 +145,7 @@ function hexToRGB(hex) {
 
 export function changePopupColor(t) {
   var getHValue = hexToRGB(t.value);
-  console.log('STUFF', getHValue[0], `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`);
+  console.log('STUFF', 'T', t.value, getHValue[0], `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`);
   document.getElementById('popup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   document.getElementById('extraPopup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   document.getElementById('sidebar').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;

@@ -580,7 +580,7 @@ export function paletteC(t, e) {
     setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', '#000000', '#d0d0d7', '#808080')
   }
   if (palette == "Dark") {
-    setPalette('#040303', '#333333', '#171717', '#cea4a4', '#515151', '#484848')
+    setPalette('#040303', '#333333', '#171717', '#cea4a4', '#515151', '#382323')
   }
 }
 
