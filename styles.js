@@ -149,6 +149,7 @@ export function changePopupColor(t) {
   document.getElementById('popup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   document.getElementById('extraPopup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   document.getElementById('sidebar').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
+  document.getElementById('dropdown-content').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   // document.getElementById('popup').style.opacity = '0.85';
   localStorage.setItem('localPopupColor', t.value)
 }

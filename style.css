@@ -18,6 +18,11 @@ button:hover {
   border: solid rgb(114, 114, 114) 2px !important;
 }
 
+button:active {
+  border: solid rgb(115, 105, 105) 2px !important;
+  transform: skewX(-2deg);
+}
+
 select {
   border: solid rgb(114, 114, 114) 2px;
   font-family: 'Open Sans', sans-serif;
