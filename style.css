@@ -6,12 +6,24 @@ body {
 }
 
 #sidebarToggle {
-  position: absolute;
+  position: absolute; 
   z-index: 6;
+  padding: .8rem;
+  margin-left: .4rem;
+  margin-top: .4rem;
+}
+
+#addSection {
+  margin: .5rem 0;
+  padding: .5rem .75rem;
+}
+
+.buttonClass {
+  padding: .5rem .75rem;
 }
 
 button {
-  border: solid rgb(125, 125, 125) 2px !important;
+ border: none;
 }
 
 button:hover {
@@ -457,3 +469,4 @@ p:hover #copy {
   visibility: visible;
   opacity: 1;
 }
+

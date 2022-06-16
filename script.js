@@ -647,6 +647,7 @@ function extraPopupClose() {
   document.getElementById('extraPopup').style.visibility = 'hidden';
 }
 
+
 (async () => {
   // create and show the notification
   const showNotification = () => {
