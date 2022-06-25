@@ -205,6 +205,9 @@ e('addToStreak', 'click', addStreak)
 e('enable', 'click', enableData)
 e('disable', 'click', disableData)
 e('submitGoal', 'click', submitGoal)
+e('backgroundFile', 'change', function (e) {
+  uploadBackgroundFile(this)
+})
 
 // Toggle used throughout code, if you happen to use toggle, please name it toggle# based
 // on amount of toggle variables
@@ -744,3 +747,34 @@ e('labels', 'change', function () {
   }
   window.selectedPane.insertBefore(label, window.selectedPane.getElementsByClassName('button')[0])
 })
+
+var t = 'rotate(180deg)';
+
+for (var i = 0; i < document.getElementsByClassName('circle').length; i++) {
+  document.getElementsByClassName('circle')[i].style.transform = t;
+}
+
+for (var i = 0; i < document.getElementsByClassName('left').length; i++) {
+  document.getElementsByClassName('left')[i].style.transform = t;
+}
+
+for (var i = 0; i < document.getElementsByClassName('progress').length; i++) {
+  document.getElementsByClassName('progress')[i].style.transform = t;
+}
+
+for (var i = 0; i < document.getElementsByClassName('right').length; i++) {
+  document.getElementsByClassName('right')[i].style.transform = t;
+}
+
+const percent = (Number(getCookie('streak')) / Number(localStorage.getItem('localGoal'))) * 100;
+const numb = document.querySelector(".number");
+let counter = 0;
+console.log(percent, Number(getCookie('streak')), Number(localStorage.getItem('localGoal')));
+setInterval(() => {
+  if(counter > percent ){
+    clearInterval();
+  }else{
+    counter+=1;
+    numb.textContent = counter + "%";
+  }
+}, 20);

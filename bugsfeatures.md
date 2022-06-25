@@ -129,3 +129,8 @@ Add tutorial on site
 
 When clicking on inputs, the inputs does a animation that extends to the right
 and opposite when clicking out
+
+Background image
+
+ON UNSUPPORTED browers:
+Turn all settings into a image that looks blurrred

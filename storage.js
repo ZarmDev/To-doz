@@ -310,3 +310,28 @@ export function addPane(choice, extraParam) {
   changeFontSize(document.getElementById('textFontSize'))
   extendEnable(document.getElementById('toggleExtend'))
 }
+/*
+export function uploadBackgroundFile(t) {
+
+  console.log(t.value);
+
+  // take any image
+  // Image() vs document.create?
+  let img = new Image();
+  img.src = t.files[0];
+
+  // make <canvas> of the same size
+  let canvas = document.createElement('canvas');
+  canvas.width = img.style.width;
+  canvas.height = img.style.height;
+
+  let context = canvas.getContext('2d');
+
+  // copy image to it (this method allows to cut image)
+  context.drawImage(img, 0, 0);
+
+  canvas.toBlob(function (blob) {
+    //
+  }, 'image/png')
+}
+*/
