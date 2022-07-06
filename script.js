@@ -17,11 +17,22 @@ window.selectedPane = undefined;
 // Mobile popup
 
 export let mql = window.matchMedia('(max-width: 760px)');
-//rgb(153 153 153 / 70%)
+
 if (mql.matches && localStorage.getItem('localMobile') == undefined) {
   localStorage.setItem('localMobile', 'done')
   document.getElementById('mobile').style.visibility = 'visible';
-  document.getElementById('title').style.marginLeft = '5%';
+}
+
+let date = new Date();
+
+if (localStorage.getItem('localDaily') == undefined) {
+  localStorage.setItem('localDaily', date.toDateString())
+  document.getElementById('daily').style.visibility = 'visible';
+} else if (localStorage.getItem('localDaily') != date.toDateString()) {
+  localStorage.getItem('localDaily', date.toDateString())
+  document.getElementById('daily').style.visibility = 'visible';
+} else {
+  document.getElementById('daily').style.display = 'none';
 }
 
 if (localStorage.getItem('localFirefox') ==  undefined && navigator.userAgent.search('Firefox') > -1) {
@@ -125,7 +136,7 @@ getData('backColor', 'localBackground', '#fcfcfc')
 getData('textFontColor', 'localFontColor', '#000000')
 getData('buttonColor', 'localButtonColor', '#d0d0d7')
 getData('blurCheck', 'localBlurCheck', 'On')
-getData('rounded', 'localRoundedCheck', 'Off')
+getData('rounded', 'localRoundedCheck', 'On')
 getData('toggleStreak', 'localStreakEnabled', 'On')
 getData('fonts', 'localFontFamily', 'Open Sans')
 getData('textFontSize', 'localFontSize', '2ch')
@@ -144,6 +155,7 @@ function e(id, event, func) {
 e('sidebarToggle', 'click', toggleSidebar)
 e('addSection', 'click', addSection)
 e('exitMobile', 'click', function () { this.parentElement.style.visibility = 'hidden' })
+e('exitDaily', 'click', function () { this.parentElement.style.display = 'none' })
 e('exitFirefox', 'click', function () { this.parentElement.style.visibility = 'hidden' })
 e('exitExtraPopup', 'click', extraPopupClose)
 e('exitPopup', 'click', popupClose)
@@ -577,13 +589,13 @@ export function paletteC(t, e) {
     palette = t.value;
   }
   if (palette == "Default") {
-    setPalette('#0c770c', '#c0c0c0', '#fcfcfc', '#000000', '#d0d0d7', '#808080')
+    setPalette('#0c770c', '#c0c0c0', '#ffffff', '#000000', '#d0d0d7', '#808080')
   }
   if (palette == "Light") {
     setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', '#000000', '#d0d0d7', '#808080')
   }
   if (palette == "Dark") {
-    setPalette('#040303', '#333333', '#171717', '#cea4a4', '#515151', '#382323')
+    setPalette('#1e1e1e', '#333333', '#171717', '#A44141', '#515151', '#382323')
   }
 }
 
@@ -766,15 +778,34 @@ for (var i = 0; i < document.getElementsByClassName('right').length; i++) {
   document.getElementsByClassName('right')[i].style.transform = t;
 }
 
-const percent = (Number(getCookie('streak')) / Number(localStorage.getItem('localGoal'))) * 100;
-const numb = document.querySelector(".number");
-let counter = 0;
-console.log(percent, Number(getCookie('streak')), Number(localStorage.getItem('localGoal')));
-setInterval(() => {
-  if(counter > percent ){
-    clearInterval();
-  }else{
-    counter+=1;
-    numb.textContent = counter + "%";
+var progress = document.getElementById('progress');
+
+var t = 251;
+
+var progressAnim = setInterval(function () {
+  progress.style.strokeDashoffset = t;
+  t--
+  if (t == 0) {
+    clearInterval(progressAnim)
   }
-}, 20);
+})
+
+var progressText = document.getElementById('progressText');
+
+var z = 0;
+var percent = getCookie('streak') / localStorage.getItem('localGoal');
+percent = percent * 100;
+console.log(getCookie('streak'), localStorage.getItem('localGoal'));
+console.log(percent);
+
+if (getCookie('streak') == 0 && localStorage.getItem('localGoal') == 0) {
+  percent = 0
+}
+
+var progressTextAnim = setInterval(function () {
+  progressText.innerHTML = `${z}%`;
+  z++
+  if (z > percent || percent == Infinity) {
+    clearInterval(progressTextAnim)
+  }
+}, 50)

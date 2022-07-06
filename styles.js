@@ -65,20 +65,6 @@ export function roundC(t) {
     document.getElementById('topbar').style.borderRadius = '0 0 6px 6px';
     document.getElementById('popup').style.borderRadius = '6px';
     document.getElementById('dropdown-content').style.borderRadius = '6px';
-    /*
-    for (var i = 0; i < items.length; i++) {
-      items[i].style.borderRadius = '10px';
-    }
-    for (var i2 = 0; i2 < document.getElementsByTagName('button').length; i2++) {
-      document.getElementsByTagName('button')[i2].style.borderRadius = '6px';
-    }
-    for (var i3 = 0; i3 < document.getElementsByTagName('select').length; i3++) {
-      document.getElementsByTagName('select')[i3].style.borderRadius = '6px';
-    }
-    for (var i3 = 0; i3 < document.getElementsByTagName('label').length; i3++) {
-      document.getElementsByTagName('label')[i3].style.borderRadius = '6px';
-    }
-    */
    roundCorners(items, '10px')
    roundCorners(document.getElementsByTagName('button'), '6px')
    roundCorners(document.getElementsByTagName('select'), '6px')
@@ -87,20 +73,6 @@ export function roundC(t) {
     document.getElementById('topbar').style.borderRadius = '0';
     document.getElementById('popup').style.borderRadius = '0';
     document.getElementById('dropdown-content').style.borderRadius = '0';
-    /*
-    for (var i = 0; i < items.length; i++) {
-      items[i].style.borderRadius = '0';
-    }
-    for (var i2 = 0; i2 < document.getElementsByTagName('button').length; i2++) {
-      document.getElementsByTagName('button')[i2].style.borderRadius = '0';
-    }
-    for (var i3 = 0; i3 < document.getElementsByTagName('select').length; i3++) {
-      document.getElementsByTagName('select')[i3].style.borderRadius = '0';
-    }
-    for (var i3 = 0; i3 < document.getElementsByTagName('label').length; i3++) {
-      document.getElementsByTagName('label')[i3].style.borderRadius = '0';
-    }
-    */
     roundCorners(items, '0')
     roundCorners(document.getElementsByTagName('button'), '0')
     roundCorners(document.getElementsByTagName('select'), '0')
@@ -150,6 +122,7 @@ export function changePopupColor(t) {
   document.getElementById('extraPopup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   document.getElementById('sidebar').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   document.getElementById('dropdown-content').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
+  document.getElementById('daily').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   // document.getElementById('popup').style.opacity = '0.85';
   localStorage.setItem('localPopupColor', t.value)
 }
@@ -212,7 +185,11 @@ export function popupClose() {
   let t2 = document.getElementsByClassName('quietDown');
   // Set elements back to normal blend
   for (var i = 0; i < t2.length; i++) {
-    t2[i].style.mixBlendMode = 'normal';
+    if (t2[i].className.includes('pane')) {
+      t2[i].style.mixBlendMode = 'normal';
+      break;
+    }
+    t2[i].style.mixBlendMode = 'hard-light';
   }
   let t3 = document.getElementsByClassName('popupChange');
   for (var i = 0; i < t3.length; i++) {

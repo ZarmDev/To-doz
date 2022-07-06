@@ -16,6 +16,17 @@
     </div>
     </div>
   </div>
+  <div id="daily">
+    <button id="exitDaily">X</button>
+    <h1>Your progress to your goal: </h1>
+    <div id="progressBar">
+      <svg id="progress">
+        <circle cx="50" cy="50" r="40" stroke="#428bca" stroke-width="6" fill="#333" />
+        <text id="progressText" x="30" y="55" fill="white"></text>
+       </svg>
+      </div>
+    </div>
+  </div>
   <div id="mobile">
     <button id="exitMobile">X</button>
     <h1>You seem to be on a mobile device</h1>
@@ -117,19 +128,6 @@
         </div>
       </div>
     <div id="topbar">
-      <div class="circular">
-        <div class="inner"></div>
-        <div class="number">100%</div>
-        <div class="circle">
-           <div class="bar left">
-              <div class="progress"></div>
-           </div>
-           <div class="bar right">
-              <div class="progress"></div>
-           </div>
-         </div>
-      </div>
-      <h1 class="quietDown" id="title">To-do</h1>
     <div id="dropdown">
       <button class="buttonClass quietDown">+</button>
       <div id="dropdown-content">
@@ -139,12 +137,6 @@
         <button id="newItemTemp">Temporary</button>
         </div>
     </div>
-      <!-- <select class="buttonClass quietDown" onchange="newItem(this)">
-        <option>+</option>
-        <option>List</option>
-        <option>Checklist</option>
-        <option>Temporary</option>
-      </select> -->
       <!-- Make settings icon -->
       <button id="popupToggle" class="buttonClass quietDown">Settings</button>
       <h1 class="quietDown" id="streak">Your streak: 🔥</h1>

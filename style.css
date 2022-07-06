@@ -3,79 +3,42 @@
 body {
   padding: 0;
   margin: 0;
+  background-image: url();
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-/* HUGE THANKS TO https://www.dottedsquirrel.com/circular-progress-css/ */
-/* Great tutorial on circle progress bars */
+/* Credits to https://stackoverflow.com/questions/45359812/css-circle-progress-bar */
 
-.circular{
-  height:100px;
-  width: 100px;
-  position: relative;
-  transform:scale(0.5);
-}
-.circular .inner{
-  position: absolute;
-  z-index: 6;
-  top: 50%;
-  left: 50%;
-  height: 80px;
-  width: 80px;
-  margin: -40px 0 0 -40px;
-  background: #dde6f0;
-  border-radius: 100%;
- 
-}
-.circular .number{
-  position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate(-50%, -50%);
-  z-index:10;
-  font-size:18px;
-  font-weight:500;
-  color:#4158d0;
-}
-.circular .bar{
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background: #fff;
-  -webkit-border-radius: 100%;
-  clip: rect(0px, 100px, 100px, 50px);
-}
-.circle .bar .progress{
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  -webkit-border-radius: 100%;
-  clip: rect(0px, 50px, 100px, 0px);
-  background: #4158d0;
-}
-.circle .left .progress{
-  z-index:1;
-  /* animation: left 1s linear both; */
+svg {
+  /* transform: rotate(-90deg); */
+  stroke-dasharray: 251; /* (2PI * 40px) */
+  stroke-dashoffset: 251;
+  animation: offsettozero 2s ease-in-out forwards;
   transition: 1s;
 }
-@keyframes left{
-  100%{
-    transform: rotate(180deg);
+
+svg text {
+  font: 20px serif;
+  transform: none;
+}
+
+@keyframes offsettozero {
+  to {
+    stroke-dashoffset: 0;
+    margin-left: 56%;
+    margin-top: 15%;
+    transform: scale(3);
   }
 }
-.circle .right {
-  transform: rotate(180deg);
-  z-index:3;
- 
+
+#daily h1 {
+  font-family: Arial, Helvetica, sans-serif !important;
 }
-.circle .right .progress{
-  /* animation: right 1s linear both; */
-  animation-delay:1s;
-  transition: 1s;
-}
-@keyframes right{
-  100%{
-    transform: rotate(180deg);
-  }
+
+#progress h1 {
+  transform: translate(20%, 200%);
+  z-index: 5;
 }
 
 #sidebarToggle {
@@ -84,11 +47,13 @@ body {
 }
 
 button {
-  border: solid rgb(125, 125, 125) 2px !important;
+  border: solid #7d7d7d9e 2px !important;
 }
 
 button:hover {
-  border: solid rgb(114, 114, 114) 2px !important;
+  border: solid rgba(114, 114, 114, 0.426) 2px !important;
+  mix-blend-mode: normal !important;
+  background-color: rgba(128, 128, 128, 0.398) !important;
 }
 
 button:active {
@@ -150,6 +115,27 @@ input[type="submit"] {
   margin-top: 20px;
 }
 
+#daily {
+  position: absolute;
+  width: 80%;
+  height: 95%;
+  background-color: rgb(132, 157, 132);
+  z-index: 3;
+  margin: 2% 0 0 10%;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  visibility: hidden;
+}
+
+#daily button:nth-child(1) {
+  position: absolute;
+  left: 70vw;
+  background-color: red;
+  border: 2px 2px 2px 2px white;
+  box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.411);
+  margin-top: 20px;
+}
+
 #firefox {
   position: absolute;
   width: 80%;
@@ -177,7 +163,7 @@ input[type="submit"] {
 
 #sidebar {
   position: absolute;
-  background-color: rgba(0, 80, 146, 0.059);
+  background-color: rgba(80, 80, 80, 0.059);
   left: -35.5vw;
   width: 20%;
   height: 100%;
@@ -350,8 +336,19 @@ input[type="submit"] {
   gap: 2vw;
 }
 
-#topbar>button {
+#topbar button {
   font-size: 2ch;
+  /* background: rgba(166, 166, 166, 0); */
+  border: rgba(128, 128, 128, 0);
+  mix-blend-mode: hard-light;
+}
+
+#topbar button:hover {
+  font-size: 2ch;
+}
+
+#topbar h1 {
+  mix-blend-mode: hard-light;
 }
 
 #streak {
@@ -372,6 +369,7 @@ input[type="submit"] {
   background-color: rgb(192, 192, 192);
   /* padding: 2vw;
   padding-left: 1vw; */
+  border: solid rgba(128, 128, 128, 0.463) 2px;
   padding-left: 0px;
   padding-top: 0px;
   padding-right: 2.vw;
@@ -385,6 +383,7 @@ input[type="submit"] {
   scrollbar-color: rgba(211, 211, 211, 0.404) rgba(255, 255, 255, 0), 0);
   background-size: cover;
   background-repeat: no-repeat;
+  opacity: 0.90;
 }
 
 .pane>* {
