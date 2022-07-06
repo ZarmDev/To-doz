@@ -562,8 +562,10 @@ extendEnable(document.getElementById('toggleExtend'))
 changePopupColor(document.getElementById('popupColor'))
 themeEnable(document.getElementById('theme'))
 
+// Should have file upload function here
+
 // Doesn't take rgb for some reason
-function setPalette(top, panes, background, fontColor, buttons, popup) {
+function setPalette(top, panes, background, fontColor, buttons, popup, backgroundimg) {
   console.log(arguments);
   document.getElementById('topcolor').value = top;
   document.getElementById('paneColor').value = panes;
@@ -571,6 +573,9 @@ function setPalette(top, panes, background, fontColor, buttons, popup) {
   document.getElementById('textFontColor').value = fontColor;
   document.getElementById('buttonColor').value = buttons;
   document.getElementById('popupColor').value = popup;
+  // Set file upload value to blob, then read blob and convert to img
+  // THIS IS TEMPORARY
+  document.getElementsByTagName('body')[0].style.backgroundImage = `url(${backgroundimg})`;
   changeTopbar(document.getElementById('topcolor'))
   changeAllColors(document.getElementById('paneColor'))
   changeBackColor(document.getElementById('backColor'))
@@ -589,13 +594,13 @@ export function paletteC(t, e) {
     palette = t.value;
   }
   if (palette == "Default") {
-    setPalette('#0c770c', '#c0c0c0', '#ffffff', '#000000', '#d0d0d7', '#808080')
+    setPalette('#0c770c', '#c0c0c0', '#ffffff', '#000000', '#d0d0d7', '#808080', undefined)
   }
   if (palette == "Light") {
-    setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', '#000000', '#d0d0d7', '#808080')
+    setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', '#000000', '#d0d0d7', '#808080', undefined)
   }
   if (palette == "Dark") {
-    setPalette('#1e1e1e', '#333333', '#171717', '#A44141', '#515151', '#382323')
+    setPalette('#1e1e1e', '#333333', '#171717', '#A44141', '#515151', '#382323', 'https://cdn.pixabay.com/photo/2017/05/19/11/56/color-2326315_1280.jpg')
   }
 }
 

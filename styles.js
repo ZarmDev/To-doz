@@ -187,7 +187,7 @@ export function popupClose() {
   for (var i = 0; i < t2.length; i++) {
     if (t2[i].className.includes('pane')) {
       t2[i].style.mixBlendMode = 'normal';
-      break;
+      continue;
     }
     t2[i].style.mixBlendMode = 'hard-light';
   }
