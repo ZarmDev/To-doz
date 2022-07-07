@@ -213,18 +213,6 @@ e('submitGoal', 'click', submitGoal)
 e('backgroundFile', 'change', function (e) {
   uploadBackgroundFile(e)
 })
-console.log(localStorage.getItem('imgData'));
-var imageTag = document.getElementById('imgTest');
-
-if (localStorage.getItem('imgData') != undefined || localStorage.getItem('imgData') != null) {
-  console.log('CHECK');
-  var dataImage = localStorage.getItem('imgData');
-  console.log(dataImage);
-  //imageTag.src = dataImage;
-  document.getElementsByTagName('body')[0].style.background = `url(${dataImage})`;
-  document.getElementsByTagName('body')[0].style.backgroundRepeat = 'no-repeat';
-  document.getElementsByTagName('body')[0].style.backgroundSize = 'cover';
-}
 
 // Toggle used throughout code, if you happen to use toggle, please name it toggle# based
 // on amount of toggle variables

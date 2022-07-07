@@ -297,7 +297,7 @@ export function uploadBackgroundFile(e) {
   setTimeout(function () {
   console.log(getBase64Image(imgTest));
   try {
-  localStorage.setItem("imgData", getBase64Image(imgTest));
+  localStorage.setItem("backgroundImg", getBase64Image(imgTest));
   } catch {
     alert('Your image size is too much. Please use a lower size or clear your localstorage')
   }
