@@ -27,7 +27,7 @@ if (localStorage.getItem('localDaily') == undefined) {
   localStorage.setItem('localDaily', date.toDateString())
   document.getElementById('daily').style.visibility = 'visible';
 } else if (localStorage.getItem('localDaily') != date.toDateString()) {
-  localStorage.getItem('localDaily', date.toDateString())
+  localStorage.setItem('localDaily', date.toDateString())
   document.getElementById('daily').style.visibility = 'visible';
 } else {
   document.getElementById('daily').style.display = 'none';
