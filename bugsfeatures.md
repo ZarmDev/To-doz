@@ -134,3 +134,5 @@ Background image
 
 ON UNSUPPORTED browers:
 Turn all settings into a image that looks blurrred
+
+Create palettes

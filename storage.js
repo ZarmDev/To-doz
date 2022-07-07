@@ -9,11 +9,9 @@ function removeT(t) {
 }
 
 function extra(t) {
-  console.log(t.parentElement);
   window.selectedPane = t.parentElement;
   // stop user from clicking other buttons
   document.getElementById('extraPopup').style.visibility = 'visible';
-  console.log(window.selectedPane.className.split(' ')[3]);
   for (var i = 0; i < document.getElementById('labels').children.length; i++) {
     if (document.getElementById('labels').children[i].checked == true) {
       document.getElementById('labels').children[i].checked = false
@@ -24,18 +22,14 @@ function extra(t) {
 
 export function longerPane(t) {
   var chose = null;
-  console.log('done');
   if (t == t.parentElement.getElementsByClassName('newp')[1]) {
     chose = t.parentElement.getElementsByClassName('newp')[1];
   } else {
-    console.log('test');
     chose = t.parentElement.getElementsByClassName('newp')[0];
   }
   if (document.getElementById('toggleExtend').value != 'On') {
     if (chose.scrollHeight < window.innerHeight) {
-      console.log(t.parentElement.getElementsByClassName('newp')[1], 80 + chose.scrollHeight);
       t.parentElement.style.height = 80 + chose.scrollHeight + "px";
-      console.log(t.parentElement);
     }
     if (chose == t.parentElement.getElementsByClassName('newp')[1]) {
       // If text is not longer than screen and it's higher than the minimum
@@ -62,7 +56,6 @@ function extend(t) {
     let newInterval = setInterval(function () {
       m -= height / 10;
       t.parentElement.style.height = `${m}px`;
-      console.log(`height: ${height}, 260, scrollHeight: ${scrollHeight}, add ${260 + scrollHeight}`);
       if (m < 50 - scrollHeight) {
         clearInterval(newInterval)
       }
@@ -92,17 +85,12 @@ function clickPane(t) {
   }
 }
 
-console.log(JSON.parse(localStorage.getItem('localItems')))
-console.log(window.currentSection);
-
 export var splitC = '·';
 
 export function addPane(choice, extraParam) {
   // create function with all of this accept you can change the attributes
-  console.log(localStorage, 'Oh...');
   var pane = document.createElement('div');
   pane.setAttribute('class', 'pane quietDown panenew')
-  console.log(pane.className);
   // pane.style.backgroundColor = document.getElementById('paneColor');
   // Consider changing button innerHTML to textContext
   var button = document.createElement('button');
@@ -164,48 +152,18 @@ export function addPane(choice, extraParam) {
       longerPane(description)
       break;
     case 'load':
-      /*
-      'Section1': {
-    items: ['Unnamed pane|Do homework|pane quietDown newp', 'Unnamed pane|Do homework|pane quietDown newp'],
-    // backgroundColor: blue
-  },
-  'Section2': {
-    items: ['Pane|Do homework|pane quietDown newp', 'Pane|Do homework|pane quietDown newp'],
-    // backgroundColor: blue
-  }
-      var localItems = Object.values(localStorage.getItem('localItems'))[0].split(',');
-      for (var t = 0; t < localItems.length; t++) {
-        // all code
-      }
-      */
-      // It's not nessarcy to create new elements every loop as only some elements need to be recreated (the pre tags)
-      /*
-      var localItems = undefined;
-      console.log(Object.values(JSON.parse(localStorage.getItem('localItems')))[0]);
-      if (Object.values(JSON.parse(localStorage.getItem('localItems')))[0].includes(',')) {
-        localItems = Object.values(JSON.parse(localStorage.getItem('localItems')))[0].split(',');
-      } else {
-        console.log(Object.values(JSON.parse(localStorage.getItem('localItems')))[0]);
-        localItems = `${Object.values(JSON.parse(localStorage.getItem('localItems')))[0]},`.split(',').splice(0, 1);
-      }
-      */
       var localItems = JSON.parse(localStorage.getItem('localItems'));
-      console.log(localItems, localItems[window.currentSection], window.currentSection);
       if (localItems[window.currentSection].includes(splitC)) {
-        console.log('checkI@ii1ieji12eij', localItems[window.currentSection]);
         // .splice(0, localItems[window.currentSection].length - 1);
         localItems = localItems[window.currentSection].split(splitC)
         localItems.pop()
       } else {
-        console.log(`${localItems[window.currentSection]},`, `${localItems[window.currentSection]},`.split(splitC), `${localItems[window.currentSection]},`.split(',').length - 1);
         localItems = `${localItems[window.currentSection]}${splitC}`.split(splitC).splice(0, `${localItems[window.currentSection]}${splitC}`.split(splitC).length - 1);
       }
-      console.log('itemS', localItems);
       for (var t = 0; t < localItems.length; t++) {
         // Unnamed pane|Description|important^
         var lpane = document.createElement('div');
         lpane.setAttribute('class', `${localItems[t].split('|')[2]}`)
-        console.log(`${localItems}`);
         var ltitle = document.createElement(textTag);
         ltitle.setAttribute('contenteditable', 'true')
         ltitle.setAttribute('class', 'newp popupChange title')
@@ -245,11 +203,9 @@ export function addPane(choice, extraParam) {
         border-radius: 10px; margin: 0; font-size: 1.2ch; user-select: none;`;
         llabel.innerHTML = localItems[t].split('|')[2].split(' ')[3];
         llabel.setAttribute('class', `${localItems[t].split('|')[2].split(' ')[3]}C`)
-        console.log('local', localItems);
         if (localItems[t].split('|')[2].includes('panetemp')) {
           allpanes.appendChild(lpane)
           lpane.appendChild(lbackgroundDiv)
-          console.log(localItems[t].split('|')[2].split(' '));
           if (localItems[t].split('|')[2].split(' ')[3] != undefined && localItems[t].split('|')[2].split(' ')[3] != 'none') {
             lpane.appendChild(llabel)
           }
@@ -259,11 +215,9 @@ export function addPane(choice, extraParam) {
           lpane.appendChild(ldescription)
         } else if (localItems[t].split('|')[2].includes('panenew')) {
           allpanes.appendChild(lpane)
-          console.log(localItems[t].split('|')[2].split(' '));
           if (localItems[t].split('|')[2].split(' ')[3] != undefined && localItems[t].split('|')[2].split(' ')[3] != 'none') {
             lpane.appendChild(llabel)
           }
-          console.log(lbutton, lpane);
           lpane.appendChild(lbutton)
           lpane.appendChild(lother)
           lpane.appendChild(ltitle)
@@ -310,28 +264,44 @@ export function addPane(choice, extraParam) {
   changeFontSize(document.getElementById('textFontSize'))
   extendEnable(document.getElementById('toggleExtend'))
 }
-/*
-export function uploadBackgroundFile(t) {
 
-  console.log(t.value);
+// Credits to https://stackoverflow.com/questions/67754721/can-i-store-image-as-blob-to-localstorage-or-somewhere-so-it-can-used-in-another
+// And https://stackoverflow.com/questions/24786848/error-not-allowed-to-load-local-resource
 
-  // take any image
-  // Image() vs document.create?
-  let img = new Image();
-  img.src = t.files[0];
+function getBase64Image(img) {
+  var canvas = document.getElementById('canvas');
+  console.log(img, img.width, img.height);
+  canvas.width = img.width;
+  canvas.height = img.height;
+  canvas.style.visibility = 'hidden';
 
-  // make <canvas> of the same size
-  let canvas = document.createElement('canvas');
-  canvas.width = img.style.width;
-  canvas.height = img.style.height;
-
-  let context = canvas.getContext('2d');
-
-  // copy image to it (this method allows to cut image)
-  context.drawImage(img, 0, 0);
-
-  canvas.toBlob(function (blob) {
-    //
-  }, 'image/png')
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+  console.log(canvas);
+  var dataURL = canvas.toDataURL("image/png");
+  console.log(dataURL);
+  // return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+  return dataURL;
 }
-*/
+
+export function uploadBackgroundFile(e) {
+
+  let fileUpload = document.getElementById('backgroundFile');
+
+  let test = URL.createObjectURL(fileUpload.files[0])
+  console.log(test, fileUpload.files[0]);
+  var imgTest = document.getElementById('imgTest');
+  imgTest.style.visibility = 'hidden';
+  imgTest.src = test;
+
+  setTimeout(function () {
+  console.log(getBase64Image(imgTest));
+  try {
+  localStorage.setItem("imgData", getBase64Image(imgTest));
+  } catch {
+    alert('Your image size is too much. Please use a lower size or clear your localstorage')
+  }
+
+  window.location.reload(true)
+  }, 1000)
+}

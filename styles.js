@@ -2,7 +2,6 @@ import {items} from './storage.js'
 import {mql, paletteC} from './script.js'
 
 export function changeTopbar(t) {
-  console.log(t.value);
   document.getElementById('topbar').style.backgroundColor = t.value;
   localStorage.setItem('localTop', t.value)
 }
@@ -117,7 +116,6 @@ function hexToRGB(hex) {
 
 export function changePopupColor(t) {
   var getHValue = hexToRGB(t.value);
-  console.log('STUFF', 'T', t.value, getHValue[0], `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`);
   document.getElementById('popup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   document.getElementById('extraPopup').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
   document.getElementById('sidebar').style.backgroundColor = `rgb(${getHValue[0]}, ${getHValue[1]}, ${getHValue[2]}, ${0.60})`;
@@ -131,11 +129,9 @@ export function themeEnable(t) {
   if (t.value == 'On') {
     let d = new Date();
     if (d.getHours() >= 20 || d.getHours() <= 6) {
-      console.log('Dark');
       paletteC('Dark')
       // Else if both have or equal to 20 but it should work as sexpected because then 7:00 PM would be dark mode as opposed to it just not working
     } else if (d.getHours() > 6 && d.getHours() <= 20) {
-      console.log('Light');
       paletteC('Light')
     }
   }
@@ -186,7 +182,7 @@ export function popupClose() {
   // Set elements back to normal blend
   for (var i = 0; i < t2.length; i++) {
     if (t2[i].className.includes('pane')) {
-      t2[i].style.mixBlendMode = 'normal';
+      t2[i].style.mixBlendMode = 'darken';
       continue;
     }
     t2[i].style.mixBlendMode = 'hard-light';
@@ -214,7 +210,6 @@ export function toggleSidebar() {
     animateSidebar = setInterval(function () {
       t += 0.5;
       sidebar.style.left = `-${t}vw`;
-      console.log(t);
       if (t > 35) {
         clearInterval(animateSidebar)
       }
@@ -227,7 +222,6 @@ export function toggleSidebar() {
     animateSidebar2 = setInterval(function () {
       t += 0.5;
       sidebar.style.left = `${t - 20}%`;
-      console.log(t);
       if (t > 19) {  //positions how far right the sidebar goes
         clearInterval(animateSidebar2)
       }

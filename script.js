@@ -1,7 +1,5 @@
 import { changeTopbar, changeFontColor, changeAllColors, changeBackColor, changeButtonColor, setBlurOn, roundC, newFontFamily, extendEnable, changeFontSize, changePopupColor, themeEnable, popupAnim, popupClose, toggleSidebar } from './styles.js'
-import { addPane, textTag, items, longerPane, splitC } from './storage.js'
-
-console.log(localStorage.getItem('localItems'));
+import { addPane, textTag, items, longerPane, splitC, uploadBackgroundFile } from './storage.js'
 
 const allpanes = document.getElementById('allpanes');
 const popup = document.getElementById('popup');
@@ -61,14 +59,10 @@ if (mql.matches) {
 function setCookie(cname, cvalue, days) {
   document.cookie = ''
   var d = new Date();
-  console.log(d);
   d.setDate(d.getDate() + days)
-  console.log(d);
   d.setHours(23)
-  console.log(d);
   // d.setTime(d.getTime() + (exdays*24*60*60*1000));
   let expires = "expires=" + d;
-  console.log(expires);
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
@@ -125,7 +119,6 @@ function getData(id, ls, color) {
     localStorage.setItem(ls, color)
     document.getElementById(id).value = color;
   } else {
-    console.log(localStorage.getItem(ls));
     document.getElementById(id).value = localStorage.getItem(ls);
   }
 }
@@ -218,8 +211,20 @@ e('enable', 'click', enableData)
 e('disable', 'click', disableData)
 e('submitGoal', 'click', submitGoal)
 e('backgroundFile', 'change', function (e) {
-  uploadBackgroundFile(this)
+  uploadBackgroundFile(e)
 })
+console.log(localStorage.getItem('imgData'));
+var imageTag = document.getElementById('imgTest');
+
+if (localStorage.getItem('imgData') != undefined || localStorage.getItem('imgData') != null) {
+  console.log('CHECK');
+  var dataImage = localStorage.getItem('imgData');
+  console.log(dataImage);
+  //imageTag.src = dataImage;
+  document.getElementsByTagName('body')[0].style.background = `url(${dataImage})`;
+  document.getElementsByTagName('body')[0].style.backgroundRepeat = 'no-repeat';
+  document.getElementsByTagName('body')[0].style.backgroundSize = 'cover';
+}
 
 // Toggle used throughout code, if you happen to use toggle, please name it toggle# based
 // on amount of toggle variables
@@ -251,28 +256,16 @@ if (localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(
   }
 }
 
-console.log(Object.keys(JSON.parse(localStorage.getItem('localItems'))));
-
 // Using JSON because it's easy to read and happened to solve my problems
 
 var parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
 
 function switchSection(t, e) {
-  console.log('ch', document.getElementsByClassName('pane').lastChild);
   e.stopPropagation()
   while (document.getElementsByClassName('pane')[0]) {
-    console.log(document.getElementsByClassName('pane'), document.getElementsByClassName('pane').lastChild);
     document.getElementById('allpanes').removeChild(document.getElementsByClassName('pane')[0])
   }
   window.currentSection = t.innerText.slice(0, t.innerText.length - 3);
-  /*
-  if (JSON.parse(localStorage.getItem('localItems'))[window.currentSection] == '') {
-    var newLocal = JSON.parse(localStorage.getItem('localItems'));
-    newLocal[window.currentSection] = 'Unnamed pane|Do homework|pane quietDown panenew';
-    localStorage.setItem('localItems', JSON.stringify(newLocal))
-  }
-  */
-  console.log('switchSection called', window.currentSection, JSON.parse(localStorage.getItem('localItems')));
   addPane('load', '')
 }
 
@@ -287,7 +280,6 @@ function sectionItemRename(t, e) {
   var text = t.parentElement.innerText;
   // Create new key in localItems and set it to the data found in your currentSection
   // Would it be better to use window.currentSection instead of t.parentElement.innerText?
-  console.log(text.slice(0, text.length - 3));
   renameSection[newName] = renameSection[text.slice(0, text.length - 3)];
   delete renameSection[text.slice(0, text.length - 3)]
   window.currentSection = newName;
@@ -295,11 +287,9 @@ function sectionItemRename(t, e) {
   localStorage.setItem('localItems', JSON.stringify(renameSection))
   // Remove all children
   while (document.getElementById('sidebarlist').lastChild) {
-    console.log(sidebarlist.lastChild);
     sidebarlist.removeChild(sidebarlist.lastChild)
   }
   let parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
-  console.log('PARSED', parsedJSON)
   // Add all children
   for (var i9 = 0; i9 < parsedJSON.length; i9++) {
     var sectionItem = document.createElement('button');
@@ -321,26 +311,21 @@ function sectionItemRename(t, e) {
     sectionItem.appendChild(sectionItemRe)
     sectionItem.appendChild(sectionItemDel)
     sidebarlist.appendChild(sectionItem)
-    console.log('meow', Object.keys(JSON.parse(localStorage.getItem('localItems')))[i9]);
+  
   }
 }
 
 function sectionItemDelete(t, e) {
-  console.log(e);
   // Don't trigger button behind button clicked
   e.stopPropagation()
   var deleteSection = JSON.parse(localStorage.getItem('localItems'));
-  console.log(t.parentElement.innerText);
-  console.log(t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3));
   // Remove section
   delete deleteSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)]
-  console.log(deleteSection);
   // Set new section
   window.currentSection = Object.keys(deleteSection)[0];
   localStorage.setItem('localItems', JSON.stringify(deleteSection))
   // Remove sections
   while (document.getElementById('sidebarlist').lastChild) {
-    console.log(sidebarlist.lastChild);
     sidebarlist.removeChild(sidebarlist.lastChild)
   }
   let parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
@@ -364,7 +349,6 @@ function sectionItemDelete(t, e) {
     sectionItem.appendChild(sectionItemRe)
     sectionItem.appendChild(sectionItemDel)
     sidebarlist.appendChild(sectionItem)
-    console.log('meow', Object.keys(JSON.parse(localStorage.getItem('localItems')))[i9]);
   }
 }
 
@@ -397,9 +381,7 @@ function addSection() {
   var localObj = JSON.parse(localStorage.getItem('localItems'));
   // Replace/add section
   localObj[`Unnamed section${randNum}`] = ['Unnamed pane|Do homework|pane quietDown panenew'];
-  console.log(localObj);
   localStorage.setItem('localItems', JSON.stringify(localObj))
-  console.log('OBJECT', localStorage.getItem('localItems'));
 }
 
 // Add sections
@@ -423,7 +405,6 @@ for (var i9 = 0; i9 < parsedJSON.length; i9++) {
   sectionItem.appendChild(sectionItemRe)
   sectionItem.appendChild(sectionItemDel)
   sidebarlist.appendChild(sectionItem)
-  console.log('meow', Object.keys(JSON.parse(localStorage.getItem('localItems')))[i9]);
 }
 
 var allItems = '';
@@ -436,20 +417,9 @@ var saveItems = setInterval(function () {
   for (var i = 0; i < items.length; i++) {
     // Get all newp in each pane, newp[0] is title, newp[1] is description
     allItems += `${items[i].getElementsByClassName('newp')[0].innerText}|${items[i].getElementsByClassName('newp')[1].innerText}|${items[i].className}${splitC}`;
-    console.log(items[i].className);
     // Push code so it's:
     // Unnamed pane|Description|important
   }
-  /*
-  Section1: {
-    Unnamed pane: 'Do homework|pane quietDown newp'
-    Unnamed pane: 'Do homework|pane quietDown newp'
-  }
-  Section2: {
-    Unnamed pane: 'Do homework|pane quietDown newp'
-    Unnamed pane: 'Do homework|pane quietDown newp'
-  }
-  */
   var itemObj = JSON.parse(localStorage.getItem('localItems'));
   // set section in localstorage to the array of panes
   itemObj[window.currentSection] = allItems;
@@ -510,7 +480,6 @@ export function streakEnable(t) {
 
 function submitLocalStorage() {
   clearInterval(saveItems)
-  console.log(document.getElementById('enterlocal').value);
   // Set localitems to value given
   localStorage.setItem('localItems', document.getElementById('enterlocal').value)
   alert(`Please open the page again to see results DEBUG: ${localStorage.getItem('localItems')}`)
@@ -519,7 +488,6 @@ function submitLocalStorage() {
 // Set goal
 
 function submitGoal() {
-  console.log('test');
   localStorage.setItem('localGoal', document.getElementById('enterGoal').value)
   document.getElementById('goal').innerHTML = `Goal: ${localStorage.getItem('localGoal')} days`;
 }
@@ -562,20 +530,21 @@ extendEnable(document.getElementById('toggleExtend'))
 changePopupColor(document.getElementById('popupColor'))
 themeEnable(document.getElementById('theme'))
 
-// Should have file upload function here
+if (localStorage.getItem('backgroundImg') != undefined) {
+  document.getElementsByTagName('body')[0].style.backgroundImage = `url(${localStorage.getItem('backgroundImg')})`;
+}
 
 // Doesn't take rgb for some reason
 function setPalette(top, panes, background, fontColor, buttons, popup, backgroundimg) {
-  console.log(arguments);
   document.getElementById('topcolor').value = top;
   document.getElementById('paneColor').value = panes;
   document.getElementById('backColor').value = background;
   document.getElementById('textFontColor').value = fontColor;
   document.getElementById('buttonColor').value = buttons;
   document.getElementById('popupColor').value = popup;
+  localStorage.setItem('backgroundImg', backgroundimg)
+  document.getElementsByTagName('body')[0].style.backgroundImage = `url(${localStorage.getItem('backgroundImg')})`;
   // Set file upload value to blob, then read blob and convert to img
-  // THIS IS TEMPORARY
-  document.getElementsByTagName('body')[0].style.backgroundImage = `url(${backgroundimg})`;
   changeTopbar(document.getElementById('topcolor'))
   changeAllColors(document.getElementById('paneColor'))
   changeBackColor(document.getElementById('backColor'))
@@ -586,11 +555,9 @@ function setPalette(top, panes, background, fontColor, buttons, popup, backgroun
 
 export function paletteC(t, e) {
   var palette = null;
-  console.log(typeof t);
   if (typeof t == 'string') {
     palette = t;
   } else {
-    console.log(t.value);
     palette = t.value;
   }
   if (palette == "Default") {
@@ -600,7 +567,7 @@ export function paletteC(t, e) {
     setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', '#000000', '#d0d0d7', '#808080', undefined)
   }
   if (palette == "Dark") {
-    setPalette('#1e1e1e', '#333333', '#171717', '#A44141', '#515151', '#382323', 'https://cdn.pixabay.com/photo/2017/05/19/11/56/color-2326315_1280.jpg')
+    setPalette('#1e1e1e', '#333333', '#171717', '#A44141', '#515151', '#382323', 'assets/colorpixabay.jpg')
   }
 }
 
@@ -609,7 +576,6 @@ function addStreak() {
   if (localStorage.getItem('oldDate') == undefined) {
     // set oldDate to currentDate
     localStorage.setItem('oldDate', date.toDateString())
-    console.log('streak', parseInt(getCookie('streak')) + 1, 1);
     // set cookie to expire next day
     setCookie('streak', parseInt(getCookie('streak')) + 1, 1)
     // update streak
@@ -617,7 +583,6 @@ function addStreak() {
     // if last time streak added is not today (so you didn't add to the streak twice in a day)
   } else if (localStorage.getItem('oldDate') != date.toDateString()) {
     localStorage.setItem('oldDate', date.toDateString())
-    console.log(localStorage.getItem('oldDate'), date.toDateString());
     // set streak to next day
     setCookie('streak', parseInt(getCookie('streak')) + 1, 1)
     // update streak on page
@@ -718,7 +683,6 @@ function extend(t) {
     let newInterval = setInterval(function () {
       m -= height / 10;
       t.parentElement.style.height = `${m}px`;
-      console.log(`height: ${height}, 260, scrollHeight: ${scrollHeight}, add ${260 + scrollHeight}`);
       if (m < 50 - scrollHeight) {
         clearInterval(newInterval)
       }
@@ -737,7 +701,6 @@ function getCheckedLabel() {
 
 e('labels', 'change', function () {
   // Set the pane's classname to it's label (ex: important)
-  console.log(getCheckedLabel());
   window.selectedPane.setAttribute('class', `${window.selectedPane.className.split(' ').slice(0, 3).toString().replace(/,/g, ' ')}`)
   window.selectedPane.setAttribute('class', `${window.selectedPane.className} ${getCheckedLabel()}`)
   if (getCheckedLabel() == 'none') {
@@ -754,7 +717,6 @@ e('labels', 'change', function () {
   padding: 1ch;
   border-radius: 10px; margin: 0; font-size: 1.2ch; user-select: none;`;
   label.setAttribute('class', `${getCheckedLabel()}C`)
-  console.log(window.selectedPane.className.split(' ')[3]);
   label.innerHTML = getCheckedLabel()
   for (var i = 0; i < window.selectedPane.children.length; i++) {
     // lazy
@@ -800,8 +762,6 @@ var progressText = document.getElementById('progressText');
 var z = 0;
 var percent = getCookie('streak') / localStorage.getItem('localGoal');
 percent = percent * 100;
-console.log(getCookie('streak'), localStorage.getItem('localGoal'));
-console.log(percent);
 
 if (getCookie('streak') == 0 && localStorage.getItem('localGoal') == 0) {
   percent = 0
