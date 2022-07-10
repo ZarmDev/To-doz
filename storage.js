@@ -66,23 +66,20 @@ function extend(t) {
 
 function clickPane(t) {
   let tc = t.parentElement.children;
-  t.style.width = t.parentElement.style.width;
-  t.style.height = t.parentElement.style.height;
+  for (var i = 0; i < tc.length; i++) {
+    tc[i].style.opacity = '0.2';
+  }
+  t.style.backgroundImage = 'url("assets/drawing-11.svg")';
+  t.style.backgroundSize = 'cover';
+  /*
+  let tc = t.parentElement.children;
   if (toggle == false) {
     for (var i = 0; i < tc.length; i++) {
-      tc[i].style.opacity = '0.2';
+      tc[i].style.opacity = '1';
     }
-    t.style.backgroundImage = 'url("assets/drawing-11.svg")';
-    t.style.backgroundSize = 'cover';
-  } else {
-    let tc = t.parentElement.children;
-    if (toggle == false) {
-      for (var i = 0; i < tc.length; i++) {
-        tc[i].style.opacity = '1';
-      }
-      t.style.backgroundImage = 'none';
-    }
+    t.style.backgroundImage = 'none';
   }
+  */
 }
 
 export var splitC = '·';
@@ -126,9 +123,10 @@ export function addPane(choice, extraParam) {
   })
   other.setAttribute('class', 'button3')
   other.innerHTML = '...';
+  var backgroundDiv = undefined;
   if (choice.includes('temp')) {
-    var backgroundDiv = document.createElement('div');
-    backgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
+    backgroundDiv = document.createElement('div');
+    backgroundDiv.style = `position: absolute; width: 100%; height: 100%; padding: inherit;`;
     backgroundDiv.addEventListener('click', function (e) {
       clickPane(this)
     })
@@ -190,7 +188,7 @@ export function addPane(choice, extraParam) {
         lbackgroundDiv.addEventListener('click', function (e) {
           clickPane(this)
         })
-        lbackgroundDiv.style = `position: absolute; width: 14ch; height: 15ch; padding: inherit;`;
+        lbackgroundDiv.style = `position: absolute; width: 100%; height: 100%; padding: inherit;`;
         var lother = document.createElement('button');
         lother.addEventListener('click', function (e) {
           extra(this)
