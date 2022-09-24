@@ -69,8 +69,9 @@ function clickPane(t) {
   for (var i = 0; i < tc.length; i++) {
     tc[i].style.opacity = '0.2';
   }
-  t.style.backgroundImage = 'url("assets/drawing-11.svg")';
-  t.style.backgroundSize = 'cover';
+  t.className = 'paneToggled';
+  //t.style.backgroundImage = 'url("assets/drawing-11.svg")';
+  //t.style.backgroundSize = 'cover';
   /*
   let tc = t.parentElement.children;
   if (toggle == false) {

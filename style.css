@@ -135,6 +135,11 @@ input[type="submit"] {
   margin-top: 20px;
 }
 
+.paneToggled {
+  background-image: url("assets/drawing-11.svg");
+  background-size: cover;
+}
+
 #firefox {
   position: absolute;
   width: 80%;
@@ -467,6 +472,10 @@ input[type="submit"] {
   position: relative;
   display: inline-block;
   z-index: 10;
+}
+
+#dropdown button {
+  font-size: 2ch;
 }
 
 #dropdown-content {
