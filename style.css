@@ -346,7 +346,8 @@ input[type="submit"] {
   font-size: 2ch;
   /* background: rgba(166, 166, 166, 0); */
   border: rgba(128, 128, 128, 0);
-  mix-blend-mode: hard-light;
+  /* mix-blend-mode: hard-light; */
+  mix-blend-mode: normal !important;
 }
 
 #topbar button:hover {
