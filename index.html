@@ -19,6 +19,8 @@
   </div>
   <div id="daily">
     <button id="exitDaily">X</button>
+    <h1 id="streakProgress">Congrats, your streak is </h1>
+    <!-- Streak > 0 == Congrats! Your streak is _ keep going Streak > 10 == LETS GOOOOO NICE JOB -->
     <h1>Your progress to your goal: </h1>
     <div id="progressBar">
       <svg id="progress">
@@ -70,6 +72,7 @@
         <option>Default</option>
         <option>Light</option>
         <option>Dark</option>
+        <option>DarkBlend</option>
         </select>
       <p>OR choose your own colors</p>
       <h2>Topbar</h2>
@@ -134,13 +137,16 @@
       <h1 class="quietDown" id="streak">Your streak: 🔥</h1>
       <h1 class="quietDown" id="goal">Goal: </h1>
       <button class="buttonClass quietDown" id="addToStreak">Add to your streak🔥</button>
+      <div id="widgets">
+        <image src="calendar.png" alt="Calender WIDGET">
+      </div>
       </div>
     <div id="allpanes">
       <div id="dropdown">
         <button class="buttonClass quietDown">+</button>
         <div id="dropdown-content">
           <button id="newItem">+</button>
-          <button>List</button>
+          <button id="newItemList">List</button>
           <button>Checklist</button>
           <button id="newItemTemp">Temporary</button>
           </div>

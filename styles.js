@@ -1,6 +1,9 @@
 import {items} from './storage.js'
 import {mql, paletteC} from './script.js'
 
+// NOTES:
+// Popup, sidebar, etc variables aren't defined due to it being imported
+
 export function changeTopbar(t) {
   document.getElementById('topbar').style.backgroundColor = t.value;
   localStorage.setItem('localTop', t.value)
@@ -39,7 +42,7 @@ export function changeButtonColor(t) {
 }
 
 export function setBlurOn(t) {
-  if (t.value == 'On') {
+  if (t.value === 'On') {
     document.getElementById('popup').style.backdropFilter = 'blur(2px)';
     document.getElementById('dropdown-content').style.backdropFilter = 'blur(2px)';
     document.getElementById('extraPopup').style.backdropFilter = 'blur(2px)';
@@ -60,7 +63,7 @@ function roundCorners(elements, borderRadius) {
 }
 
 export function roundC(t) {
-  if (t.value == 'On') {
+  if (t.value === 'On') {
     document.getElementById('topbar').style.borderRadius = '0 0 6px 6px';
     document.getElementById('popup').style.borderRadius = '6px';
     document.getElementById('dropdown-content').style.borderRadius = '6px';
@@ -93,7 +96,7 @@ export function newFontFamily(t) {
 
 export function extendEnable(t) {
   document.querySelectorAll('.button2').forEach(e => e.remove());
-  if (t.value == 'On') {
+  if (t.value === 'On') {
     for (var i = 0; i < items.length; i++) {
       document.getElementById('rounded').value == 'On' ? items[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" style="border-radius: 10px;" onclick="extend(this)">^</button>`) : items[i].getElementsByTagName('button')[0].insertAdjacentHTML('afterend', `<button class="button2" onclick="extend(this)">^</button>`);
     }
@@ -153,7 +156,7 @@ export function popupAnim() {
   if (mql.matches) {
     // Slower animation
     let t = 0;
-    var myInterval = setInterval(function () {
+    const myInterval = setInterval(function () {
       popup.style.bottom = `${-15 - t}%`;
       popup.style.visibility = 'visible';
       t += 0.8;
@@ -165,7 +168,7 @@ export function popupAnim() {
     // Faster animation
     let t = 0;
     let a = 1000;
-    var myInterval = setInterval(function () {
+    const myInterval = setInterval(function () {
       popup.style.bottom = `${500 - t}px`;
       popup.style.visibility = 'visible';
       a--
@@ -206,11 +209,11 @@ export function toggleSidebar() {
   if (toggle1 == false) {
     clearInterval(animateSidebar2)
     toggle1 = true;
-    var t = 0;
+    var moveSidebar = 0;
     animateSidebar = setInterval(function () {
-      t += 0.5;
-      sidebar.style.left = `-${t}vw`;
-      if (t > 35) {
+      moveSidebar += 0.5;
+      sidebar.style.left = `-${moveSidebar}vw`;
+      if (moveSidebar > 35) {
         clearInterval(animateSidebar)
       }
     }, 10) //increasing number makes it slower, controls the speed
@@ -218,11 +221,11 @@ export function toggleSidebar() {
     clearInterval(animateSidebar)
     //sliding animation
     toggle1 = false;
-    var t = 0;
+    var moveSidebar2 = 0;
     animateSidebar2 = setInterval(function () {
-      t += 0.5;
-      sidebar.style.left = `${t - 20}%`;
-      if (t > 19) {  //positions how far right the sidebar goes
+      moveSidebar2 += 0.5;
+      sidebar.style.left = `${moveSidebar2 - 20}%`;
+      if (moveSidebar2 > 19) {  //positions how far right the sidebar goes
         clearInterval(animateSidebar2)
       }
     }, 5)

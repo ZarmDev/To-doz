@@ -124,6 +124,7 @@ input[type="submit"] {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
   visibility: hidden;
+  backdrop-filter: blur(2px);
 }
 
 #daily button:nth-child(1) {
@@ -348,6 +349,7 @@ input[type="submit"] {
   border: rgba(128, 128, 128, 0);
   /* mix-blend-mode: hard-light; */
   mix-blend-mode: normal !important;
+  opacity: 1;
 }
 
 #topbar button:hover {
@@ -355,7 +357,7 @@ input[type="submit"] {
 }
 
 #topbar h1 {
-  mix-blend-mode: hard-light;
+  /* mix-blend-mode: hard-light; */
 }
 
 #streak {
@@ -386,7 +388,7 @@ input[type="submit"] {
   scrollbar-color: rgba(211, 211, 211, 0.404) rgba(255, 255, 255, 0), 0);
   background-size: cover;
   background-repeat: no-repeat;
-  opacity: 0.7;
+  opacity: 0.8;
   backdrop-filter: blur(30px);
   z-index: 0; 
 }
@@ -539,3 +541,49 @@ p:hover #copy {
   visibility: visible;
   opacity: 1;
 }
+
+.listItem {
+  background-color: rgba(85, 63, 63, 0.909);
+  padding: 0.2vw;
+  margin: 0.1vw;
+  border-radius: 10px;
+  display: grid;
+}
+.listItem p {
+  padding: 0.1vw;
+}
+
+.listButton {
+  position: sticky;
+  left: 3vw;
+  bottom: 2vw;
+  margin-left: 6.5vw;
+}
+
+.addList {
+  margin: 0 !important;
+}
+
+#widgets {
+  background-color: rgba(255, 255, 255, 0.864);
+  padding: 2vw;
+  backdrop-filter: blur(2px);
+  border-radius: 5px;
+  height: 2vw;
+  display: flex;
+  align-items: center;
+}
+
+#widgets img {
+  padding: 0.5vw;
+  border-radius: 10px;
+  width: 2vw;
+  height: 2vw;
+  background-color:rgba(179, 179, 179, 0.338);
+}
+
+#widgets img:hover {
+  background-color: rgba(77, 77, 77, 0.517);
+}
+ 
+/* <a href="https://www.flaticon.com/free-icons/calendar" title="calendar icons">Calendar icons created by Freepik - Flaticon</a> */

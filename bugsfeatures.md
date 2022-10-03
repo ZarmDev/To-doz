@@ -136,3 +136,17 @@ ON UNSUPPORTED browers:
 Turn all settings into a image that looks blurrred
 
 Create palettes
+
+Deleteing a section (in other section) saves wrong section
+
+Text formating
+
+Goals (text goals)
+
+Settings rework
+
+Progress for list items
+
+More labels
+
+Dashboard

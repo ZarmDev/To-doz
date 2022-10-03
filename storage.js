@@ -21,6 +21,7 @@ function extra(t) {
 }
 
 export function longerPane(t) {
+  if (t.parentElement.className.includes('panelist'))
   var chose = null;
   if (t == t.parentElement.getElementsByClassName('newp')[1]) {
     chose = t.parentElement.getElementsByClassName('newp')[1];
@@ -83,6 +84,22 @@ function clickPane(t) {
   */
 }
 
+function ListAdd(t) {
+  var listItem = document.createElement('p');
+  listItem.innerHTML = '<p></p>';
+  listItem.className = 'listItem';
+  listItem.contentEditable = 'true';
+  var listButton = document.createElement('button');
+  listButton.innerHTML = 'X';
+  listButton.contentEditable = 'false';
+  listButton.addEventListener('click', function (e) {
+    removeT(listButton)
+  })
+  listButton.className = 'listButton';
+  listItem.appendChild(listButton)
+  t.parentElement.appendChild(listItem)
+}
+
 export var splitC = '·';
 
 export function addPane(choice, extraParam) {
@@ -100,26 +117,26 @@ export function addPane(choice, extraParam) {
   var title = document.createElement(textTag);
   title.setAttribute('contenteditable', 'true')
   title.setAttribute('class', 'newp title')
-  title.addEventListener('input', function (e) {
+  title.addEventListener('input', function () {
     longerPane(this)
   })
   title.innerHTML = 'Unnamed pane';
   title.style = 'margin-top: 0.5vw; margin-bottom: 1vw; text-align: center;';
   var description = document.createElement(textTag);
   description.setAttribute('contenteditable', 'true')
-  description.addEventListener('input', function (e) {
+  description.addEventListener('input', function () {
     longerPane(this)
   })
   description.innerHTML = 'Description';
   description.setAttribute('class', 'newp description')
   var button2 = document.createElement('button');
-  button2.addEventListener('click', function (e) {
+  button2.addEventListener('click', function () {
     extend(this)
   })
   button2.setAttribute('class', 'button2')
   button2.innerHTML = '^';
   var other = document.createElement('button');
-  other.addEventListener('click', function (e) {
+  other.addEventListener('click', function () {
     extra(this)
   })
   other.setAttribute('class', 'button3')
@@ -132,6 +149,27 @@ export function addPane(choice, extraParam) {
       clickPane(this)
     })
   }
+  var addList = document.createElement('button');
+  addList.innerHTML = '+';
+  addList.className = 'addList';
+  addList.addEventListener('click', function () {
+    ListAdd(addList)
+  })
+  var listItem = document.createElement('p');
+  listItem.innerHTML = '<p></p>';
+  listItem.className = 'listItem';
+
+  listItem.contentEditable = 'true'
+  
+  var listButton = document.createElement('button');
+  listButton.innerHTML = 'X';
+  listButton.contentEditable = 'false';
+  listButton.addEventListener('click', function (e) {
+    removeT(listButton)
+  })
+  
+  listButton.className = 'listButton';
+  listItem.appendChild(listButton)
   switch (choice) {
     case 'default':
       if (extraParam.includes('rounded')) {
@@ -152,6 +190,7 @@ export function addPane(choice, extraParam) {
       break;
     case 'load':
       var localItems = JSON.parse(localStorage.getItem('localItems'));
+      console.log(localItems);
       if (localItems[window.currentSection].includes(splitC)) {
         // .splice(0, localItems[window.currentSection].length - 1);
         localItems = localItems[window.currentSection].split(splitC)
@@ -201,8 +240,40 @@ export function addPane(choice, extraParam) {
         padding: 1ch;
         border-radius: 10px; margin: 0; font-size: 1.2ch; user-select: none;`;
         llabel.innerHTML = localItems[t].split('|')[2].split(' ')[3];
+        let laddList = document.createElement('button');
+        laddList.innerHTML = '+';
+        laddList.className = 'addList';
+        laddList.addEventListener('click', function () {
+          ListAdd(laddList)
+        })
+
         llabel.setAttribute('class', `${localItems[t].split('|')[2].split(' ')[3]}C`)
-        if (localItems[t].split('|')[2].includes('panetemp')) {
+        if (localItems[t].split('|')[2].includes('panelist')) {
+          allpanes.appendChild(lpane)
+          if (localItems[t].split('|')[2].split(' ')[3] != undefined && localItems[t].split('|')[2].split(' ')[3] != 'none') {
+            lpane.appendChild(llabel)
+          }
+          lpane.appendChild(lbutton)
+          lpane.appendChild(lother)
+          lpane.appendChild(ltitle)
+          lpane.appendChild(laddList)
+          for (var z = 0; z < localItems[t].split('|')[1].split('⁅').length - 1; z++) {
+            let llistItem = document.createElement('p');
+          llistItem.className = 'listItem';
+          llistItem.contentEditable = 'true';
+          let llistButton = document.createElement('button');
+          llistButton.innerHTML = 'X';
+          llistButton.contentEditable = 'false';
+          llistButton.addEventListener('click', function () {
+            removeT(llistButton)
+          })
+          llistButton.className = 'listButton';
+            llistItem.innerHTML = localItems[t].split('|')[1].split('⁅')[z].slice(0, localItems[t].split('|')[1].split('⁅')[z].length - 1);
+            llistItem.appendChild(llistButton)
+            lpane.appendChild(llistItem)
+          }
+        }
+        else if (localItems[t].split('|')[2].includes('panetemp')) {
           allpanes.appendChild(lpane)
           lpane.appendChild(lbackgroundDiv)
           if (localItems[t].split('|')[2].split(' ')[3] != undefined && localItems[t].split('|')[2].split(' ')[3] != 'none') {
@@ -249,6 +320,15 @@ export function addPane(choice, extraParam) {
       }
       pane.appendChild(title)
       pane.appendChild(description)
+      break;
+    case 'defaultlist':
+      pane.setAttribute('class', 'panelist popupChange pane')
+      allpanes.appendChild(pane)
+      pane.appendChild(button)
+      pane.appendChild(other)
+      pane.appendChild(title)
+      pane.appendChild(addList)
+      pane.appendChild(listItem)
       break;
   }
   changeTopbar(document.getElementById('topcolor'))

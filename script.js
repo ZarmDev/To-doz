@@ -213,6 +213,10 @@ e('submitGoal', 'click', submitGoal)
 e('backgroundFile', 'change', function (e) {
   uploadBackgroundFile(e)
 })
+e('newItemList', 'click', function () {
+  newItem('list')
+})
+
 
 // Toggle used throughout code, if you happen to use toggle, please name it toggle# based
 // on amount of toggle variables
@@ -403,8 +407,16 @@ var saveItems = setInterval(function () {
   // Push all pane text in one array with a format of Title|Description|config
   // Add oninput to all pane divs to trgiger a oninput
   for (var i = 0; i < items.length; i++) {
-    // Get all newp in each pane, newp[0] is title, newp[1] is description
-    allItems += `${items[i].getElementsByClassName('newp')[0].innerText}|${items[i].getElementsByClassName('newp')[1].innerText}|${items[i].className}${splitC}`;
+    if (items[i].className.includes('panelist')) {
+      let t = items[i].getElementsByClassName('listItem');
+      let ju = '';
+      for (var w = 0; w < t.length; w++) {
+        ju = ju.concat(t[w].innerText) + '⁅';
+      }
+      allItems += `${items[i].getElementsByClassName('newp')[0].innerText}|${ju}|${items[i].className}${splitC}`
+    } else {  // Get all newp in each pane, newp[0] is title, newp[1] is description
+      allItems += `${items[i].getElementsByClassName('newp')[0].innerText}|${items[i].getElementsByClassName('newp')[1].innerText}|${items[i].className}${splitC}`;
+    }
     // Push code so it's:
     // Unnamed pane|Description|important
   }
@@ -447,6 +459,12 @@ function newItem(t) {
       } else {
         addPane('defaulttemp', 'rounded extend')
       }
+    }
+  } else if (t == 'list') {
+    if (document.getElementById('rounded').value == 'Off') {
+      addPane('defaultlist', '')
+    } else {
+      addPane('defaultlist', 'rounded')
     }
   }
 }
@@ -554,8 +572,11 @@ export function paletteC(t, e) {
   if (palette == "Light") {
     setPalette('#D0D0D0', '#c0c0c0', '#b5b5b5', '#000000', '#d0d0d7', '#808080', undefined)
   }
-  if (palette == "Dark") {
+  if (palette == "DarkBlend") {
     setPalette('#1e1e1e', '#333333', '#171717', '#A44141', '#515151', '#382323', 'assets/colorpixabay.jpg')
+  }
+  if (palette == "Dark") {
+    setPalette('#1e1e1e', '#333333', '#171717', '#B71515', '#515151', '#382323', 'assets/colorpixabay.jpg')
   }
 }
 
@@ -715,32 +736,32 @@ e('labels', 'change', function () {
   window.selectedPane.insertBefore(label, window.selectedPane.getElementsByClassName('button')[0])
 })
 
-var t = 'rotate(180deg)';
+const rotatationDegrees = 'rotate(180deg)';
 
 for (var i = 0; i < document.getElementsByClassName('circle').length; i++) {
-  document.getElementsByClassName('circle')[i].style.transform = t;
+  document.getElementsByClassName('circle')[i].style.transform = rotatationDegrees;
 }
 
 for (var i = 0; i < document.getElementsByClassName('left').length; i++) {
-  document.getElementsByClassName('left')[i].style.transform = t;
+  document.getElementsByClassName('left')[i].style.transform = rotatationDegrees;
 }
 
 for (var i = 0; i < document.getElementsByClassName('progress').length; i++) {
-  document.getElementsByClassName('progress')[i].style.transform = t;
+  document.getElementsByClassName('progress')[i].style.transform = rotatationDegrees;
 }
 
 for (var i = 0; i < document.getElementsByClassName('right').length; i++) {
-  document.getElementsByClassName('right')[i].style.transform = t;
+  document.getElementsByClassName('right')[i].style.transform = rotatationDegrees;
 }
 
 var progress = document.getElementById('progress');
 
-var t = 251;
+var progressAnimation = 251;
 
 var progressAnim = setInterval(function () {
-  progress.style.strokeDashoffset = t;
-  t--
-  if (t == 0) {
+  progress.style.strokeDashoffset = progressAnimation;
+  progressAnimation--
+  if (progressAnimation == 0) {
     clearInterval(progressAnim)
   }
 })
@@ -762,3 +783,18 @@ var progressTextAnim = setInterval(function () {
     clearInterval(progressTextAnim)
   }
 }, 50)
+
+toggleSidebar()
+
+var streakProgressH1 = document.getElementById('streakProgress');
+
+switch (getCookie('streak')) {
+  case 0:
+    streakProgressH1.innerHTML = `Your streak is zero. Come on.`
+  case 5:
+    streakProgressH1.innerHTML = `Congrats on a streak of 5! 👍`
+  case 10:
+    streakProgressH1.innerHTML = `LETS GO! Streak of 10`;
+  default:
+    streakProgressH1.innerHTML = `You got a nice streak there. DONT BREAK IT.`
+}
