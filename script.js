@@ -145,6 +145,13 @@ function e(id, event, func) {
 
 // Must be used as you can't use onclick="" in the HTML
 
+function rerenderSettings() {
+  document.getElementById('colors').style.display = 'none';
+  document.getElementById('fonts').style.display = 'none';
+  document.getElementById('features').style.display = 'none';
+  document.getElementById('dataS').style.display = 'none';
+}
+
 e('sidebarToggle', 'click', toggleSidebar)
 e('addSection', 'click', addSection)
 e('exitMobile', 'click', function () { this.parentElement.style.visibility = 'hidden' })
@@ -215,6 +222,26 @@ e('backgroundFile', 'change', function (e) {
 })
 e('newItemList', 'click', function () {
   newItem('list')
+})
+e('colorsButton', 'click', function () {
+  rerenderSettings()
+  console.log('test');
+  document.getElementById('colors').style = 'display: grid;';
+})
+e('fontsButton', 'click', function () {
+  rerenderSettings()
+  console.log('test');
+  document.getElementById('fonts').style = 'display: block;';
+})
+e('featuresButton', 'click', function () {
+  rerenderSettings()
+  console.log('test');
+  document.getElementById('features').style = 'display: block;';
+})
+e('dataButton', 'click', function () {
+  rerenderSettings()
+  console.log('test');
+  document.getElementById('dataS').style = 'display: block;';
 })
 
 
@@ -576,7 +603,7 @@ export function paletteC(t, e) {
     setPalette('#1e1e1e', '#333333', '#171717', '#A44141', '#515151', '#382323', 'assets/colorpixabay.jpg')
   }
   if (palette == "Dark") {
-    setPalette('#1e1e1e', '#333333', '#171717', '#B71515', '#515151', '#382323', 'assets/colorpixabay.jpg')
+    setPalette('#1e1e1e', '#333333', '#171717', '#FF0000', '#515151', '#382323', 'assets/colorpixabay.jpg')
   }
 }
 

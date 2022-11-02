@@ -65,8 +65,13 @@
     </div>
 	<div id="popup">
 		<button id="exitPopup">X</button>
-      <div>
-      <h1>Colors</h1>
+    <div id="sideNav">
+    <button id="colorsButton">Colors</button>
+    <button id="fontsButton">Fonts</button>
+    <button id="featuresButton">Features</button>
+    <button id="dataButton">Data</button>
+    </div>
+    <div id="colors">
       <h2>Palette</h2>
       <select id="themeSelect" class="buttonClass longerInput">
         <option>Default</option>
@@ -74,24 +79,22 @@
         <option>Dark</option>
         <option>DarkBlend</option>
         </select>
-      <p>OR choose your own colors</p>
+      <!-- <p>OR choose your own colors</p> -->
       <h2>Topbar</h2>
       <input id="topcolor" type="color">
       <h2>Panes</h2>
       <input id="paneColor" type="color">
-      </div>
-        <div>
       <h2>Background</h2>
       <input id="backColor" type="color">
-      <p>OR choose a image</p>
+      <!-- <p>OR choose a image</p> -->
+      <h2>Background upload</h2>
       <input class="longerInput" id="backgroundFile" type="file">
       <h2>Buttons</h2>
       <input type="color" id="buttonColor">
       <h2>Settings</h2>
       <input type="color" id="popupColor">
       </div>
-      <div>
-      <h1>Features</h1>
+      <div id="features">
       <p>Blur<select id="blurCheck">
         <option>Off</option>
         <option>On</option>
@@ -112,13 +115,15 @@
         <option>Off</option>
         <option>On</option>
         </select></p>
+      </div>
+      <div id="dataS">
         <p id="test">Enter localstorage<input type="local" id="enterlocal"><input id="submitLocal" type="submit"></p>
         <p>Get localstorage<input disabled id="localItemsStorage"><label id="getLocal" value="Get localstorage"><input type="submit"><span id="copy">Copy</span></button></p>
         <p>Goal<input id="enterGoal"><input id="submitGoal" type="submit"></p>
       <button id="resetStreak" class="buttonClass">Reset streak</button>
       <button id="clearData" class="buttonClass">Clear all data</button>
       </div>
-      <div>
+      <div id="fonts">
       <h1>Fonts</h1>
       <!-- Finish font family so JS works with localstorage corectly-->
       <p><select id="fonts" class="buttonClass longerInput">
