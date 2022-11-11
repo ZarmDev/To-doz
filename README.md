@@ -7,6 +7,10 @@ A web-app that lets you make notes to do
 
 reference.md
 
+# NEWCOMERS
+
+This project is being remade in React and potentially Redux.
+
 # Contribution
 
 NOTE: This project uses PLAIN HTML, CSS and Javascript
