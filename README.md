@@ -9,7 +9,7 @@ reference.md
 
 # NEWCOMERS
 
-This project is being remade in React and potentially Redux.
+# This project is being remade in React and potentially Redux.
 
 # Contribution
 
