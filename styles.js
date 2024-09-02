@@ -3,6 +3,7 @@ import {mql, paletteC} from './script.js'
 
 // NOTES:
 // Popup, sidebar, etc variables aren't defined due to it being imported
+const localStorageKey = 'lItems'
 
 export function changeTopbar(t) {
   document.getElementById('topbar').style.backgroundColor = t.value;

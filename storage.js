@@ -3,6 +3,7 @@ import { streakEnable } from './script.js';
 
 export var textTag = 'pre';
 export const items = document.getElementsByClassName('pane');
+const localStorageKey = "lItems"
 
 function removeT(t) {
   t.parentElement.remove()
@@ -189,7 +190,7 @@ export function addPane(choice, extraParam) {
       longerPane(description)
       break;
     case 'load':
-      var localItems = JSON.parse(localStorage.getItem('localItems'));
+      var localItems = JSON.parse(localStorage.getItem(localStorageKey));
       console.log(localItems);
       if (localItems[window.currentSection].includes(splitC)) {
         // .splice(0, localItems[window.currentSection].length - 1);

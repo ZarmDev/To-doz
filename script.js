@@ -249,16 +249,18 @@ e('dataButton', 'click', function () {
 // on amount of toggle variables
 
 var toggle = false;
+// Make sure to not interfere with other applications on the domain
+const localStorageKey = "lItems";
 
 // Check if all your panes was ever created or if the first section is empty
 
-if (localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(localStorage.getItem('localItems')))[0] == '') {
+if (localStorage.getItem(localStorageKey) == undefined || Object.values(JSON.parse(localStorage.getItem(localStorageKey)))[0] == '') {
   var defaultObj = {
     'Unnamed section': 'Unnamed pane|Do homework|pane quietDown panenew',
   }
-  localStorage.setItem('localItems', JSON.stringify(defaultObj))
+  localStorage.setItem(localStorageKey, JSON.stringify(defaultObj))
   // Get the first section and set to the currentSection you are on
-  window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
+  window.currentSection = Object.keys(JSON.parse(localStorage.getItem(localStorageKey)))[0];
   // Check if you enabled extend
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
     addPane('defaultoption', '')
@@ -267,7 +269,7 @@ if (localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(
   }
 } else {
   // Set to first section
-  window.currentSection = Object.keys(JSON.parse(localStorage.getItem('localItems')))[0];
+  window.currentSection = Object.keys(JSON.parse(localStorage.getItem(localStorageKey)))[0];
   if (localStorage.getItem('localExtendEnabled') == 'Off') {
     addPane('load', '')
   } else {
@@ -277,7 +279,7 @@ if (localStorage.getItem('localItems') == undefined || Object.values(JSON.parse(
 
 // Using JSON because it's easy to read and happened to solve my problems
 
-var parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
+var parsedJSON = Object.keys(JSON.parse(localStorage.getItem(localStorageKey)));
 
 function switchSection(t, e) {
   e.stopPropagation()
@@ -294,7 +296,7 @@ function sectionItemRename(t, e) {
   // Causes only the button clicked to be fired, not buttons behind it
   e.stopPropagation()
   // Create seperate variable to edit all panes
-  var renameSection = JSON.parse(localStorage.getItem('localItems'));
+  var renameSection = JSON.parse(localStorage.getItem(localStorageKey));
   var newName = prompt('Section name:');
   var text = t.parentElement.innerText;
   // Create new key in localItems and set it to the data found in your currentSection
@@ -303,12 +305,12 @@ function sectionItemRename(t, e) {
   delete renameSection[text.slice(0, text.length - 3)]
   window.currentSection = newName;
   // Set the localstorage
-  localStorage.setItem('localItems', JSON.stringify(renameSection))
+  localStorage.setItem(localStorageKey, JSON.stringify(renameSection))
   // Remove all children
   while (document.getElementById('sidebarlist').lastChild) {
     sidebarlist.removeChild(sidebarlist.lastChild)
   }
-  let parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
+  let parsedJSON = Object.keys(JSON.parse(localStorage.getItem(localStorageKey)));
   // Add all children
   for (var i9 = 0; i9 < parsedJSON.length; i9++) {
     var sectionItem = document.createElement('button');
@@ -337,17 +339,17 @@ function sectionItemRename(t, e) {
 function sectionItemDelete(t, e) {
   // Don't trigger button behind button clicked
   e.stopPropagation()
-  var deleteSection = JSON.parse(localStorage.getItem('localItems'));
+  var deleteSection = JSON.parse(localStorage.getItem(localStorageKey));
   // Remove section
   delete deleteSection[t.parentElement.innerText.slice(0, t.parentElement.innerText.length - 3)]
   // Set new section
   window.currentSection = Object.keys(deleteSection)[0];
-  localStorage.setItem('localItems', JSON.stringify(deleteSection))
+  localStorage.setItem(localStorageKey, JSON.stringify(deleteSection))
   // Remove sections
   while (document.getElementById('sidebarlist').lastChild) {
     sidebarlist.removeChild(sidebarlist.lastChild)
   }
-  let parsedJSON = Object.keys(JSON.parse(localStorage.getItem('localItems')));
+  let parsedJSON = Object.keys(JSON.parse(localStorage.getItem(localStorageKey)));
   // Put sections back
   for (var i9 = 0; i9 < parsedJSON.length; i9++) {
     var sectionItem = document.createElement('button');
@@ -397,10 +399,10 @@ function addSection() {
   sidebaritem.appendChild(sidebardrop)
   sidebarlist.appendChild(sidebaritem)
   sidebarlist.insertAdjacentHTML('beforeend', '<br>')
-  var localObj = JSON.parse(localStorage.getItem('localItems'));
+  var localObj = JSON.parse(localStorage.getItem(localStorageKey));
   // Replace/add section
   localObj[`Unnamed section${randNum}`] = ['Unnamed pane|Do homework|pane quietDown panenew'];
-  localStorage.setItem('localItems', JSON.stringify(localObj))
+  localStorage.setItem(localStorageKey, JSON.stringify(localObj))
 }
 
 // Add sections
@@ -447,10 +449,10 @@ var saveItems = setInterval(function () {
     // Push code so it's:
     // Unnamed pane|Description|important
   }
-  var itemObj = JSON.parse(localStorage.getItem('localItems'));
+  var itemObj = JSON.parse(localStorage.getItem(localStorageKey));
   // set section in localstorage to the array of panes
   itemObj[window.currentSection] = allItems;
-  localStorage.setItem('localItems', JSON.stringify(itemObj))
+  localStorage.setItem(localStorageKey, JSON.stringify(itemObj))
   allItems = ''
 }, 1000)
 
@@ -514,8 +516,8 @@ export function streakEnable(t) {
 function submitLocalStorage() {
   clearInterval(saveItems)
   // Set localitems to value given
-  localStorage.setItem('localItems', document.getElementById('enterlocal').value)
-  alert(`Please open the page again to see results DEBUG: ${localStorage.getItem('localItems')}`)
+  localStorage.setItem(localStorageKey, document.getElementById('enterlocal').value)
+  alert(`Please open the page again to see results DEBUG: ${localStorage.getItem(localStorageKey)}`)
 }
 
 // Set goal
@@ -539,7 +541,7 @@ function getLocalStorage() {
   if (copy.innerText == 'Copy') {
     copy.innerText = 'Copied'
   }
-  document.getElementById('localItemsStorage').value = localStorage.getItem('localItems').replace(/\n/g, "<br>")
+  document.getElementById('localItemsStorage').value = localStorage.getItem(localStorageKey).replace(/\n/g, "<br>")
   // Select text
   document.getElementById('localItemsStorage').select();
   document.getElementById('localItemsStorage').setSelectionRange(0, 99999); /* For mobile devices */
